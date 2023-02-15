@@ -30,7 +30,7 @@ Tsx
 
 infrastructure [SoybeanAdmin](https://github.com/honghuangdc/soybean-admin)
 
-ui [SoybeanAdmin](https://lux-admin-pro.indielayer.com/dashboard/analytics)
+ui [luxAdminPro](https://lux-admin-pro.indielayer.com/dashboard/analytics)
 
 ## Project setup
 
