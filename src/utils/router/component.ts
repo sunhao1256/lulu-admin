@@ -37,7 +37,6 @@ export function getViewComponent(routeKey: AuthRoute.LastDegreeRouteKey) {
   return setViewComponentName(views[routeKey], routeKey);
 }
 
-/** 给页面组件设置名称 */
 function setViewComponentName(component: RouteComponent | Lazy<ModuleComponent>, name: string) {
   if (isAsyncComponent(component)) {
     return async () => {

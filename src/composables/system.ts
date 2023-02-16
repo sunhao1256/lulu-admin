@@ -17,7 +17,6 @@ interface Package {
 
 const pkgWithType = pkg as Package;
 
-/** 项目信息 */
 export function useAppInfo(): AppInfo {
   const {VITE_APP_NAME: name, VITE_APP_TITLE: title, VITE_APP_DESC: desc} = import.meta.env;
 

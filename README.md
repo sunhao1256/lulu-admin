@@ -1,10 +1,14 @@
 # Lulu Admin
-
+elegant admin template, based on Vue3,Vite3,TypeScript,Vuetify3
 ## Feature
 
 [Vue3](https://vuejs.org/guide/quick-start.html#creating-a-vue-application)
 
 [Vuetify3](https://next.vuetifyjs.com/en/getting-started/installation/)
+
+- Dialog Provider
+- SnackBar Provider
+- LoadingOverly Provider
 
 Typescript
 
@@ -30,7 +34,7 @@ Tsx
 
 infrastructure [SoybeanAdmin](https://github.com/honghuangdc/soybean-admin)
 
-ui [luxAdminPro](https://lux-admin-pro.indielayer.com/dashboard/analytics)
+ui copy [luxAdminPro](https://lux-admin-pro.indielayer.com/dashboard/analytics)
 
 ## Project setup
 
