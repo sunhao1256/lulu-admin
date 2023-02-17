@@ -4,7 +4,7 @@ Platform ?=linux/amd64
 
 VERSION=$(shell git rev-parse --short HEAD)
 
-all: lulu-admin-build lulu-admin-docker-build lulu-admin-push
+all: compile docker-build docker-push
 
 compile:
 	yarn build
