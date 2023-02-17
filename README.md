@@ -1,5 +1,7 @@
 # Lulu Admin
-elegant admin template, based on Vue3,Vite3,TypeScript,Vuetify3
+
+elegant admin template, based on Vue3 , TypeScript, Vuetify3, Axios
+
 ## Feature
 
 [Vue3](https://vuejs.org/guide/quick-start.html#creating-a-vue-application)
@@ -14,14 +16,19 @@ Typescript
 
 Tsx
 
-[Pinia](https://pinia.vuejs.org/)
+Axios
 
+- full Axios Request Stack Example
+- thanks to  [SoybeanAdmin](https://github.com/honghuangdc/soybean-admin) Perfect Project 👍
+
+[Pinia](https://pinia.vuejs.org/)
 
 ## Preview
 
 http://52.194.229.31
 
-### caution
+### Caution!
+
 [vite-plugin-mock](https://github.com/vbenjs/vite-plugin-mock) instead of server api actually
 
 ![](https://i.imgur.com/S5HeYO2.png)
@@ -32,14 +39,17 @@ http://52.194.229.31
 ![](https://i.imgur.com/Qu3TPXF.png)
 ![](https://i.imgur.com/bNXRsiv.png)
 
-
-
-
 ## Reference
 
 infrastructure [SoybeanAdmin](https://github.com/honghuangdc/soybean-admin)
 
 ui copy [luxAdminPro](https://lux-admin-pro.indielayer.com/dashboard/analytics)
+
+[native-ui](https://github.com/tusen-ai/naive-ui)
+
+[native-ui](https://github.com/tusen-ai/naive-ui)
+
+[vben](https://github.com/vbenjs)
 
 ## Project setup
 
