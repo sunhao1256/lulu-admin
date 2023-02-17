@@ -5,5 +5,5 @@ import mock from './mock';
 import type {PluginOption} from 'vite';
 
 export function setupVitePlugins(viteEnv: ImportMetaEnv): (PluginOption | PluginOption[])[] {
-  return [vue(), vuetify(), ...unplugin(viteEnv), mock];
+  return [vue(), vuetify(), ...unplugin(viteEnv), mock(viteEnv)];
 }

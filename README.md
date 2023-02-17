@@ -19,6 +19,11 @@ Tsx
 
 ## Preview
 
+http://52.194.229.31
+
+### caution
+[vite-plugin-mock](https://github.com/vbenjs/vite-plugin-mock) instead of server api actually
+
 ![](https://i.imgur.com/S5HeYO2.png)
 ![](https://i.imgur.com/MgHU7Av.png)
 ![](https://i.imgur.com/Xr5gqgE.png)

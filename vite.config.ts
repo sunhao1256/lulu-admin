@@ -31,5 +31,12 @@ export default defineConfig(configEnv => {
       port: 3000,
       open: true
     },
+    build: {
+      reportCompressedSize: false,
+      sourcemap: false,
+      commonjsOptions: {
+        ignoreTryCatch: false
+      }
+    }
   }
 })

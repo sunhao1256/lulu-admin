@@ -45,7 +45,7 @@ const apis: MockMethod[] = [
   {
     url: '/mock/getUser/:id?',
     method: 'post',
-    timeout: 1000,
+    timeout: 1500,
     response: (): Service.MockServiceResult<ApiUserManagement.User> => {
       const data = mock({
         id: '@id',

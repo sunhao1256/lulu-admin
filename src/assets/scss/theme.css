@@ -64,10 +64,6 @@
   padding-left: 8px !important;
 }
 
-.v-list-group__items .v-list-item {
-  padding-inline-start: 8px !important;
-}
-
 .v-navigation-drawer__content {
   flex: 1 1 auto;
 }

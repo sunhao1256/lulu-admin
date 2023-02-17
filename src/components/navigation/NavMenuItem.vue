@@ -43,6 +43,7 @@
 
 <script lang="ts" setup>
 import {PropType} from "vue";
+
 defineProps({
   menuItem: {
     type: Object as PropType<App.GlobalMenuOption>,
@@ -65,5 +66,9 @@ defineProps({
 
 .same-size {
   width: calc(var(--v-icon-size-multiplier) * #{map.get(settings.$icon-sizes, 'default')});
+}
+
+.v-list-group :deep(.v-list-item ) {
+  padding-inline-start: settings.$spacer !important;
 }
 </style>
