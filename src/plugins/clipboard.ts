@@ -1,5 +1,9 @@
 export function clipboard(text: string, toastText = 'Copied to Clipboard') {
-  navigator.clipboard.writeText(text).then(() => {
-    window.$snackBar?.info(toastText)
-  })
+  try {
+    navigator.clipboard.writeText(text).then(() => {
+      window.$snackBar?.info(toastText)
+    })
+  }catch (e) {
+    window.$snackBar?.error("Copied to Clipboard failed!")
+  }
 }
