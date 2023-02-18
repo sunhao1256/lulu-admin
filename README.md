@@ -25,7 +25,7 @@ Axios
 
 ## Preview
 
-http://52.194.229.31
+http://35.77.251.102
 
 ### Caution!
 
@@ -44,8 +44,6 @@ http://52.194.229.31
 infrastructure [SoybeanAdmin](https://github.com/honghuangdc/soybean-admin)
 
 ui copy [luxAdminPro](https://lux-admin-pro.indielayer.com/dashboard/analytics)
-
-[native-ui](https://github.com/tusen-ai/naive-ui)
 
 [native-ui](https://github.com/tusen-ai/naive-ui)
 
