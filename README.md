@@ -2,6 +2,10 @@
 
 elegant admin template, based on Vue3 , TypeScript, Vuetify3, Axios
 
+## Preview
+
+http://luluhome.site
+
 ## Feature
 
 [Vue3](https://vuejs.org/guide/quick-start.html#creating-a-vue-application)
@@ -23,9 +27,7 @@ Axios
 
 [Pinia](https://pinia.vuejs.org/)
 
-## Preview
 
-http://luluhome.site
 
 ### Caution!
 
