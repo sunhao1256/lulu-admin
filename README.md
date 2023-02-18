@@ -25,7 +25,7 @@ Axios
 
 ## Preview
 
-http://35.77.251.102
+http://luluhome.site
 
 ### Caution!
 
