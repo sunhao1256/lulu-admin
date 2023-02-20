@@ -105,39 +105,6 @@ declare namespace Service {
 
 /** 主题相关类型 */
 declare namespace Theme {
-  /** 主题配置 */
-  interface Setting {
-    /** 暗黑模式 */
-    darkMode: boolean;
-    /** 是否自动跟随系统主题 */
-    followSystemTheme: boolean;
-    /** 布局样式 */
-    layout: Layout;
-    /** 主题颜色 */
-    themeColor: string;
-    /** 主题颜色列表 */
-    themeColorList: string[];
-    /** 其他颜色 */
-    otherColor: OtherColor;
-    /** 是否自定义info的颜色(默认取比主题色深一级的颜色) */
-    isCustomizeInfoColor: boolean;
-    /** 固定头部和多页签 */
-    fixedHeaderAndTab: boolean;
-    /** 显示重载按钮 */
-    showReload: boolean;
-    /** 头部样式 */
-    header: Header;
-    /** 标多页签样式 */
-    tab: Tab;
-    /** 侧边栏样式 */
-    sider: Sider;
-    /** 菜单样式 */
-    menu: Menu;
-    /** 底部样式 */
-    footer: Footer;
-    /** 页面样式 */
-    page: Page;
-  }
 
   /** 布局样式 */
   interface Layout {

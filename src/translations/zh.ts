@@ -1,5 +1,5 @@
 export default {
-  'welcomeBack':'欢迎回来',
+  'welcomeBack': '欢迎回来',
   'common': {
     'add': '加',
     'cancel': '取消',
@@ -183,6 +183,10 @@ export default {
     'utilitySoon': '快来了',
     'utilityHelp': '常见问题/帮助',
     'levels': '菜单级别',
+    'levels2-1': '级别2.1',
+    'levels2-2': '级别2.2',
+    'levels3-1': '级别3.1',
+    'levels3-2': '级别3.2',
     'disabled': '菜单已禁用',
     'docs': '文献资料',
     'feedback': '反馈',

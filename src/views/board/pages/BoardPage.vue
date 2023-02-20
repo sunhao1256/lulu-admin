@@ -122,7 +122,7 @@ interface column {
 
 const cards = ref<Array<card>>([{
   id: 1,
-  title: 'fix: 💭 channel label on chat app',
+  title: 'fix: 💭 channel label on chat theme',
   description: 'we need it bolder',
   order: 1,
   state: 'TODO'

@@ -1,5 +1,6 @@
 import type {RouteRecordRaw} from 'vue-router';
 import {getLayoutComponent, getViewComponent} from '@/utils';
+import i18n from "@/plugins/vue-i18n";
 
 export function transformAuthRouteToVueRoutes(routes: AuthRoute.Route[]) {
   return routes.map(route => transformAuthRouteToVueRoute(route)).flat(1);
@@ -36,14 +37,6 @@ export function transformAuthRouteToVueRoute(item: AuthRoute.Route) {
       },
       todo() {
         itemRoute.component = getLayoutComponent('todo');
-      },
-      multi() {
-        if (hasChildren(item)) {
-          Object.assign(itemRoute, {meta: {...itemRoute.meta, multi: true}});
-          delete itemRoute.component;
-        } else {
-          window.console.error('multiple router required at least one child: ', item);
-        }
       },
       self() {
         itemRoute.component = getViewComponent(item.name as AuthRoute.LastDegreeRouteKey);
@@ -118,12 +111,7 @@ export function transformAuthRouteToVueRoute(item: AuthRoute.Route) {
       window.console.error('could not found effective child in multiple router ', item);
     }
 
-    if (item.component === 'multi') {
-      resultRoute.push(...children);
-      delete itemRoute.children;
-    } else {
-      itemRoute.children = children;
-    }
+    itemRoute.children = children;
     itemRoute.redirect = redirectPath;
   }
 
@@ -132,16 +120,22 @@ export function transformAuthRouteToVueRoute(item: AuthRoute.Route) {
   return resultRoute;
 }
 
-export function transformAuthRouteToSearchMenus(routes: AuthRoute.Route[], treeMap: AuthRoute.Route[] = []) {
+export function transformAuthRouteToSearchMenus(routes: AuthRoute.Route[], treeMap: AuthRoute.Route[] = [], parentTitle: string = '') {
   if (routes && routes.length === 0) return [];
   return routes.reduce((acc, cur) => {
-    if (!cur.meta?.hide) {
+    const parent = parentTitle.length > 0 ? parentTitle + "/" : parentTitle
+    const title = parent + i18n.global.t(cur.meta.title)
+    if (!cur.meta?.hide && (!cur.children || cur.children?.length == 0)) {
       acc.push({
         ...cur,
+        meta: {
+          ...cur,
+          title,
+        }
       });
     }
     if (cur.children && cur.children.length > 0) {
-      transformAuthRouteToSearchMenus(cur.children, treeMap);
+      transformAuthRouteToSearchMenus(cur.children, treeMap, title);
     }
     return acc;
   }, treeMap);

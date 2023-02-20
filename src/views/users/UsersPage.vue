@@ -3,7 +3,7 @@
     <div class="d-flex align-center py-3">
       <div>
         <div class="text-h4">Users</div>
-        <breadcrumb :breadcrumbs="breadcrumbs"/>
+        <breadcrumb :root="'apps'"/>
       </div>
       <v-spacer></v-spacer>
       <v-btn class="text-capitalize" color="primary">
@@ -140,7 +140,6 @@ import {Ref, ref} from "vue";
 import {useLoading} from '@/hooks';
 import {fetchUserList} from "@/service";
 import {userStatusLabels} from '@/constants'
-import useBreadcrumb from "@/hooks/common/useBreadcrumb";
 
 const {loading, startLoading, endLoading} = useLoading(true);
 
@@ -181,8 +180,6 @@ async function init() {
 }
 
 init()
-
-const {breadcrumbs} = useBreadcrumb('apps')
 
 </script>
 

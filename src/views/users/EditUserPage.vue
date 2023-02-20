@@ -3,7 +3,7 @@
     <div class="d-flex align-center py-3">
       <div>
         <div class="text-h4">Edit User {{ user.name && `- ${user.name}` }}</div>
-        <breadcrumb :breadcrumbs="breadcrumbs"/>
+        <breadcrumb :root="'apps'"/>
       </div>
       <v-spacer></v-spacer>
       <v-btn variant="plain" icon @click="getData">
@@ -57,7 +57,6 @@ import {ref} from "vue";
 import {fetchUser} from '@/service'
 import {useRouter} from 'vue-router'
 import {useLoadingProgressLine} from "@/components/provider";
-import useBreadcrumb from "@/hooks/common/useBreadcrumb";
 
 let user = ref<UserManagement.User | null>(null)
 
@@ -78,5 +77,4 @@ async function getData() {
 
 getData()
 
-const {breadcrumbs} = useBreadcrumb('apps')
 </script>

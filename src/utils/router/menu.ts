@@ -6,6 +6,7 @@ export function transformAuthRouteToMenu(routes: AuthRoute.Route[]): App.GlobalM
   const globalMenu: App.GlobalMenuOption[] = [];
   routes.forEach(route => {
     const {name, path, meta} = route;
+    const routePath = route.meta.dynamicPath || path
     const routeName = name as string;
     let menuChildren: App.GlobalMenuOption[] | undefined;
     if (route.children) {
@@ -16,7 +17,7 @@ export function transformAuthRouteToMenu(routes: AuthRoute.Route[]): App.GlobalM
         key: routeName,
         label: meta.title,
         routeName,
-        routePath: path
+        routePath: routePath
       },
       icon: meta.icon,
       children: menuChildren
@@ -26,7 +27,6 @@ export function transformAuthRouteToMenu(routes: AuthRoute.Route[]): App.GlobalM
       globalMenu.push(menuItem);
     }
   });
-
 
 
   return globalMenu;

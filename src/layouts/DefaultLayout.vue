@@ -54,10 +54,11 @@
           hide-details
           :items="routeStore.searchMenus"
           item-title="meta.title"
+          item-value="path"
           clearable
+          @update:modelValue="searchSelect"
           variant="filled"
           density="comfortable"
-          v-model="selectMenu"
           class="v-text-field-rounded"
           single-line
         >
@@ -100,17 +101,20 @@
 
 import LoadingProgressProvider from "@/components/provider/LoadingProgressLine";
 import {computed} from 'vue'
-import {useAppInfo} from "@/composables";
-const store = useAppStore()
-const {theme} = storeToRefs(store)
+import {useAppInfo, useRouterPush} from "@/composables";
+
+const theme = useThemeStore()
 const drawer = ref(true)
 const routeStore = useRouteStore();
 const menus = computed(() => routeStore.menus as App.GlobalMenuOption[]);
 
 const {name, version} = useAppInfo();
 
-const selectMenu = ref()
-
+const push = useRouterPush()
+const searchSelect = (item: AuthRoute.Route) => {
+  if (item)
+    push.routerPush(item)
+}
 
 </script>
 

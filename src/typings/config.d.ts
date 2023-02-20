@@ -24,10 +24,13 @@ declare namespace CurrencyConfig {
 declare namespace ThemeConfig {
   interface Config {
 
+    //primary color
+    primary: string,
+
     //follow OS theme
     followOs: boolean,
 
-    // global theme for the app
+    // global theme for the theme
     globalTheme: string,
 
     // side menu theme, use global theme or custom

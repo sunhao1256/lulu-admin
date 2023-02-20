@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts" setup>
-import {PropType, defineProps} from "vue";
+import {PropType} from "vue";
 import {useTodoStore} from "@/apps/todo/store";
 
 const {labels} = useTodoStore()

@@ -36,6 +36,13 @@ declare namespace PageRoute {
     | 'pages_error'
     | 'pages_error_notfound'
     | 'pages_error_unexpected'
+    | 'other'
+    | 'blank-page'
+    | 'other_menu-levels'
+    | 'other_menu-levels-2-1'
+    | 'other_menu-levels-2-2'
+    | 'other_menu-levels-3-1'
+    | 'other_menu-levels-3-2'
     ;
   /**
    * last degree route key, which has the page file
@@ -56,5 +63,8 @@ declare namespace PageRoute {
     | 'apps_todo_label'
     | 'pages_error_notfound'
     | 'pages_error_unexpected'
+    | 'other_menu-levels-2-1'
+    | 'other_menu-levels-3-1'
+    | 'other_menu-levels-3-2'
     >;
 }

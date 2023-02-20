@@ -1,8 +1,7 @@
-/**
- * Returns the currency formatted accordingly
- */
+import configs from "@/configs";
+
 export function formatCurrency(value: number, currency?: CurrencyConfig.Currency): number | string {
-  const {currency: currencyConfig} = useAppStore()
+  const {currency: currencyConfig} = configs
 
   let c: CurrencyConfig.Currency
   c = currency || currencyConfig.currency
@@ -10,13 +9,6 @@ export function formatCurrency(value: number, currency?: CurrencyConfig.Currency
   return formatPrice(value, c)
 }
 
-/**
- * Returns the price passed formatted according to the system configurations for the currency
- *
- * @param price
- * @param currency
- * @returns {*}
- */
 export function formatPrice(price: number, currency: CurrencyConfig.Currency) {
   try {
     const numberFormatted = numberFormat(
@@ -45,16 +37,6 @@ export function formatPrice(price: number, currency: CurrencyConfig.Currency) {
   }
 }
 
-/**
- * Helper method to format a number given a few configurations such as the separation
- * between thousands and decimals
- *
- * @param number
- * @param decimals
- * @param dec_point
- * @param thousands_sep
- * @returns {*}
- */
 export function numberFormat(number: number, decimals: number, dec_point: string, thousands_sep: string) {
   if (isNaN(number)) {
     return number

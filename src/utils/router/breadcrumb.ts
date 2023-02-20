@@ -5,22 +5,28 @@
  * @param rootPath - 根路由路径
  */
 export function getBreadcrumbByRouteKey(activeKey: string, menus: App.GlobalMenuOption[], rootPath: string) {
-  const breadcrumbMenu = getBreadcrumbMenu(activeKey, menus);
+  const breadcrumbMenu = getBreadcrumbMenu((menu) => activeKey.includes(menu.routeName), menus);
+  const breadcrumb = breadcrumbMenu.map(item => transformBreadcrumbMenuToBreadcrumb(item, rootPath));
+  return breadcrumb;
+}
+
+export function getBreadcrumbsByPredicate(predicate: (menu: App.GlobalMenuOption) => boolean, menus: App.GlobalMenuOption[], rootPath: string) {
+  const breadcrumbMenu = getBreadcrumbMenu(predicate, menus);
   const breadcrumb = breadcrumbMenu.map(item => transformBreadcrumbMenuToBreadcrumb(item, rootPath));
   return breadcrumb;
 }
 
 /**
  * 根据菜单数据获取面包屑格式的菜单
- * @param activeKey - 当前页面路由的key
+ * @param predicate
  * @param menus - 菜单数据
  */
-function getBreadcrumbMenu(activeKey: string, menus: App.GlobalMenuOption[]) {
+function getBreadcrumbMenu(predicate: (menu: App.GlobalMenuOption) => boolean, menus: App.GlobalMenuOption[]) {
   const breadcrumbMenu: App.GlobalMenuOption[] = [];
   menus.some(menu => {
-    const flag = activeKey.includes(menu.routeName);
+    const flag = predicate(menu);
     if (flag) {
-      breadcrumbMenu.push(...getBreadcrumbMenuItem(activeKey, menu));
+      breadcrumbMenu.push(...getBreadcrumbMenuItem(predicate, menu));
     }
     return flag;
   });
@@ -29,18 +35,17 @@ function getBreadcrumbMenu(activeKey: string, menus: App.GlobalMenuOption[]) {
 
 /**
  * 根据单个菜单数据获取面包屑格式的菜单
- * @param activeKey - 当前页面路由的key
+ * @param predicate
  * @param menu - 单个菜单数据
  */
-function getBreadcrumbMenuItem(activeKey: string, menu: App.GlobalMenuOption) {
+function getBreadcrumbMenuItem(predicate: (menu: App.GlobalMenuOption) => boolean, menu: App.GlobalMenuOption) {
   const breadcrumbMenu: App.GlobalMenuOption[] = [];
-  if (activeKey === menu.routeName) {
+  if (predicate(menu)) {
     breadcrumbMenu.push(menu);
   }
-  if (activeKey.includes(menu.routeName) && menu.children && menu.children.length) {
-    breadcrumbMenu.push(menu);
+  if (predicate(menu) && menu.children && menu.children.length) {
     breadcrumbMenu.push(
-      ...menu.children.map(item => getBreadcrumbMenuItem(activeKey, item as App.GlobalMenuOption)).flat(1)
+      ...menu.children.map(item => getBreadcrumbMenuItem(predicate, item as App.GlobalMenuOption)).flat(1)
     );
   }
 

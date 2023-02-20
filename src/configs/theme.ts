@@ -1,4 +1,7 @@
 const themeConfig: ThemeConfig.Config = {
+
+  primary: '#0096c7',
+
   followOs: true,
 
   globalTheme: 'light', // light | dark

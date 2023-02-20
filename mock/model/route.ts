@@ -123,6 +123,70 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
         requiresAuth: true,
       }
     },
+    {
+      name: 'other',
+      path: '/other',
+      component: 'basic',
+      meta: {
+        title: 'menu.others'
+      },
+      children: [
+        {
+          name: 'blank-page',
+          path: '/blank-page',
+          component: 'blank',
+          meta: {
+            title: 'menu.blank',
+            icon:'mdi-file-outline',
+          }
+        },
+        {
+          name: 'other_menu-levels',
+          component: 'blank',
+          path: '/other/menu-levels',
+          meta: {
+            title: 'menu.levels'
+          },
+          children: [
+            {
+              name: 'other_menu-levels-2-1',
+              path: '/other/menu-levels-2-1',
+              component: 'self',
+              meta: {
+                title: 'menu.levels2-1'
+              }
+            },
+            {
+              name: 'other_menu-levels-2-2',
+              path: '/other/menu-levels-2-2',
+              component: 'blank',
+              meta: {
+                title: 'menu.levels2-2',
+              },
+              children: [
+                {
+                  name: 'other_menu-levels-3-1',
+                  path: '/other/menu-levels-3-1',
+                  component: 'self',
+                  meta: {
+                    title: 'menu.levels3-1'
+                  }
+                },
+                {
+                  name: 'other_menu-levels-3-2',
+                  path: '/other/menu-levels-3-2',
+                  component: 'self',
+                  meta: {
+                    title: 'menu.levels3-2'
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+
   ],
   user: [
     {

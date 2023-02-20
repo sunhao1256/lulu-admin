@@ -1,5 +1,5 @@
 export default {
-  'welcomeBack':'welcome back',
+  'welcomeBack': 'welcome back',
   common: {
     add: 'Add',
     cancel: 'Cancel',
@@ -183,6 +183,10 @@ export default {
     utilitySoon: 'Coming Soon',
     utilityHelp: 'FAQs / Help',
     levels: 'Menu Levels',
+    'levels2-1': 'levels2-1',
+    'levels2-2': 'levels2-2',
+    'levels3-1': 'levels3-1',
+    'levels3-2': 'levels3-2',
     disabled: 'Menu Disabled',
     docs: 'Documentation',
     feedback: 'Feedback',

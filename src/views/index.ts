@@ -16,4 +16,7 @@ export const views: Record<PageRoute.LastDegreeRouteKey,
   "apps_todo_label": () => import('@/apps/todo/pages/LabelPage.vue'),
   "pages_error_notfound": () => import('./_builtin/error/NotFoundPage.vue'),
   "pages_error_unexpected": () => import('./_builtin/error/UnexpectedPage.vue'),
+  "other_menu-levels-2-1": () => import('./menulevels/lv2.1.vue'),
+  "other_menu-levels-3-1": () => import('./menulevels/lv3.1.vue'),
+  "other_menu-levels-3-2": () => import('./menulevels/lv3.2.vue'),
 };

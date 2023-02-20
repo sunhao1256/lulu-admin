@@ -2,6 +2,10 @@
 
 elegant admin template, based on Vue3 , TypeScript, Vuetify3, Axios
 
+## Lulu
+Lulu is my arrogant cat
+<img src="https://i.imgur.com/3e63lxL.jpg" style="zoom:8%;" />
+
 ## Preview
 
 http://luluhome.site

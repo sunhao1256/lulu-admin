@@ -21,8 +21,7 @@ export default defineComponent({
           model.value = false
         }
       }
-    const store = useAppStore()
-    const {theme} = storeToRefs(store)
+    const theme = useThemeStore()
     provide(LoadingProgressLineInjectKey, api)
     return {
       model,

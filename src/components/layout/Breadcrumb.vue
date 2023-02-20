@@ -8,13 +8,16 @@
 
 <script setup lang="ts">
 import {PropType} from 'vue';
+import useBreadcrumb from "@/hooks/common/useBreadcrumb";
 
-defineProps({
-  breadcrumbs: {
-    type: Array as PropType<Array<App.GlobalBreadcrumb>>,
-    default: () => []
+const props = defineProps({
+  root: {
+    type: String as PropType<Exclude<AuthRoute.AllRouteKey, 'not-found'>>,
+    default: () => 'root'
   }
 })
+
+const {breadcrumbs} = useBreadcrumb(props.root)
 
 </script>
 

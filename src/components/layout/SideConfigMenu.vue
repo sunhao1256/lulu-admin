@@ -29,42 +29,42 @@
 
       <div class="pa-2">
         <div class="font-weight-bold my-1">Follow Os Theme</div>
-        <v-switch v-model="followOs" color="primary"></v-switch>
+        <v-switch v-model="themeConfig.followOs" color="primary"></v-switch>
         <div class="font-weight-bold my-1">Global Theme</div>
-        <v-btn-toggle v-model="theme" color="primary" mandatory class="mb-2">
-          <v-btn>Light</v-btn>
-          <v-btn>Dark</v-btn>
+        <v-btn-toggle v-model="themeConfig.globalTheme" color="primary" mandatory class="mb-2">
+          <v-btn value="light">Light</v-btn>
+          <v-btn value="dark">Dark</v-btn>
         </v-btn-toggle>
 
         <div class="font-weight-bold my-1">Toolbar Theme</div>
-        <v-btn-toggle v-model="toolbarTheme" color="primary" mandatory class="mb-2">
-          <v-btn>Global</v-btn>
-          <v-btn>Light</v-btn>
-          <v-btn>Dark</v-btn>
+        <v-btn-toggle v-model="themeConfig.toolbarTheme" color="primary" mandatory class="mb-2">
+          <v-btn value="global">Global</v-btn>
+          <v-btn value="light">Light</v-btn>
+          <v-btn value="dark">Dark</v-btn>
         </v-btn-toggle>
 
         <div class="font-weight-bold my-1">Toolbar Style</div>
-        <v-btn-toggle v-model="toolbarStyle" color="primary" mandatory class="mb-2">
-          <v-btn>Full</v-btn>
-          <v-btn>Solo</v-btn>
+        <v-btn-toggle v-model="themeConfig.isToolbarDetached" color="primary" mandatory class="mb-2">
+          <v-btn :value="false">Full</v-btn>
+          <v-btn :value="true">Solo</v-btn>
         </v-btn-toggle>
 
         <div class="font-weight-bold my-1">Content Layout</div>
-        <v-btn-toggle v-model="contentBoxed" color="primary" mandatory class="mb-2">
-          <v-btn>Fluid</v-btn>
-          <v-btn>Boxed</v-btn>
+        <v-btn-toggle v-model="themeConfig.isContentBoxed" color="primary" mandatory class="mb-2">
+          <v-btn :value="false">Fluid</v-btn>
+          <v-btn :value="true">Boxed</v-btn>
         </v-btn-toggle>
 
         <div class="font-weight-bold my-1">Menu Theme</div>
-        <v-btn-toggle v-model="menuTheme" color="primary" mandatory class="mb-2">
-          <v-btn>Global</v-btn>
-          <v-btn>Light</v-btn>
-          <v-btn>Dark</v-btn>
+        <v-btn-toggle v-model="themeConfig.menuTheme" color="primary" mandatory class="mb-2">
+          <v-btn value="global">Global</v-btn>
+          <v-btn value="light">Light</v-btn>
+          <v-btn value="dark">Dark</v-btn>
         </v-btn-toggle>
 
         <div class="font-weight-bold my-1">Primary Color</div>
 
-        <v-color-picker v-model="color" mode="hexa" :swatches="swatches" show-swatches></v-color-picker>
+        <v-color-picker v-model="themeConfig.primary" mode="hexa" :swatches="swatches" show-swatches></v-color-picker>
       </div>
 
       <v-divider></v-divider>
@@ -74,65 +74,15 @@
 
 <script setup lang="ts">
 import {ComponentPublicInstance} from "vue";
-import {useOsTheme} from "vooks";
+import {useThemeStore} from "@/store";
 
+const themeConfig = useThemeStore()
 const right = ref(false)
-const followOs = ref(false)
-const theme = ref(0)
-const toolbarTheme = ref(0)
-const toolbarStyle = ref(0)
-const contentBoxed = ref(0)
-const menuTheme = ref(0)
-const color = ref('#0096c7')
 let timeout: NodeJS.Timeout
 const swatches = reactive([['#0096c7', '#31944f'],
   ['#EE4f12', '#46BBB1'],
   ['#ee44aa', '#55BB46']])
-const appStore = useAppStore()
-const {theme: themeConfig} = storeToRefs(appStore)
-const {themes, global} = useTheme()
-
-const osTheme = useOsTheme()
-const setTheme = (theme: string | null) => {
-  if (theme) {
-    themeConfig.value.globalTheme = theme
-    global.name.value = themeConfig.value.globalTheme
-  }
-}
-theme.value = osTheme.value == 'dark' ? 1 : 0
-followOs.value = themeConfig.value.followOs
-setTheme(osTheme.value)
-
-watch(osTheme, (val) => {
-  setTheme(val)
-})
-
-watch(color, (val) => {
-  themes.value["dark"].colors.primary = val
-  themes.value["light"].colors.primary = val
-})
-watch(followOs, (val) => {
-  themeConfig.value.isContentBoxed = val
-})
-watch(theme, (val) => {
-  setTheme(val === 0 ? 'light' : 'dark')
-})
-watch(contentBoxed, (val) => {
-  themeConfig.value.isContentBoxed = val == 1
-})
-
-watch(toolbarStyle, (val) => {
-  themeConfig.value.isToolbarDetached = val == 1
-})
-
-watch(toolbarTheme, (val) => {
-  themeConfig.value.toolbarTheme = val === 0 ? 'global' : (val === 1 ? 'light' : 'dark')
-})
-watch(menuTheme, (val) => {
-  themeConfig.value.menuTheme = val === 0 ? 'global' : (val === 1 ? 'light' : 'dark')
-})
 const refButton = ref<ComponentPublicInstance>()
-
 const execAnimate = () => {
   if (timeout) {
     clearTimeout(timeout)
