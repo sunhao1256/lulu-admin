@@ -29,7 +29,8 @@ export default defineConfig(configEnv => {
     },
     server: {
       port: 3000,
-      open: true
+      open: true,
+      host: '0.0.0.0',
     },
     build: {
       reportCompressedSize: false,
