@@ -9,8 +9,7 @@
         <template v-slot:activator="{ props }">
           <v-card
             class="pa-1"
-            :class="{ 'primary darken-1': isOwnMessage}"
-            :dark="isOwnMessage"
+            :color="isOwnMessage?'primary-darken-1':undefined"
             v-bind="props"
           >
             <div class="font-weight-bold">{{ message.text }}</div>

@@ -10,7 +10,6 @@ export default function useBreadcrumb(rootPath: Exclude<AuthRoute.AllRouteKey, '
   const routeStore = useRouteStore();
 
 
-  console.log(route.matched)
   const breadcrumbs = computed(() =>
     getBreadcrumbsByPredicate(menu => {
       return !!route.matched.find(m => m.path == menu.routePath)

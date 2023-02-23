@@ -138,7 +138,7 @@ const sendMessage = () => {
   messages.value.push({
     id: createId(),
     text: input.value,
-    timestamp: '',
+    timestamp: new Date().toLocaleString(),
     user: {
       id: userInfo.userId,
       avatar: userInfo.userAvatar ?? ''

@@ -32,32 +32,32 @@
         <div class="font-weight-bold my-1">Follow Os Theme</div>
         <v-switch v-model="themeConfig.followOs" color="primary"></v-switch>
         <div class="font-weight-bold my-1">Global Theme</div>
-        <v-btn-toggle v-model="themeConfig.globalTheme" color="primary" mandatory class="mb-2">
+        <v-btn-toggle v-model="themeConfig.globalTheme" color="primary" mandatory variant="outlined" class="mb-2">
           <v-btn value="light">Light</v-btn>
           <v-btn value="dark">Dark</v-btn>
         </v-btn-toggle>
 
         <div class="font-weight-bold my-1">Toolbar Theme</div>
-        <v-btn-toggle v-model="themeConfig.toolbarTheme" color="primary" mandatory class="mb-2">
+        <v-btn-toggle v-model="themeConfig.toolbarTheme" color="primary" mandatory variant="outlined" class="mb-2">
           <v-btn value="global">Global</v-btn>
           <v-btn value="light">Light</v-btn>
           <v-btn value="dark">Dark</v-btn>
         </v-btn-toggle>
 
         <div class="font-weight-bold my-1">Toolbar Style</div>
-        <v-btn-toggle v-model="themeConfig.isToolbarDetached" color="primary" mandatory class="mb-2">
+        <v-btn-toggle v-model="themeConfig.isToolbarDetached" color="primary" mandatory variant="outlined" class="mb-2">
           <v-btn :value="false">Full</v-btn>
           <v-btn :value="true">Solo</v-btn>
         </v-btn-toggle>
 
         <div class="font-weight-bold my-1">Content Layout</div>
-        <v-btn-toggle v-model="themeConfig.isContentBoxed" color="primary" mandatory class="mb-2">
+        <v-btn-toggle v-model="themeConfig.isContentBoxed" color="primary" mandatory variant="outlined" class="mb-2">
           <v-btn :value="false">Fluid</v-btn>
           <v-btn :value="true">Boxed</v-btn>
         </v-btn-toggle>
 
         <div class="font-weight-bold my-1">Menu Theme</div>
-        <v-btn-toggle v-model="themeConfig.menuTheme" color="primary" mandatory class="mb-2">
+        <v-btn-toggle v-model="themeConfig.menuTheme" color="primary" mandatory variant="outlined" class="mb-2">
           <v-btn value="global">Global</v-btn>
           <v-btn value="light">Light</v-btn>
           <v-btn value="dark">Dark</v-btn>
@@ -111,7 +111,7 @@ onBeforeUnmount(() => {
   position: fixed;
   top: 340px;
   right: -20px;
-  z-index: 999;
+  z-index: 9999;
   box-shadow: 1px 1px 18px #ee44aa;
 
   .v-icon {

@@ -70,6 +70,7 @@
     <v-navigation-drawer
       v-model="usersDrawer"
       width="180"
+      floating
       order="-1"
       location="right"
     >
@@ -153,9 +154,10 @@ const fetchOnlineUsers = async () => {
     onlineUsers.value = resp.data.list
   }
 }
-
 onMounted(() => {
+  routerPush(`/apps/chat-channel/${channels.value[0]}`)
   fetchOnlineUsers()
+
 })
 </script>
 
