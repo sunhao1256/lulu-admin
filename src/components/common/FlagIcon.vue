@@ -7,12 +7,10 @@ import "flag-icons/css/flag-icons.min.css"
 
 defineProps(
   {
-    // Country ISO
     flag: {
       type: String,
       default: 'us'
     },
-    // Circle flag or square
     round: {
       type: Boolean,
       default: false

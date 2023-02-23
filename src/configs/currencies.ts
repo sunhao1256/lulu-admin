@@ -1,5 +1,4 @@
 const config: CurrencyConfig.Config = {
-  // current currency
   currency: {
     label: 'USD',
     decimalDigits: 2,
@@ -10,7 +9,6 @@ const config: CurrencyConfig.Config = {
     currencySymbolPosition: 'left'
   },
 
-  // availabled currencies for user selection
   availableCurrencies: [{
     label: 'USD',
     decimalDigits: 2,

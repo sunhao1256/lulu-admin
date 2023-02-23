@@ -60,7 +60,7 @@
 
 <script lang="ts" setup>
 import {PropType} from "vue";
-import {useTodoStore} from "@/apps/todo/store";
+import {useTodoStore} from "@/views/todo/store";
 
 const {labels} = useTodoStore()
 

@@ -53,7 +53,7 @@
 
 <script lang="ts" setup>
 
-import {useTodoStore} from "@/apps/todo/store";
+import {useTodoStore} from "@/views/todo/store";
 
 const {labels, incompleteTasks} = storeToRefs(useTodoStore())
 

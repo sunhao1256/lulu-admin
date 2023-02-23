@@ -3,6 +3,7 @@ export default {
   common: {
     add: 'Add',
     cancel: 'Cancel',
+    confirm: 'confirm',
     description: 'Description',
     delete: 'Delete',
     title: 'Title',

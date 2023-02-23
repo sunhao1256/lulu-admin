@@ -6,6 +6,7 @@
 import {useTodoStore} from "../store";
 import {useRouter, useRoute} from "vue-router";
 import {computed, ref} from 'vue'
+import TodoList from '../components/TodoList.vue'
 
 const route = useRoute()
 

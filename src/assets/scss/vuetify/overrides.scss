@@ -1,17 +1,5 @@
-/**
- * Vuetify Styles Overrides
- */
 @use "./variables" as *;
 @use "vuetify/tools" as *;
-
-.v-application .d-flex {
-  min-width: 0;
-}
-
-// Text Overrides
-.v-application p {
-  margin-bottom: 20px;
-}
 
 .v-application {
   .title {
@@ -32,62 +20,10 @@
   text-transform: uppercase;
 }
 
-.v-application .text-number {
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji !important;
-}
-
-// List Component
-.v-list-item__title {
-  font-size: 0.975rem;
-  font-weight: 600;
-}
-
-.v-list-item__action:first-child,
-.v-list-item__icon:first-child {
-  margin-right: 14px !important;
-}
-
-.v-application--is-rtl {
-  .v-list-item__action:first-child,
-  .v-list-item__icon:first-child {
-    margin-right: 0 !important;
-    margin-left: 14px !important;
-  }
-}
-
-.v-list-item__action:first-child,
-.v-list-item__icon:first-child {
-  margin-right: 14px !important;
-}
-
-.v-list-group__header .v-list-item__append .v-icon {
-  font-size: 1rem;
-}
-
-.v-list-group__header .v-list-item__icon.v-list-group__header__append-icon {
-  min-width: 0 !important;
-}
-
-.v-list-item__icon {
-  margin: auto;
-  justify-content: center;
-}
-
-.v-list-group--sub-group .v-list-group__header {
-  padding-left: $spacer !important;
-}
-
-// Navigation Drawer
 .v-navigation-drawer__content {
-  flex: 1 1 auto;
-
   .v-list-item__prepend > .v-icon {
     margin-inline-end: 14px;
   }
-}
-
-.theme--dark .v-navigation-drawer__content {
-  background: none;
 }
 
 .v-data-table {
@@ -107,60 +43,15 @@
           box-shadow: 0 3px 15px -2px rgba(0, 0, 0, 0.12);
           transform: translateY(-4px);
         }
-
         font-size: $data-table-font-size;
-
         & > td {
           border-bottom: 0 !important;
         }
-
-
       }
 
-      padding: 4px;
-      padding-bottom: 8px;
+      padding: 4px 4px 8px;
 
     }
   }
 
-}
-
-// Tabs
-.v-tabs-items {
-  background-color: transparent !important;
-}
-
-// Buttons
-.theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
-  background-color: #273743;
-}
-
-// Rows
-.row {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
-
-
-// Card
-.v-card-title {
-  display: flex;
-}
-
-.v-text-field-rounded {
-  & > .v-input__control {
-    border-radius: inherit;
-
-    & > .v-field {
-      border-radius: inherit;
-    }
-
-    & div {
-      &::before, &::after {
-        display: none;
-      }
-    }
-  }
-
-  border-radius: 28px;
 }

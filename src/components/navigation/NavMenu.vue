@@ -1,10 +1,8 @@
 <template>
   <div>
-    <!-- menu level 1 -->
     <nav-menu-item v-for="(level1Item, level1Index) in menu" :key="level1Index" :menu-item="level1Item">
       <template v-if="level1Item.children">
 
-        <!-- menu level 2 -->
         <nav-menu-item
           v-for="(level2Item, level2Index) in level1Item.children"
           :key="level2Index"
@@ -14,7 +12,6 @@
         >
           <template v-if="level2Item.children">
 
-            <!-- menu level 3 -->
             <nav-menu-item
               v-for="(level3Item, level3Index) in level2Item.children"
               :key="level3Index"

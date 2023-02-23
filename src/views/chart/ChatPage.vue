@@ -70,7 +70,6 @@
     <v-navigation-drawer
       v-model="usersDrawer"
       width="180"
-      floating
       order="-1"
       location="right"
     >

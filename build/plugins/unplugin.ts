@@ -45,7 +45,7 @@ export default function unplugin(viteEnv: ImportMetaEnv) {
     ),
     Components({
       dts: 'src/typings/components.d.ts',
-      dirs: ['src/apps', 'src/components'],
+      dirs: ['src/components'],
       extensions: ['vue'],
       resolvers: [
         IconsResolver(

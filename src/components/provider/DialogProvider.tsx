@@ -126,7 +126,7 @@ export default defineComponent({
                       }}>{msg.content.cancelText ?? this.$t('common.cancel')}</VBtn>
                       <VBtn loading={msg._confirmLoading} color={msg.content?.confirmColor ?? 'error'} onClick={() => {
                         msg.content.confirm ? msg.content.confirm() : msg.close()
-                      }}>{msg.content.confirmText ?? this.$t('common.save')}</VBtn>
+                      }}>{msg.content.confirmText ?? this.$t('common.confirm')}</VBtn>
                     </VCardActions>
                   </VCard>
 

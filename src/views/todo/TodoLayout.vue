@@ -29,7 +29,8 @@
 
 <script lang="ts" setup>
 import {ref} from 'vue'
-import TodoCompose from '@/apps/todo/components/TodoCompose.vue'
+import TodoCompose from '@/views/todo/components/TodoCompose.vue'
+import TodoMenu from './components/TodoMenu.vue'
 import {useDisplay} from "vuetify";
 
 const {lgAndUp} = useDisplay()

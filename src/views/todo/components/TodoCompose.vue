@@ -69,7 +69,7 @@
 
 <script lang="ts" setup>
 import {ref} from 'vue'
-import {useTodoStore} from "@/apps/todo/store";
+import {useTodoStore} from "@/views/todo/store";
 
 const dialog = ref(false)
 const title = ref('')

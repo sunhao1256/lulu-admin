@@ -128,7 +128,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
               component: 'self',
               meta: {
                 title: 'menu.chat-channel',
-                dynamicPath: '/apps/chat-channel/:id',
+                dynamicPath: '/apps/chat-channel/:id?',
                 hide: true
               }
             }

@@ -30,7 +30,7 @@
         <template v-slot:prepend>
           <v-icon size="small" :icon="item.icon"></v-icon>
         </template>
-        <v-list-item-title>{{ item.key ? $t(item.key) : item.text }}</v-list-item-title>
+        <v-list-item-title>{{ $t(item.key) }}</v-list-item-title>
       </v-list-item>
 
       <v-divider class="my-1"></v-divider>
@@ -48,9 +48,10 @@ import {reactive} from "vue";
 
 const menu = reactive(
   [
-    {icon: 'mdi-account-box-outline', key: 'menu.profile', text: 'Profile', link: '/apps/manager-user/edit'},
-    {icon: 'mdi-format-list-checkbox', key: 'menu.todo', text: 'Todo', link: '/apps/todo'},
-    {icon: 'mdi-email-outline', key: 'menu.board', text: 'Board', link: '/apps/board'}
+    {icon: 'mdi-account-box-outline', key: 'menu.profile', link: '/apps/manager-user/edit'},
+    {icon: 'mdi-format-list-checkbox', key: 'menu.todo', link: '/apps/todo'},
+    {icon: 'mdi-email-outline', key: 'menu.board', link: '/apps/board'},
+    {icon: 'mdi-forum-outline', key: 'menu.chat', link: '/apps/chat-channel/'}
   ]
 )
 

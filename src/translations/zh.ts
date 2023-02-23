@@ -2,6 +2,7 @@ export default {
   'welcomeBack': '欢迎回来',
   'common': {
     'add': '加',
+    'confirm':'确认',
     'cancel': '取消',
     'description': '描述',
     'delete': '删除',

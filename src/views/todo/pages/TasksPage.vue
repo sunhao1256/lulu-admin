@@ -3,7 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import {useTodoStore} from "@/apps/todo/store";
+import {useTodoStore} from "@/views/todo/store";
+import TodoList from '@/views/todo/components/TodoList.vue'
 
 const {incompleteTasks} = storeToRefs(useTodoStore())
 </script>

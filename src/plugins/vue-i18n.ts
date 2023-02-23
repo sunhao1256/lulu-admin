@@ -1,12 +1,6 @@
 import {createI18n} from 'vue-i18n'
 import config from '../configs'
 
-/**
- * Vue Translations
- * https://kazupon.github.io/vue-i18n/
- */
-
-
 const {locale, availableLocales, fallbackLocale} = config.locales
 
 const messages = {}
