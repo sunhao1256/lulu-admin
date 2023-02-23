@@ -2,7 +2,7 @@ import en from '../translations/en'
 import zh from '../translations/zh'
 
 const supported = ['en', 'zh']
-let locale = 'zh'
+let locale = 'en'
 
 try {
   const {0: browserLang} = navigator.language.split('-')
