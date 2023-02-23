@@ -28,7 +28,7 @@ export default defineConfig(configEnv => {
       ],
     },
     server: {
-      port: 3000,
+      port: 3322,
       open: true,
       host: '0.0.0.0',
     },

@@ -38,6 +38,9 @@ export function transformAuthRouteToVueRoute(item: AuthRoute.Route) {
       todo() {
         itemRoute.component = getLayoutComponent('todo');
       },
+      chat() {
+        itemRoute.component = getLayoutComponent('chat');
+      },
       self() {
         itemRoute.component = getViewComponent(item.name as AuthRoute.LastDegreeRouteKey);
       }
@@ -87,6 +90,9 @@ export function transformAuthRouteToVueRoute(item: AuthRoute.Route) {
           break
         case 'todo':
           layout = getLayoutComponent('todo')
+          break
+        case 'chat':
+          layout = getLayoutComponent('chat')
           break
         default:
           layout = getLayoutComponent('blank')

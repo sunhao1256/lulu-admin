@@ -32,6 +32,8 @@ declare namespace PageRoute {
     | 'apps_todo_tasks'
     | 'apps_todo_completed'
     | 'apps_todo_label'
+    | 'apps_chat'
+    | 'apps_chat-channel'
     | 'pages'
     | 'pages_error'
     | 'pages_error_notfound'
@@ -61,10 +63,10 @@ declare namespace PageRoute {
     | 'apps_todo_tasks'
     | 'apps_todo_completed'
     | 'apps_todo_label'
+    | 'apps_chat-channel'
     | 'pages_error_notfound'
     | 'pages_error_unexpected'
     | 'other_menu-levels-2-1'
     | 'other_menu-levels-3-1'
-    | 'other_menu-levels-3-2'
-    >;
+    | 'other_menu-levels-3-2'>;
 }

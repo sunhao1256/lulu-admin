@@ -159,6 +159,7 @@ export default {
     'others': '其他',
     'email': '电子邮件',
     'chat': '聊天室',
+    'chat-channel': '聊天频道',
     'todo': '去做',
     'board': '任务板',
     'users': '用户数',

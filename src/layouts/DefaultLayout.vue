@@ -3,6 +3,7 @@
   <v-navigation-drawer
     v-model="drawer"
     floating
+    name="app-navigation"
     :theme="theme.menuTheme"
     class="elevation-1"
   >
@@ -76,16 +77,14 @@
   <v-main>
     <loading-progress-provider>
       <v-container :fluid="!theme.isContentBoxed" class="h-100">
-        <v-layout class="h-100 position-static">
-          <router-view v-slot="{ Component }">
-            <v-fade-transition mode="out-in">
-              <component :is="Component"/>
-            </v-fade-transition>
-          </router-view>
-        </v-layout>
+        <router-view v-slot="{ Component }">
+          <v-fade-transition mode="out-in">
+            <component :is="Component"/>
+          </v-fade-transition>
+        </router-view>
       </v-container>
 
-      <v-footer app inset>
+      <v-footer app>
         <v-spacer></v-spacer>
         <div class="overline">
           Built with
@@ -102,13 +101,15 @@
 import LoadingProgressProvider from "@/components/provider/LoadingProgressLine";
 import {computed} from 'vue'
 import {useAppInfo, useRouterPush} from "@/composables";
+import {useLayout} from "vuetify";
 
 const theme = useThemeStore()
-const drawer = ref(true)
+const drawer = ref()
 const routeStore = useRouteStore();
 const menus = computed(() => routeStore.menus as App.GlobalMenuOption[]);
 
 const {name, version} = useAppInfo();
+const {mainRect, mainStyles, getLayoutItem} = useLayout()
 
 const push = useRouterPush()
 const searchSelect = (item: AuthRoute.Route) => {

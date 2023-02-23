@@ -116,6 +116,28 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
             requiresAuth: true,
             order: 1
           }
+        },
+        {
+          name: "apps_chat",
+          path: "/apps/chat",
+          component: "chat",
+          children: [
+            {
+              name: 'apps_chat-channel',
+              path: '/apps/chat-channel',
+              component: 'self',
+              meta: {
+                title: 'menu.chat-channel',
+                dynamicPath: '/apps/chat-channel/:id',
+                hide: true
+              }
+            }
+          ],
+          meta: {
+            title: "menu.chat",
+            order: 1,
+            icon: "mdi-forum-outline"
+          }
         }
       ],
       meta: {
@@ -137,7 +159,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
           component: 'blank',
           meta: {
             title: 'menu.blank',
-            icon:'mdi-file-outline',
+            icon: 'mdi-file-outline',
           }
         },
         {

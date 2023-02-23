@@ -48,3 +48,16 @@ declare namespace ApiUserManagement {
     address: Address
   }
 }
+
+declare namespace ApiChatManagement {
+  interface message {
+    id: string,
+    text: string,
+    timestamp: string,
+    image?:string,
+    user: {
+      avatar: string,
+      id: string
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import type {RouteComponent} from 'vue-router';
 import {views} from '@/views';
 import {isFunction} from '@/utils';
-import {BasicLayout, BlankLayout, AuthLayout, ErrorLayout, TodoLayout} from '@/layouts';
+import {BasicLayout, BlankLayout, AuthLayout, ErrorLayout, TodoLayout, ChatLayout} from '@/layouts';
 
 type Lazy<T> = () => Promise<T>;
 
@@ -22,6 +22,7 @@ export function getLayoutComponent(layoutType: EnumType.LayoutComponentName) {
     auth: AuthLayout,
     error: ErrorLayout,
     todo: TodoLayout,
+    chat: ChatLayout,
   };
   return layoutComponent[layoutType];
 }

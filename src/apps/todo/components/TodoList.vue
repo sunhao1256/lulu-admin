@@ -2,7 +2,7 @@
   <v-card min-height="380px">
     <v-text-field
       v-model="filter"
-      class="todo-filter px-1 py-2 elevation-1 v-field-flat"
+      class="todo-filter px-1 py-2 v-field-flat"
       placeholder="Filter tasks"
       prepend-inner-icon="mdi-magnify"
       variant="solo"

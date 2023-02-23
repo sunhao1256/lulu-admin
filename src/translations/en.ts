@@ -159,6 +159,7 @@ export default {
     others: 'Others',
     email: 'Email',
     chat: 'Chat',
+    'chat-channel': 'Chat Channel',
     todo: 'To Do',
     board: 'Task Board',
     users: 'Users',

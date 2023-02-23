@@ -15,6 +15,7 @@
       location="right"
       floating
       temporary
+      order="-10"
       width="310"
     >
       <div class="d-flex align-center pa-2">
