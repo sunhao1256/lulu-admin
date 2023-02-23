@@ -38,7 +38,6 @@
             :placeholder="`${$t('chat.message')} #${$route.params.id}`"
             hide-details
             @keyup.enter="sendMessage"
-            append-icon
           >
           </v-text-field>
           <v-btn
@@ -64,11 +63,10 @@
 import ChannelMessage from './ChannelMessage.vue'
 import {ref} from "vue";
 import {fetchMessage} from '@/service'
-import {useDisplay, useTheme} from 'vuetify'
+import {useTheme} from 'vuetify'
 import {useAuthStore} from "@/store";
 import {createId} from "seemly";
 
-const {lgAndUp} = useDisplay()
 
 const {current} = useTheme()
 const {userInfo} = useAuthStore()
