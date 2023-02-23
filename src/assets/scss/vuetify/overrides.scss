@@ -55,3 +55,20 @@
   }
 
 }
+.v-text-field-rounded {
+  & > .v-input__control {
+    border-radius: inherit;
+
+    & > .v-field {
+      border-radius: inherit;
+    }
+
+    & div {
+      &::before, &::after {
+        display: none;
+      }
+    }
+  }
+
+  border-radius: 28px;
+}
