@@ -25,6 +25,9 @@
     margin-inline-end: 14px;
   }
 }
+.v-card-title {
+  display: flex;
+}
 
 .v-data-table {
   .v-table__wrapper > table {
