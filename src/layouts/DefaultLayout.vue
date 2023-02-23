@@ -101,16 +101,11 @@
 import LoadingProgressProvider from "@/components/provider/LoadingProgressLine";
 import {computed} from 'vue'
 import {useAppInfo, useRouterPush} from "@/composables";
-import {useLayout} from "vuetify";
-
 const theme = useThemeStore()
 const drawer = ref()
 const routeStore = useRouteStore();
 const menus = computed(() => routeStore.menus as App.GlobalMenuOption[]);
-
 const {name, version} = useAppInfo();
-const {mainRect, mainStyles, getLayoutItem} = useLayout()
-
 const push = useRouterPush()
 const searchSelect = (item: AuthRoute.Route) => {
   if (item)
