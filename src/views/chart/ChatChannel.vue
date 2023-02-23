@@ -94,7 +94,7 @@ const messages = ref<Array<ApiChatManagement.message>>([
   {
     id: '3',
     text: "lulu is my arrogant cat",
-    image: '/images/chat/arrogant.png',
+    image: 'https://i.imgur.com/3e63lxL.jpg',
     timestamp: "2022-12-13 16:13:10",
     user: {
       avatar: 'avatar9',

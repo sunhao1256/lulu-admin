@@ -15,7 +15,8 @@
           >
             <div class="font-weight-bold">{{ message.text }}</div>
             <v-img class="mt-1 rounded" v-if="message.image" :src="message.image" max-width="300"
-                   min-width="125"></v-img>
+                   min-width="125">
+            </v-img>
           </v-card>
         </template>
         <span>{{ message.timestamp }}</span>
