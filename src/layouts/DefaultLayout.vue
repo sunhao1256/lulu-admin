@@ -88,7 +88,7 @@
         <v-spacer></v-spacer>
         <div class="overline">
           Built with
-          <v-icon small color="pink">mdi-heart</v-icon>
+          <v-icon small color="pink">mdi-github</v-icon>
           <a class="text-decoration-none" href="https://github.com/sunhao1256/lulu-admin" target="_blank">@lulu</a>
         </div>
       </v-footer>

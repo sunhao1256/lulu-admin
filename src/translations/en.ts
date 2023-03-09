@@ -194,7 +194,9 @@ export default {
     feedback: 'Feedback',
     support: 'Support',
     landingPage: 'Landing Page',
-    pricingPage: 'Pricing Page'
+    pricingPage: 'Pricing Page',
+    'flowable': 'Flowable',
+    'flowable-design': 'Flowable Design',
   },
   // Vuetify components translations
   $vuetify: {

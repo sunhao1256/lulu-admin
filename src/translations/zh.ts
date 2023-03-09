@@ -2,7 +2,7 @@ export default {
   'welcomeBack': '欢迎回来',
   'common': {
     'add': '加',
-    'confirm':'确认',
+    'confirm': '确认',
     'cancel': '取消',
     'description': '描述',
     'delete': '删除',
@@ -194,7 +194,9 @@ export default {
     'feedback': '反馈',
     'support': '支持',
     'landingPage': '登陆页面',
-    'pricingPage': '定价页面'
+    'pricingPage': '定价页面',
+    'flowable': '流程管理',
+    'flowable-design': '流程设计',
   },
   '$vuetify': {
     'badge': '徽章',

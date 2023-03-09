@@ -20,4 +20,5 @@ export const views: Record<PageRoute.LastDegreeRouteKey,
   "other_menu-levels-2-1": () => import('./menulevels/lv2.1.vue'),
   "other_menu-levels-3-1": () => import('./menulevels/lv3.1.vue'),
   "other_menu-levels-3-2": () => import('./menulevels/lv3.2.vue'),
+  "flowable_design": () => import('./menulevels/lv3.2.vue'),
 };

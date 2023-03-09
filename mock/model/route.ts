@@ -205,8 +205,31 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
               ]
             }
           ]
-        }
+        },
+
       ]
+    },
+
+
+    {
+      name: "flowable",
+      path: "/flowable",
+      component: 'basic',
+      children: [
+        {
+          name: 'flowable_design',
+          path: '/flowable/design',
+          component: 'self',
+          meta: {
+            title: 'menu.flowable-design',
+            icon: "mdi-waves-arrow-right"
+          }
+        }
+      ],
+      meta: {
+        title: "menu.flowable",
+        icon: "mdi-waves-arrow-right"
+      }
     }
 
   ],
