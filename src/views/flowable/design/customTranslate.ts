@@ -9,7 +9,6 @@ export default function customTranslate(template: any, replacements: any) {
 
   // Replace
   return template.replace(/{([^}]+)}/g, function (_: any, key: any) {
-    console.log(key)
     return replacements[key] || '{' + key + '}';
   });
 }
