@@ -27,7 +27,7 @@ import General from "./components/general.vue";
 import Documentation from "./components/documentation.vue";
 import UserService from "./components/userAssigne.vue";
 import Form from "./components/form.vue";
-import Opinion from "./components/opinion.vue";
+import Opinion from "./components/actions.vue";
 import Condition from "./components/condition.vue";
 import {debounce} from 'lodash-es'
 import EventEmitter from "@/utils/flow/EventEmitter";

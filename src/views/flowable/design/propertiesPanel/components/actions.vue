@@ -1,10 +1,12 @@
 <template>
   <v-expansion-panel
-    title="Opinions"
+    title="Actions"
   >
     <v-expansion-panel-text>
-      <v-text-field variant="outlined" label="Condition Express" density="comfortable" hide-details
-                    :model-value="conditionExpress" @change="updateElementConditionExpress"></v-text-field>
+      <v-select variant="outlined" label="Action" density="comfortable" hide-details
+                multiple
+                :items="actionOption"
+                v-model="actions" @update:modelValue="updateElementActions"></v-select>
     </v-expansion-panel-text>
   </v-expansion-panel>
 
@@ -15,24 +17,25 @@ import {ref} from 'vue'
 import {useModelStore} from '@/store'
 import {getBusinessObject} from "bpmn-js/lib/util/ModelUtil";
 
-const conditionExpress = ref<String>("")
+const actionOption = ref(['approve', 'disapprove'])
+const actions = ref<Array<String>>([])
 const modelStore = useModelStore()
 const element = modelStore.getActive
 const businessObject = getBusinessObject(element);
 
-const camundaPropertyName = "camunda:conditionExpress"
+const camundaPropertyName = "camunda:userActions"
 
-const getConditionExpress: () => String = () => {
+const getActions: () => Array<String> = () => {
   return businessObject.get(camundaPropertyName);
 };
 
-if (getConditionExpress()) {
-  conditionExpress.value = getConditionExpress()
+if (getActions()) {
+  actions.value = getActions()
 }
 
-const updateElementConditionExpress = (value: any) => {
+const updateElementActions = (value: Array<String>) => {
   const properties: Record<string, any> = {}
-  properties[camundaPropertyName] = value.target.value
+  properties[camundaPropertyName] = value
   modelStore.getCommandStack.execute('element.updateModdleProperties', {
     element,
     moddleElement: getBusinessObject(element),

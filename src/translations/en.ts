@@ -197,6 +197,8 @@ export default {
     pricingPage: 'Pricing Page',
     'flowable': 'Flowable',
     'flowable-design': 'Flowable Design',
+    'form-list': 'Forms',
+    'form-design': 'Form Design'
   },
   // Vuetify components translations
   $vuetify: {

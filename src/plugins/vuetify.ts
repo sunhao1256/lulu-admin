@@ -29,7 +29,7 @@ export default createVuetify({
     },
     VBtn: {
       variant: 'elevated',
-    }
+    },
   },
   theme: {
     themes: {

@@ -222,15 +222,32 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
           component: 'self',
           meta: {
             title: 'menu.flowable-design',
-            icon: "mdi-waves-arrow-right"
+            icon: "mdi-pencil"
           }
-        }
+        },
+
+        {
+          name: 'form_list',
+          path: '/form/list',
+          component: 'self',
+          meta: {
+            title: 'menu.form-list',
+          }
+        },
+        {
+          name: 'form_design',
+          path: '/form/design',
+          component: 'self',
+          meta: {
+            title: 'menu.form-design',
+          }
+        },
       ],
       meta: {
         title: "menu.flowable",
         icon: "mdi-waves-arrow-right"
       }
-    }
+    },
 
   ],
   user: [

@@ -2,23 +2,23 @@
   <div class="d-flex flex-column flex-grow-1">
     <div class="d-flex align-center py-3">
       <div>
-        <div class="text-h4">Users</div>
-        <breadcrumb :root="'apps'"/>
+        <div class="text-h4">Forms</div>
+        <breadcrumb/>
       </div>
       <v-spacer></v-spacer>
       <v-btn class="text-capitalize" color="primary">
-        Create User
+        Create Form
       </v-btn>
     </div>
 
     <v-card>
-      <!-- user list -->
+      <!-- items list -->
       <v-row dense class="pa-2 align-center">
         <v-col cols="6">
           <v-menu offset-y left>
             <template v-slot:activator="{ props}">
               <v-slide-x-reverse-transition mode="out-in">
-                <v-btn v-show="selectedUsers.length > 0" v-bind="props">
+                <v-btn v-show="selected.length > 0" v-bind="props">
                   Actions
                   <v-icon right>mdi-menu-down</v-icon>
                 </v-btn>
@@ -64,10 +64,10 @@
       </v-row>
 
       <v-data-table-server
-        v-model="selectedUsers"
+        v-model="selected"
         show-select
         :headers="headers"
-        :items="users"
+        :items="items"
         :search="searchQuery"
         :loading="loading"
         :items-length="total"
@@ -81,46 +81,12 @@
           </div>
         </template>
 
-        <template v-slot:item.email="{ item:{raw} }">
-          <div class="d-flex align-center py-1">
-            <v-avatar size="32" class="elevation-1 grey lighten-3">
-              <svg-icon :name="raw.avatar"></svg-icon>
-            </v-avatar>
-            <div class="ml-1 text-caption font-weight-bold">
-              <copy-label :text="raw.email"/>
-            </div>
-          </div>
-        </template>
-
-        <template v-slot:item.verified="{item:{raw}}">
-          <v-icon v-if="raw.verified" small color="success">
-            mdi-check-circle
-          </v-icon>
-          <v-icon v-else small>
-            mdi-circle-outline
-          </v-icon>
-        </template>
-
-        <template v-slot:item.userStatus="{item:{raw}}">
-          {{ userStatusLabels [(raw as UserManagement.User).userStatus] }}
-        </template>
-
-        <template v-slot:item.role="{ item  : {raw} }">
-          <v-chip
-            label
-            size="small"
-            class="font-weight-bold"
-            :color="raw.role === 'admin' ? 'primary' : undefined"
-          >{{ raw.role }}
-          </v-chip>
+        <template v-slot:item.status="{item:{raw}}">
+          {{ formStatusLabels [(raw as FormManagement.Form ).status] }}
         </template>
 
         <template v-slot:item.created="{ item  : {raw} }">
           <div>{{ raw.created }}</div>
-        </template>
-
-        <template v-slot:item.lastSignIn="{ item  : {raw} }">
-          <div>{{ raw.lastSignIn }}</div>
         </template>
 
         <template v-slot:item.action="{item:{raw} }">
@@ -136,39 +102,35 @@
 </template>
 
 <script setup lang="ts">
+
 import {Ref, ref} from "vue";
 import {useLoading} from '@/hooks';
-import {fetchUserList} from "@/service";
-import {userStatusLabels} from '@/constants'
+import {fetchFormList} from "@/service";
+import {formStatusLabels} from '@/constants'
 
 const {loading, startLoading, endLoading} = useLoading(true);
 
 const options = ref()
 const total = ref(0)
 const pageSize = ref(10)
-const users = ref<Array<UserManagement.User>>([])
+const items = ref<Array<FormManagement.Form>>([])
 const searchQuery = ref('')
-const selectedUsers = ref<Array<UserManagement.User>>([])
+const selected = ref<Array<FormManagement.Form>>([])
 const headers: Ref<DataTableHeader> = ref<DataTableHeader>([
   {title: 'Id', align: 'start', key: 'id'},
-  {title: 'Email', key: 'email'},
-  {title: 'Verified', key: 'verified'},
-  {title: 'Name', align: 'start', key: 'name'},
-  {title: 'Role', key: 'role'},
-  {title: 'Created', key: 'created'},
-  {title: 'Last SignIn', key: 'lastSignIn'},
-  {title: 'Status', key: 'userStatus'},
+  {title: 'Name', key: 'name'},
+  {title: 'Status', key: 'status'},
+  {title: 'Created', align: 'start', key: 'created'},
   {title: '', sortable: false, align: 'end', key: 'action'}
 ])
 
-
 async function getTableData() {
   startLoading();
-  const {data} = await fetchUserList();
+  const {data} = await fetchFormList();
   endLoading();
   if (data) {
     total.value = data.total
-    users.value = data.list
+    items.value = data.list
   }
 }
 
@@ -183,3 +145,6 @@ init()
 
 </script>
 
+<style scoped>
+
+</style>

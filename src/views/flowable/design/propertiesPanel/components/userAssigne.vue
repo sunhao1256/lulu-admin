@@ -20,15 +20,27 @@
                 v-if="type==='role'"
                 multiple
       ></v-select>
-      <v-text-field
-        v-model="dueDate"
-        label="DueDate"
-        density="comfortable"
-        hide-details
-        variant="outlined"
-        @change="updateElementDueDate"
-        type="date"
-      ></v-text-field>
+
+      <div class="d-flex flex-row">
+        <v-text-field
+          v-model="dueDate"
+          label="DueDate"
+          density="comfortable"
+          hide-details
+          class="ma-0"
+          variant="outlined"
+          @change="updateElementDueDateTime"
+          type="date"
+        ></v-text-field>
+        <v-text-field
+          v-model="dueTime"
+          density="comfortable"
+          hide-details
+          variant="outlined"
+          @change="updateElementDueDateTime"
+          type="time"
+        ></v-text-field>
+      </div>
     </v-expansion-panel-text>
   </v-expansion-panel>
 
@@ -38,11 +50,13 @@
 import {ref} from 'vue'
 import {useModelStore} from '@/store'
 import {getBusinessObject} from "bpmn-js/lib/util/ModelUtil";
+import {ar} from "vuetify/locale";
 
-
+const camundaDueDate = "camunda:dueDate"
 const typeOption = ['user', 'role']
 const type = ref("")
 const dueDate = ref<String>("")
+const dueTime = ref<String>("")
 const userIds = ref<Array<String>>([])
 const roleIds = ref<Array<String>>([])
 
@@ -61,12 +75,16 @@ if (getUserIdsValue()) {
   type.value = typeOption[0]
 }
 
-const getDueDate: () => String = () => {
-  return businessObject.get('camunda:dueDate');
+const getDueDate: () => Array<String> = () => {
+  return businessObject.get(camundaDueDate)?.split(' ');
 };
 
 if (getDueDate()) {
-  dueDate.value = getDueDate()
+  const arr = getDueDate()
+  if (arr.length > 0)
+    dueDate.value = arr[0]
+  if (arr.length > 1)
+    dueTime.value = arr[1]
 }
 
 const updateElementUser = (value: Array<String>) => {
@@ -78,12 +96,15 @@ const updateElementUser = (value: Array<String>) => {
     }
   });
 }
-const updateElementDueDate = (value: any) => {
+const updateElementDueDateTime = (value: any) => {
+  if (dueDate.value.length <= 0) {
+    return
+  }
   modelStore.getCommandStack.execute('element.updateModdleProperties', {
     element,
     moddleElement: getBusinessObject(element),
     properties: {
-      'camunda:dueDate': value.target.value
+      'camunda:dueDate': dueDate.value + " " + dueTime.value
     }
   });
 }
