@@ -90,7 +90,7 @@
 
 <script setup lang="ts">
 import VueDraggable from 'vuedraggable'
-import {reactive, ref} from 'vue'
+import {ref} from 'vue'
 import Formitem from "@/views/form/design/components/formitem";
 import {cloneDeep, uniqueId} from 'lodash-es'
 import formComponentsGetter from "./formComponents";

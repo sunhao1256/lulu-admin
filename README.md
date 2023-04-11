@@ -2,6 +2,8 @@
 
 elegant admin template, based on Vue3 , TypeScript, Vuetify3, Axios
 
+form-generator , bpmn-js-camunda
+
 ## Lulu
 Lulu is my arrogant cat
 <img src="https://i.imgur.com/3e63lxL.jpg" style="zoom:8%;" />
@@ -11,6 +13,10 @@ Lulu is my arrogant cat
 https://luluhome.site
 
 ## Feature
+
+- bpmn-js-camunda
+- form-generator 😄
+- chat
 
 [Vue3](https://vuejs.org/guide/quick-start.html#creating-a-vue-application)
 
@@ -48,6 +54,8 @@ infrastructure [SoybeanAdmin](https://github.com/honghuangdc/soybean-admin)
 [vben](https://github.com/vbenjs)
 ## ScreenShot
 
+![](https://i.imgur.com/RQinDIf.png)
+![](https://i.imgur.com/wmODutf.png)
 ![](https://i.imgur.com/S5HeYO2.png)
 ![](https://i.imgur.com/MgHU7Av.png)
 ![](https://i.imgur.com/Xr5gqgE.png)
