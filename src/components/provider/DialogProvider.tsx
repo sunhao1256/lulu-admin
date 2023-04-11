@@ -44,10 +44,10 @@ export default defineComponent({
       show(content: ContentType): DialogReactive {
         return create(content)
       },
-      closeAll(){
+      closeAll() {
 
-        dialogListRef.value=[]
-        dialogRefs.value={}
+        dialogListRef.value = []
+        dialogRefs.value = {}
       }
     }
     provide(DialogInjectKey, api)
@@ -120,13 +120,17 @@ export default defineComponent({
                     </VCardText>
                     <VCardActions>
                       <VSpacer></VSpacer>
-                      <VBtn onClick={() => {
-                        msg.close()
-                        msg.content.cancel?.()
-                      }}>{msg.content.cancelText ?? this.$t('common.cancel')}</VBtn>
-                      <VBtn loading={msg._confirmLoading} color={msg.content?.confirmColor ?? 'error'} onClick={() => {
-                        msg.content.confirm ? msg.content.confirm() : msg.close()
-                      }}>{msg.content.confirmText ?? this.$t('common.confirm')}</VBtn>
+                      <VBtn {...{
+                        'onClick': () => {
+                          msg.close()
+                          msg.content.cancel?.()
+                        }
+                      }} >{msg.content.cancelText ?? this.$t('common.cancel')}</VBtn>
+                      <VBtn loading={msg._confirmLoading} color={msg.content?.confirmColor ?? 'error'}{...{
+                        'onClick': () => {
+                          msg.content.confirm ? msg.content.confirm() : msg.close()
+                        }
+                      }} >{msg.content.confirmText ?? this.$t('common.confirm')}</VBtn>
                     </VCardActions>
                   </VCard>
 

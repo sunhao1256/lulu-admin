@@ -38,7 +38,7 @@ export default defineComponent({
         return create(content, {...options, color: "success", timeout: 1000})
       },
       error(content: ContentType, options?: Snackbar): SnackBarReactive {
-        return create(content, {...options, color: "error", timeout: 1000})
+        return create(content, {...options, color: "error", timeout: 2000})
       },
       warning(content: ContentType, options?: Snackbar): SnackBarReactive {
         return create(content, {...options, color: "warning", timeout: 1000})

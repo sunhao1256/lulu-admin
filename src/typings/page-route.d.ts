@@ -45,6 +45,11 @@ declare namespace PageRoute {
     | 'other_menu-levels-2-2'
     | 'other_menu-levels-3-1'
     | 'other_menu-levels-3-2'
+    | 'flowable'
+    | 'flowable_design'
+    | 'form'
+    | 'form_list'
+    | 'form_design'
     ;
   /**
    * last degree route key, which has the page file
@@ -68,5 +73,9 @@ declare namespace PageRoute {
     | 'pages_error_unexpected'
     | 'other_menu-levels-2-1'
     | 'other_menu-levels-3-1'
-    | 'other_menu-levels-3-2'>;
+    | 'other_menu-levels-3-2'
+    | 'flowable_design'
+    | 'form_list'
+    | 'form_design'
+    >;
 }

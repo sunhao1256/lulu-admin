@@ -23,6 +23,16 @@ declare namespace ApiRoute {
   }
 }
 
+declare namespace ApiForm {
+  interface Form {
+    config: string;
+    id: string;
+    name: string;
+    status: '1' | '0';
+    created: string;
+  }
+}
+
 declare namespace ApiUserManagement {
 
   interface Address {
@@ -54,7 +64,7 @@ declare namespace ApiChatManagement {
     id: string,
     text: string,
     timestamp: string,
-    image?:string,
+    image?: string,
     user: {
       avatar: string,
       id: string
@@ -67,7 +77,7 @@ declare namespace ApiChatManagement {
     id: string,
     text: string,
     timestamp: string,
-    image?:string,
+    image?: string,
     user: {
       avatar: string,
       id: string
@@ -80,7 +90,7 @@ declare namespace ApiChatManagement {
     id: string,
     text: string,
     timestamp: string,
-    image?:string,
+    image?: string,
     user: {
       avatar: string,
       id: string

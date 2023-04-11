@@ -23,3 +23,14 @@ export const userStatusOptions: { value: UserManagement.UserStatusKey; label: st
   {value: '2', label: userStatusLabels['2']},
   {value: '4', label: userStatusLabels['4']}
 ];
+
+/** 用户状态 */
+export const formStatusLabels: Record<FormManagement.FormStatusKey, string> = {
+  1: 'active',
+  0: 'disabled',
+};
+
+export const formStatusOptions: { value: FormManagement.FormStatusKey; label: string }[] = [
+  {value: '1', label: formStatusLabels['1']},
+  {value: '0', label: formStatusLabels['0']},
+];

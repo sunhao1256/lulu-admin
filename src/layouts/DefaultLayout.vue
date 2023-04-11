@@ -76,7 +76,7 @@
 
   <v-main>
     <loading-progress-provider>
-      <v-container :fluid="!theme.isContentBoxed" class="h-100">
+      <v-container :fluid="!theme.isContentBoxed" class="h-100 position-relative">
         <router-view v-slot="{ Component }">
           <v-fade-transition mode="out-in">
             <component :is="Component"/>
@@ -88,7 +88,7 @@
         <v-spacer></v-spacer>
         <div class="overline">
           Built with
-          <v-icon small color="pink">mdi-heart</v-icon>
+          <v-icon small color="pink">mdi-github</v-icon>
           <a class="text-decoration-none" href="https://github.com/sunhao1256/lulu-admin" target="_blank">@lulu</a>
         </div>
       </v-footer>
@@ -101,6 +101,7 @@
 import LoadingProgressProvider from "@/components/provider/LoadingProgressLine";
 import {computed} from 'vue'
 import {useAppInfo, useRouterPush} from "@/composables";
+
 const theme = useThemeStore()
 const drawer = ref()
 const routeStore = useRouteStore();

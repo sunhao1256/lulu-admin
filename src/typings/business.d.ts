@@ -30,3 +30,10 @@ declare namespace UserManagement {
    */
   type UserStatusKey = NonNullable<User['userStatus']>;
 }
+
+declare namespace FormManagement {
+  interface Form extends ApiForm.Form {
+
+  }
+  type FormStatusKey = NonNullable<Form['status']>;
+}

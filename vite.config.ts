@@ -38,6 +38,7 @@ export default defineConfig(configEnv => {
       commonjsOptions: {
         ignoreTryCatch: false
       }
-    }
+    },
+    assetsInclude:["**/*.bpmn"]
   }
 })

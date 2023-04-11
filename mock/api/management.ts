@@ -73,7 +73,34 @@ const apis: MockMethod[] = [
         data: data
       };
     }
-  }
+  },
+
+
+  {
+    url: '/mock/getAllFormList',
+    method: 'post',
+    timeout: 1000,
+    response: (): Service.MockServiceResult<ApiCommon.PageResult<ApiForm.Form[]>> => {
+      const data = mock({
+        pageNo: 1,
+        pageSize: 10,
+        total: 20,
+        'list|10': [
+          {
+            id: '@id',
+            name: '@name',
+            'created': mock('@datetime()'),
+            'status|1': ['1', '0'],
+          }
+        ],
+      });
+      return {
+        code: 200,
+        message: 'ok',
+        data: data
+      };
+    }
+  },
 ];
 
 export default apis;
