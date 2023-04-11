@@ -33,16 +33,9 @@ import {debounce} from 'lodash-es'
 import EventEmitter from "@/utils/flow/EventEmitter";
 import {useModelStore} from '@/store'
 import {isUserService, isStartEvent} from "@/views/flowable/bo-utils/userTaskUtil";
-import {isConditional, isNotConditional} from "@/views/flowable/bo-utils/conditionalUtil";
+import {isNotConditional} from "@/views/flowable/bo-utils/conditionalUtil";
 
 const modelStore = useModelStore()
-
-const items = ref([
-  {text: 'Real-Time', icon: 'mdi-clock'},
-  {text: 'Audience', icon: 'mdi-account'},
-  {text: 'Conversions', icon: 'mdi-flag'},
-])
-
 const renderComponents = ref<Component[]>([])
 const setCurrentComponents = (activatedElement: any) => {
 

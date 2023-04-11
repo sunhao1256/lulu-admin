@@ -50,7 +50,6 @@
 import {ref} from 'vue'
 import {useModelStore} from '@/store'
 import {getBusinessObject} from "bpmn-js/lib/util/ModelUtil";
-import {ar} from "vuetify/locale";
 
 const camundaDueDate = "camunda:dueDate"
 const typeOption = ['user', 'role']

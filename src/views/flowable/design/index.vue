@@ -13,7 +13,7 @@
       >
         SVG
       </v-btn>
-      <a ref="downloadSvg" class="d-none" href></a>
+      <a ref="downloadSvg" class="d-none" href="#"></a>
       <v-btn
         variant="outlined"
         size="small"
@@ -25,7 +25,7 @@
       >
         Diagram
       </v-btn>
-      <a ref="downloadDiagram" class="d-none" href></a>
+      <a ref="downloadDiagram" class="d-none" href="#"></a>
       <v-btn
         size="small"
         class="ml-1"

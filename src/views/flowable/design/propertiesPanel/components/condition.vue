@@ -18,8 +18,7 @@
 <script lang="ts" setup>
 import {ref} from 'vue'
 import {useModelStore} from '@/store'
-import {getBusinessObject, is, isAny} from "bpmn-js/lib/util/ModelUtil";
-import {find} from "lodash-es";
+import {getBusinessObject} from "bpmn-js/lib/util/ModelUtil";
 
 const opinionOption = ref(['approve', 'disapprove'])
 const opinionRef = ref<Array<String>>([])

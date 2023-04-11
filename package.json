@@ -1,6 +1,6 @@
 {
   "name": "lulu-admin",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "homepage": "https://github.com/sunhao1256/lulu-admin",
   "repository": {
     "url": "https://github.com/sunhao1256/lulu-admin.git"
@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "cross-env VITE_SERVICE_ENV=dev vite",
     "build": "npm run typecheck && cross-env VITE_SERVICE_ENV=prod vite build ",
+    "build-no-typecheck": "cross-env VITE_SERVICE_ENV=prod vite build ",
     "preview": "vite preview",
     "typecheck": "vue-tsc --noEmit --skipLibCheck"
   },
