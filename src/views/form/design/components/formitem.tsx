@@ -12,6 +12,7 @@ import VueDraggable from 'vuedraggable'
 import Formitem from "@/views/form/design/components/formitem";
 import {VForm} from "vuetify/components/VForm";
 import {cloneDeep, uniqueId} from "lodash-es";
+import {VRow} from "vuetify/components/VGrid";
 
 export default defineComponent({
   props: {
@@ -33,7 +34,7 @@ export default defineComponent({
       default: 0
     },
     list: {
-      required: true,
+      required: false,
       type: Array as PropType<Array<formComponent>>,
       default: () => []
     },
@@ -41,6 +42,11 @@ export default defineComponent({
       required: false,
       type: String,
       default: 'formComponent'
+    },
+    preview: {
+      required: false,
+      type: Boolean,
+      default: false,
     }
   },
   emits: {
@@ -61,7 +67,19 @@ export default defineComponent({
     const cloneComponent = (c: formComponent) => {
       const clone = cloneDeep(c)
       clone.id = props.idPrefix + '_' + uniqueId()
+      recursiveIdGenerator(clone.config.formChildren)
       return clone
+    }
+
+    const recursiveIdGenerator = (list: formComponent[]) => {
+      if (!list)
+        return
+      list.forEach(c => {
+        c.id = props.idPrefix + '_' + uniqueId()
+        if (c.config.formChildren) {
+          recursiveIdGenerator(c.config.formChildren)
+        }
+      })
     }
 
     const deleteComponent = (list: formComponent[], c: formComponent) => {
@@ -90,104 +108,130 @@ export default defineComponent({
       duplicateComponent(props.list, c)
     }
 
+
+    const flexRawRender = (item: formComponent) => {
+      // @ts-ignore
+
+      if (props.preview) {
+        return <div class={['d-flex', 'flex-row', 'align-center']}>
+          {item.config.formChildren.map((c: formComponent) => {
+            return <Formitem
+              preview={true}
+              item={c}></Formitem>
+          })}
+        </div>
+      }
+
+      return <VForm style={zIndexStyle}>
+
+        <VueDraggable itemKey={'id'}
+                      animation={340}
+                      group={"formComponentGroups"}
+                      ghostClass={"ghost"}
+                      class={["d-flex", 'flex-row', 'align-center']}
+                      style={'min-height:60px'}
+                      list={item.config.formChildren}>
+          {{
+            default: () => <VRow></VRow>,
+            item: ({element}: { element: formComponent }) =>
+              <Formitem active={props.active}
+                        list={item.config.formChildren}
+                        onDelete={(e: formComponent) => emitDelete(e)}
+                        onDuplicate={(e: formComponent) => emitDuplicate(e)}
+                        onSelected={(e: formComponent) => emitSelected(e)}
+                        layers={props.layers + 1}
+                        item={element}></Formitem>
+
+          }}
+        </VueDraggable>
+      </VForm>
+    }
+
     const switchRender = (item: formComponent) => {
       switch (item.type) {
         case "button":
-          return <VBtn color={item.config.color} class={'text-white'}>{item.name}</VBtn>
+          return <VBtn color={item.config.color} density={item.config.density} class={'text-white'}>{item.name}</VBtn>
         case "checkbox":
           return <>{item.config.options.map((o: formOption) => {
-            return <VCheckbox label={o.label} hideDetails={true} class={['d-inline-block']}></VCheckbox>
+            return <VCheckbox label={o.label} density={item.config.density} hideDetails={true}
+                              class={['d-inline-block']}></VCheckbox>
           })}</>
         case "switch":
-          return <VSwitch label={item.name}></VSwitch>
+          return <VSwitch label={item.name} density={item.config.density}></VSwitch>
         case "textField":
-          return <VTextField label={item.name} hideDetails={true} variant={item.config.variant}></VTextField>
+          return <VTextField label={item.name} hideDetails={true} density={item.config.density}
+                             variant={item.config.variant}></VTextField>
         case "textArea":
-          return <VTextarea label={item.name} hideDetails={true} variant={item.config.variant}></VTextarea>
+          return <VTextarea label={item.name} hideDetails={true} density={item.config.density}
+                            variant={item.config.variant}></VTextarea>
         case "date":
-          return <VTextField label={item.name} hideDetails={true} type={'date'}
+          return <VTextField label={item.name} hideDetails={true} density={item.config.density} type={'date'}
                              variant={item.config.variant}></VTextField>
         case "time":
-          return <VTextField label={item.name} hideDetails={true} type={'time'}
+          return <VTextField label={item.name} hideDetails={true} density={item.config.density} type={'time'}
                              variant={item.config.variant}></VTextField>
         case "number":
-          return <VTextField label={item.name} hideDetails={true} type={'number'}
+          return <VTextField label={item.name} hideDetails={true} density={item.config.density} type={'number'}
                              variant={item.config.variant}></VTextField>
         case "select":
           return <VSelect label={item.name} hideDetails={true} items={item.config.options}
                           itemTitle={'label'}
-                          itemValue={'value'}
+                          itemValue={'value'} density={item.config.density}
                           variant={item.config.variant}></VSelect>
         case "user":
           return <VSelect label={item.name} hideDetails={true} items={['Lulu', 'frank', 'jack', 'joma', 'wang']}
                           itemTitle={'label'}
-                          itemValue={'value'}
+                          itemValue={'value'} density={item.config.density}
                           variant={item.config.variant}></VSelect>
         case "role":
           return <VSelect label={item.name} hideDetails={true}
                           items={['admin', 'tester', 'developer', 'frontend', 'backend']}
                           itemTitle={'label'}
-                          itemValue={'value'}
+                          itemValue={'value'} density={item.config.density}
                           variant={item.config.variant}></VSelect>
         case "upload":
           return <VFileInput label={item.name} hideDetails={true} prependIcon={''} prependInnerIcon={'mdi-paperclip'}
                              variant={item.config.variant}
                              chips
+                             density={item.config.density}
                              multiple={true}></VFileInput>
         case "radio":
 
-          return <VRadioGroup label={item.name} hideDetails={true}>{item.config.options.map((o: formOption) => {
+          return <VRadioGroup label={item.name} density={item.config.density}
+                              hideDetails={true}>{item.config.options.map((o: formOption) => {
             return <VRadio label={o.label} value={o.value}></VRadio>
           })}</VRadioGroup>
 
         case "flexRow":
-          // @ts-ignore
-          return <VForm style={zIndexStyle}>
-            <VueDraggable itemKey={'id'}
-                          animation={340}
-                          group={"formComponentGroups"}
-                          ghostClass={"ghost"}
-                          class={["d-flex", 'flex-row']}
-                          style={'min-height:60px'}
-                          list={item.config.formChildren}>
-              {{
-                item: ({element}: { element: formComponent }) =>
-                  <VCol class={'pa-0'}>
-                    <Formitem active={props.active}
-                              list={item.config.formChildren}
-                              onDelete={(e: formComponent) => emitDelete(e)}
-                              onDuplicate={(e: formComponent) => emitDuplicate(e)}
-                              onSelected={(e: formComponent) => emitSelected(e)}
-                              layers={props.layers + 1}
-                              item={element}></Formitem>
-                  </VCol>
-
-              }}
-            </VueDraggable>
-          </VForm>
+          return flexRawRender(item)
         default:
           return <span></span>
       }
     }
 
     return () =>
-      <div class={['px-1 py-1 cursor-move form-item rounded', active.value?.id === item.value.id && 'form-item-active']}
-           onClick={(event: any) => {
-             event.stopPropagation()
-             emitSelected(item.value)
-           }}>
-        {active.value?.id === item.value.id && <div class={'form-item-active-options'}>
-          <VChip size={'small'} color={'primary'} variant={'elevated'}
-                 onClick={() => emitDuplicate(item.value)}>duplicate</VChip>
-          <VChip size={'small'} color={'error'} variant={'elevated'}
-                 onClick={() => emitDelete(item.value)}>delete</VChip>
-        </div>}
-        {item.value.type === 'flexRow' &&
-          <span class={'form-item-active-flex'}>FlexRow</span>
-        }
-
-        {switchRender(item.value)}
-      </div>
+      <VCol class={'pa-0 d-flex flex-row align-center h-100'} cols={item.value.config.cols}>
+        <div
+          class={['py-1 form-item rounded flex-grow-1',
+            active.value?.id === item.value.id && 'form-item-active',
+            !props.preview && 'cursor-move px-1'
+          ]}
+          onClick={(event: any) => {
+            event.stopPropagation()
+            emitSelected(item.value)
+          }}>
+          {active.value?.id === item.value.id && !props.preview && <div class={'form-item-active-options'}>
+            <VChip size={'small'} color={'primary'} variant={'elevated'}
+                   onClick={() => emitDuplicate(item.value)}>duplicate</VChip>
+            <VChip size={'small'} color={'error'} variant={'elevated'}
+                   onClick={() => emitDelete(item.value)}>delete</VChip>
+          </div>}
+          {item.value.type === 'flexRow' && !props.preview &&
+            <span class={'form-item-active-flex'}>FlexRow</span>
+          }
+          {switchRender(item.value)}
+        </div>
+      </VCol>
   }
 })
 

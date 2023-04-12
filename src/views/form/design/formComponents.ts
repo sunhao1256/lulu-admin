@@ -7,14 +7,16 @@ const formComponents: (primary: string) => formComponentGroup[] = (primary: stri
         value: 'textField',
         type: 'textField',
         config:
-          {variant: 'outlined'}
+          {
+            variant: 'outlined',
+          }
       },
       {
         name: 'button',
         value: 'button',
         type: 'button',
         config: {
-          color: primary
+          color: primary,
         }
       },
       {
@@ -22,7 +24,7 @@ const formComponents: (primary: string) => formComponentGroup[] = (primary: stri
         value: 'date',
         type: 'date',
         config: {
-          variant: 'outlined'
+          variant: 'outlined',
         }
       },
       {
@@ -30,7 +32,7 @@ const formComponents: (primary: string) => formComponentGroup[] = (primary: stri
         value: 'time',
         type: 'time',
         config: {
-          variant: 'outlined'
+          variant: 'outlined',
         }
       },
       {
@@ -38,7 +40,7 @@ const formComponents: (primary: string) => formComponentGroup[] = (primary: stri
         value: 'number',
         type: 'number',
         config: {
-          variant: 'outlined'
+          variant: 'outlined',
         }
       },
       {
@@ -46,7 +48,7 @@ const formComponents: (primary: string) => formComponentGroup[] = (primary: stri
         value: 'textarea',
         type: 'textArea',
         config: {
-          variant: 'outlined'
+          variant: 'outlined',
         }
       },
       {
@@ -54,7 +56,7 @@ const formComponents: (primary: string) => formComponentGroup[] = (primary: stri
         value: 'upload',
         type: 'upload',
         config: {
-          variant: 'outlined'
+          variant: 'outlined',
         }
       },
       {

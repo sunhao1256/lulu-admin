@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Applicant",
+    "value": "user",
+    "type": "user",
+    "config": {
+      "variant": "outlined"
+    },
+    "id": "Formlgdaa59i_9"
+  },
+  {
+    "name": "Begin Date",
+    "value": "date",
+    "type": "date",
+    "config": {
+      "variant": "outlined"
+    },
+    "id": "Formlgdaa59i_10"
+  },
+  {
+    "name": "End Date",
+    "value": "date",
+    "type": "date",
+    "config": {
+      "variant": "outlined"
+    },
+    "id": "Formlgdaa59i_11"
+  },
+  {
+    "name": "Amount of passenger",
+    "value": "number",
+    "type": "number",
+    "config": {
+      "variant": "outlined"
+    },
+    "id": "Formlgdaa59i_12"
+  },
+  {
+    "name": "Driver",
+    "value": "user",
+    "type": "user",
+    "config": {
+      "variant": "outlined"
+    },
+    "id": "Formlgdaa59i_13"
+  },
+  {
+    "name": "Describe reason",
+    "value": "textarea",
+    "type": "textArea",
+    "config": {
+      "variant": "outlined"
+    },
+    "id": "Formlgdaa59i_14"
+  }
+]
