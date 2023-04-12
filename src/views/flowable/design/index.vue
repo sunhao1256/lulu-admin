@@ -38,7 +38,7 @@
     </v-toolbar>
     <div class="content flex-grow-1 elevation-2 d-flex justify-space-between">
       <div class="position-relative">
-        <designer v-model:xml="demoXML" @commandStackChanged="exportArtifacts">
+        <designer :xml="demoXML" @commandStackChanged="exportArtifacts">
           <template #right>
         <span class="canvas-help d-flex flex-column">
           <v-btn
@@ -128,7 +128,6 @@ import {Codemirror} from 'vue-codemirror'
 import Designer from "@/views/flowable/design/design";
 import {useModelStore} from '@/store'
 
-const canvas = ref<HTMLElement | undefined>()
 const properties = ref<InstanceType<typeof PropertiesPanel> | null>()
 const modelStore = useModelStore()
 const downloadSvg = ref<HTMLElement | undefined>()
@@ -136,7 +135,7 @@ const downloadDiagram = ref<HTMLElement | undefined>()
 const changed = ref(false)
 const xmlDialog = ref(false)
 const xmlContent = ref("")
-const demoXML = ref<String>(demo)
+const demoXML = ref<string>(demo)
 
 const setEncoded = (link: HTMLElement | undefined, name: string, data: any) => {
   var encodedData = encodeURIComponent(data);
