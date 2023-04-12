@@ -2,10 +2,11 @@ import {defineComponent} from 'vue'
 import {
   VTextField,
   VBtn,
-  VTextarea,
   VSwitch,
   VColorPicker,
-  VIcon
+  VIcon,
+  VSlider,
+  VSelect
 } from 'vuetify/components'
 
 import {PropType} from "vue";
@@ -48,6 +49,21 @@ export default defineComponent({
       </div>
     }
 
+    const variantSelectRender = (item: formComponent) => {
+      return <VSelect items={["filled", "outlined", "plain", "underlined", "solo"]}
+                      density={'comfortable'}
+                      variant={'outlined'}
+                      label={'variant'}
+                      v-model={item.config.variant}></VSelect>
+    }
+    const densitySelectRender = (item: formComponent) => {
+      return <VSelect items={['default', 'comfortable', 'compact']}
+                      density={'comfortable'}
+                      variant={'outlined'}
+                      label={'density'}
+                      v-model={item.config.density}></VSelect>
+    }
+
     const switchRender = (item: formComponent) => {
       switch (item.type) {
         case "button":
@@ -59,7 +75,7 @@ export default defineComponent({
         case "switch":
           return <VTextField label={item.name} hideDetails={true} variant={item.config.variant}></VTextField>
         case "textField":
-          return <VTextarea label={item.name} hideDetails={true} variant={item.config.variant}></VTextarea>
+          return [variantSelectRender(item)]
         case "textArea":
           return undefined
         case "date":
@@ -87,6 +103,9 @@ export default defineComponent({
                     v-model={props.modelValue.type}></VTextField>
         <VTextField variant={'outlined'} density={'comfortable'} label={"name"}
                     v-model={props.modelValue.name}></VTextField>
+        {densitySelectRender(props.modelValue)}
+        <VSlider thumbLabel={'always'} v-model={props.modelValue.config.cols} max={12} min={0} step={1}
+                 color={'primary'}></VSlider>
         <VSwitch color={"primary"} label={"required"}></VSwitch>
         {switchRender(props.modelValue)}
       </div>

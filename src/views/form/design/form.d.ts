@@ -22,6 +22,7 @@ type formComponentConfig =
     & VBtn
     & VCheckbox
     & VRadio
+    & VCol
     & {
     options: formOption[],
     formChildren: formComponent[]
@@ -36,3 +37,8 @@ interface formOption {
 
 type formComponentType = NonNullable<formComponent['type']>
 
+
+interface form {
+  id: string,
+  name: string,
+}

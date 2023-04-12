@@ -10,4 +10,5 @@ type VSelect = import('vuetify/components').VSelect
 type VRadio= import('vuetify/components').VRadio
 type VCheckbox= import('vuetify/components').VCheckbox
 type VBtn = import('vuetify/components').VBtn
+type VCol= import('vuetify/components').VCol
 

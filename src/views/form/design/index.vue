@@ -30,7 +30,7 @@
     <v-navigation-drawer width="250" :permanent="true" location="right">
       <v-card elevation="0">
         <v-card-title>
-          Base Attribute
+          Attribute
         </v-card-title>
         <v-card-text>
           <formitem-edit v-if="!!activeComponent" v-model="activeComponent"></formitem-edit>
@@ -43,12 +43,15 @@
           <v-text-field density="comfortable" hide-details
                         variant="filled"
                         placeholder="formName"
+                        v-model="form.name"
                         class="v-text-field-rounded pl-0 "
           ></v-text-field>
 
           <v-spacer/>
-          <span class="text-caption">{{ formId }}</span>
-          <v-btn variant="tonal" color="primary" :disabled="selectedFormComponents.length===0">Preview</v-btn>
+          <span class="text-caption">{{ form.id }}</span>
+          <v-btn variant="tonal" color="primary" @click="showPreview()"
+                 :disabled="selectedFormComponents.length===0">Preview
+          </v-btn>
           <v-btn variant="tonal" color="error" class="ml-1" :disabled="selectedFormComponents.length===0"
                  @click="selectedFormComponents=[]">ClearAll
           </v-btn>
@@ -71,7 +74,7 @@
                 <formitem :item="element"
                           :active="activeComponent"
                           :list="selectedFormComponents"
-                          :id-prefix="formId"
+                          :id-prefix="form.id"
                           @delete="deleteComponent"
                           @duplicate="duplicateComponent"
                           @selected="selectComponent"
@@ -83,28 +86,38 @@
           </v-form>
         </v-card-text>
       </v-card>
-
     </v-main>
+    <preview v-model="previewDialog" :components="selectedFormComponents" :form="form"></preview>
   </v-layout>
 </template>
 
 <script setup lang="ts">
 import VueDraggable from 'vuedraggable'
-import {ref} from 'vue'
+import {ref, reactive} from 'vue'
 import Formitem from "@/views/form/design/components/formitem";
 import {cloneDeep, uniqueId} from 'lodash-es'
 import formComponentsGetter from "./formComponents";
 import FormitemEdit from "@/views/form/design/components/formitemEdit";
+import Preview from "@/views/form/design/preview";
+import FromDemo from './demofom.json'
 
-const formId = 'Form' + (+new Date).toString(36).slice(-10);
+const form = reactive<form>({
+  id: 'Form' + (+new Date).toString(36).slice(-10),
+  name: 'Make Car Use Request'
+})
 const activeComponent = ref<formComponent>()
 
+const previewDialog = ref<boolean>(false)
 const theme = useTheme();
 const formComponents = formComponentsGetter(theme.current.value.colors.primary)
 const cloningComponent = ref<formComponent>()
-const selectedFormComponents = ref<Array<formComponent>>([])
+const demo = FromDemo as formComponent[]
+const selectedFormComponents = ref<Array<formComponent>>(demo)
 const selectComponent = (c: formComponent) => {
   activeComponent.value = c
+}
+if (selectedFormComponents.value.length > 0) {
+  selectComponent(selectedFormComponents.value[0])
 }
 const endComponent = (c: { to: any, from: any }) => {
   if (c.from != c.to) {
@@ -119,23 +132,19 @@ const addComponent = (c: formComponent) => {
 }
 const cloneComponent = (c: formComponent) => {
   const clone = cloneDeep(c)
-  clone.id = formId + '_' + uniqueId()
+  clone.id = form.id + '_' + uniqueId()
   cloningComponent.value = clone
   return clone
 }
 
 const deleteComponent = (c: formComponent) => {
-  // const index = selectedFormComponents.value.findIndex(i => i.id == c.id)
-  // if (index > -1) {
-  //   selectedFormComponents.value.splice(index, 1)
-  // }
 }
 const duplicateComponent = (c: formComponent) => {
-  // const find = selectedFormComponents.value.find(i => i.id == c.id)
-  // if (find) {
-  //   const tmp = cloneComponent(find)
-  //   selectedFormComponents.value.splice(selectedFormComponents.value.indexOf(find), 0, tmp)
-  // }
+}
+
+const showPreview = () => {
+  previewDialog.value = true
+  console.log(JSON.stringify(selectedFormComponents.value))
 }
 
 </script>
@@ -153,10 +162,12 @@ const duplicateComponent = (c: formComponent) => {
 }
 
 .form-design {
-  .ghost {
+  &:deep(.ghost) {
     position: relative;
     display: block;
     min-height: 60px;
+    flex-grow: 1;
+    flex-basis: 0;
     //height: 60px;
 
     &::before {
