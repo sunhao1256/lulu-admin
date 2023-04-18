@@ -63,7 +63,7 @@
         </v-col>
       </v-row>
 
-      <v-data-table-server
+      <v-data-table
         v-model="selected"
         show-select
         :headers="headers"
@@ -91,12 +91,15 @@
 
         <template v-slot:item.action="{item:{raw} }">
           <div class="actions">
-            <v-btn flat icon :to="`/apps/manager-user/edit/${raw.id}`">
+            <v-btn flat icon :to="`/flowable/design/${raw.processDefinitions[0].id}`">
+              <v-icon>mdi-open-in-new</v-icon>
+            </v-btn>
+            <v-btn flat icon :to="`/flowable/process-definition/${raw.processDefinitions[0].id}`">
               <v-icon>mdi-open-in-new</v-icon>
             </v-btn>
           </div>
         </template>
-      </v-data-table-server>
+      </v-data-table>
     </v-card>
   </div>
 </template>
@@ -114,14 +117,13 @@ interface item {
   incidents: number,
   runningInstances: number,
   name: string,
-  key: string,
+  processDefinitions: ApiFlowManagement.ProcessDefinition[]
 }
 
 const items = ref<item[]>([])
 const searchQuery = ref('')
 const selected = ref<item[]>([])
 const headers: Ref<DataTableHeader> = ref<DataTableHeader>([
-  {title: 'Key', align: 'start', key: 'key'},
   {title: 'Name', key: 'name'},
   {title: 'Incidents', align: 'start', key: 'incidents'},
   {title: 'RunningInstances', align: 'start', key: 'runningInstances'},
@@ -152,11 +154,13 @@ const uniqueByDefinitionKey = (list: ApiFlowManagement.ProcessStatisticsResult[]
       const runningInstances = list.reduce((accumulate: number, current: ApiFlowManagement.ProcessStatisticsResult) => {
         return accumulate + current.instances
       }, 0)
+      const processDefinitions = list.map(i => i.definition);
+      processDefinitions.sort((p, a) => a.version - p.version)
       return {
-        name: key,
+        name: processDefinitions[0].name || processDefinitions[0].key,
         incidents,
         runningInstances,
-        key,
+        processDefinitions,
       }
     })
 }

@@ -11,6 +11,10 @@
                 v-model="formRef"
                 :items="formOption"
                 @update:modelValue="updateElementFormRef"></v-select>
+      <v-select variant="outlined" label="formVersion" density="comfortable" hide-details
+                v-model="formRefVersion"
+                :items="formVersionOption"
+                @update:modelValue="updateElementFormRefVersion"></v-select>
     </v-expansion-panel-text>
   </v-expansion-panel>
 
@@ -23,7 +27,9 @@ import {getBusinessObject} from "bpmn-js/lib/util/ModelUtil";
 import {usePropertyTip} from "@/hooks/flow/propertyTip";
 
 const formOption = ref(['ticket_form', 'review_form'])
+const formVersionOption = ref(['v1.0', 'v2.0'])
 const formRef = ref<String>("")
+const formRefVersion = ref<String>("")
 const modelStore = useModelStore()
 const element = modelStore.getActive
 const businessObject = getBusinessObject(element);
@@ -37,12 +43,35 @@ if (getFormRef()) {
   formRef.value = getFormRef()
 }
 
+const getFormRefVersion: () => String = () => {
+  return businessObject.get('camunda:formRefVersion');
+};
+
+if (getFormRefVersion()) {
+  formRefVersion.value = getFormRefVersion()
+}
 const updateElementFormRef = (value: String) => {
   modelStore.getCommandStack.execute('element.updateModdleProperties', {
     element,
     moddleElement: getBusinessObject(element),
     properties: {
+      'camunda:formRefBinding': 'version'
+    }
+  });
+  modelStore.getCommandStack.execute('element.updateModdleProperties', {
+    element,
+    moddleElement: getBusinessObject(element),
+    properties: {
       'camunda:formRef': value
+    }
+  });
+}
+const updateElementFormRefVersion = (value: String) => {
+  modelStore.getCommandStack.execute('element.updateModdleProperties', {
+    element,
+    moddleElement: getBusinessObject(element),
+    properties: {
+      'camunda:formRefVersion': value
     }
   });
 }

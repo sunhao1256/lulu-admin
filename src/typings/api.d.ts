@@ -131,4 +131,9 @@ declare namespace ApiFlowManagement {
     definition: ProcessDefinition
   }
 
+  interface ProcessDefinitionXmlResult {
+    id: string,
+    bpmn20Xml: string
+  }
+
 }

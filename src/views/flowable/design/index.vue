@@ -39,7 +39,7 @@
     </v-toolbar>
     <div class="content flex-grow-1 elevation-2 d-flex justify-space-between">
       <div class="position-relative">
-        <designer :xml="demoXML" @commandStackChanged="exportArtifacts">
+        <designer :xml="demoXML" v-if="!!demoXML" @commandStackChanged="exportArtifacts">
           <template #right>
         <span class="canvas-help d-flex flex-column">
           <v-btn
@@ -131,6 +131,8 @@ import {useModelStore} from '@/store'
 import {getNameValue} from "@/views/flowable/bo-utils/nameUtil";
 import {deploymentCreate} from "@/service/api/flow";
 import {useLoading} from "@/hooks";
+import {useRouter} from "vue-router";
+import {processDefinitionXml} from '@/service'
 
 const properties = ref<InstanceType<typeof PropertiesPanel> | null>()
 const modelStore = useModelStore()
@@ -139,7 +141,7 @@ const downloadDiagram = ref<HTMLElement | undefined>()
 const changed = ref(false)
 const xmlDialog = ref(false)
 const xmlContent = ref("")
-const demoXML = ref<string>(demo)
+const demoXML = ref<string>()
 const {loading: deployLoading} = useLoading()
 
 const setEncoded = (link: HTMLElement | undefined, name: string, data: any) => {
@@ -186,8 +188,9 @@ const deploy = async () => {
 
   try {
     const {xml} = await modelStore.getModeler.saveXML({format: true});
-    const blob = new Blob([xml], {type: 'application/bpmn20-xml;charset=UTF-8'});
-    request["deployment-file"] = new File([blob], request.name + '.xml', {type: "application/bpmn20-xml;charset=UTF-8"})
+    const blob = new Blob([xml]);
+    request["deployment-file"] = new File([blob], request.name + '.bpmn')
+    console.log(request)
     deployLoading.value = true
     const r = await deploymentCreate(request)
     deployLoading.value = false
@@ -200,10 +203,6 @@ const deploy = async () => {
     console.error('Error happened saving XML: ', err);
     window.$snackBar?.error('Error happened saving XML: ' + err)
   }
-}
-
-const testCamundaProperties = () => {
-  canvasFitViewport()
 }
 
 const canvasFitViewport = () => {
@@ -220,6 +219,20 @@ const showXml = async () => {
   const {xml} = await modelStore.getModeler.saveXML({format: true});
   xmlContent.value = xml
 }
+
+const {currentRoute} = useRouter()
+const processDefinitionId = currentRoute.value.params['id'] as string
+
+const init = async () => {
+  const resp = await processDefinitionXml(processDefinitionId)
+  if (resp.data) {
+    demoXML.value = resp.data.bpmn20Xml
+    console.log(resp.data)
+  }
+}
+
+init()
+
 </script>
 
 

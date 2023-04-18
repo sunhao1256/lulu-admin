@@ -198,6 +198,7 @@ export default {
     'flowable': 'Flowable',
     'flowable-design': 'Flowable Design',
     'flowable-list': 'ProcessDefinition List',
+    'flowable-process-definition': 'ProcessDefinition',
     'form-list': 'Forms',
     'form-design': 'Form Design'
   },

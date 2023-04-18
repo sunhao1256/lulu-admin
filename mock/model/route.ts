@@ -221,7 +221,18 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
           path: '/flowable/design',
           component: 'self',
           meta: {
+            dynamicPath: '/flowable/design/:id?',
+            hide: true,
             title: 'menu.flowable-design',
+          }
+        },
+        {
+          name: 'flowable_process-definition',
+          path: '/flowable/process-definition',
+          component: 'self',
+          meta: {
+            dynamicPath: '/flowable/process-definition/:id?',
+            title: 'menu.flowable-process-definition',
           }
         },
         {
