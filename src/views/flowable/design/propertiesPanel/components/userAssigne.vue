@@ -1,7 +1,11 @@
 <template>
   <v-expansion-panel
-    title="User Assignment"
   >
+    <v-expansion-panel-title>
+      <span>User Assignment</span>
+      <v-spacer/>
+      <span v-show="tip" class="panel-title-tip mr-1"></span>
+    </v-expansion-panel-title>
     <v-expansion-panel-text>
       <v-select label="Type" v-model="type" :items="typeOption" density="comfortable" hide-details
                 variant="outlined"></v-select>
@@ -50,6 +54,7 @@
 import {ref} from 'vue'
 import {useModelStore} from '@/store'
 import {getBusinessObject} from "bpmn-js/lib/util/ModelUtil";
+import {usePropertyTip} from "@/hooks/flow/propertyTip";
 
 const camundaDueDate = "camunda:dueDate"
 const typeOption = ['user', 'role']
@@ -64,6 +69,7 @@ const element = modelStore.getActive
 
 const businessObject = getBusinessObject(element);
 
+const tip = usePropertyTip(dueDate, userIds, roleIds)
 
 const getUserIdsValue: () => Array<String> = () => {
   return businessObject.get('camunda:assignee');

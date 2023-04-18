@@ -20,7 +20,7 @@
       "~/*": ["./*"],
       "@/*": ["./src/*"]
     },
-    "types": ["vite/client", "node", "unplugin-icons/types/vue" ,"vuetify"]
+    "types": ["vite/client", "node", "unplugin-icons/types/vue" ,"vuetify","lodash"]
   },
   "exclude": ["node_modules", "dist"]
 }

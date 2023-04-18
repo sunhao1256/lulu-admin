@@ -14,6 +14,8 @@ interface RequestParam {
 }
 
 export function createRequest(axiosConfig: AxiosRequestConfig, backendConfig?: Service.BackendResultConfig) {
+
+
   const customInstance = new CustomAxiosInstance(axiosConfig, backendConfig);
 
   async function asyncRequest<T>(param: RequestParam): Promise<Service.RequestResult<T>> {
@@ -128,6 +130,7 @@ async function getRequestResponse(params: {
   data?: any;
   config?: AxiosRequestConfig;
 }) {
+
   const {instance, method, url, data, config} = params;
 
   let res: any;

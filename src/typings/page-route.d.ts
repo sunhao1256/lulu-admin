@@ -47,6 +47,7 @@ declare namespace PageRoute {
     | 'other_menu-levels-3-2'
     | 'flowable'
     | 'flowable_design'
+    | 'flowable_list'
     | 'form'
     | 'form_list'
     | 'form_design'
@@ -75,6 +76,7 @@ declare namespace PageRoute {
     | 'other_menu-levels-3-1'
     | 'other_menu-levels-3-2'
     | 'flowable_design'
+    | 'flowable_list'
     | 'form_list'
     | 'form_design'
     >;

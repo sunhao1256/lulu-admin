@@ -1,7 +1,7 @@
 import {unref, nextTick} from 'vue';
 import {defineStore} from 'pinia';
 import {router} from '@/router';
-import {fetchLogin, fetchUserInfo} from '@/service';
+import {authAuthenticate, fetchLogin, fetchUserInfo} from '@/service';
 import {useRouterPush} from '@/composables';
 import {localStg} from '@/utils';
 import {useRouteStore} from '@/store';
@@ -87,7 +87,8 @@ export const useAuthStore = defineStore('auth-store', {
 
     async login(userName: string, password: string) {
       this.loginLoading = true;
-      const {data} = await fetchLogin(userName, password);
+      // const {data} = await fetchLogin(userName, password);
+      const {data} = await authAuthenticate(userName, password);
       if (data) {
         await this.handleActionAfterLogin(data);
       }

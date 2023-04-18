@@ -97,3 +97,38 @@ declare namespace ApiChatManagement {
     }
   }
 }
+
+
+declare namespace ApiFlowManagement {
+  interface deployCreate {
+    source: string,
+    name: string,
+    'deployment-file': File | undefined
+  }
+
+  interface ProcessDefinition {
+    id: string
+    key: string
+    category: string
+    description: any
+    name: any
+    version: number
+    resource: string
+    deploymentId: string
+    diagram: any
+    suspended: boolean
+    tenantId: any
+    versionTag: any
+    historyTimeToLive: any
+    startableInTasklist: boolean
+  }
+
+  interface ProcessStatisticsResult {
+    id: string
+    instances: number
+    failedJobs: number
+    incidents: any[]
+    definition: ProcessDefinition
+  }
+
+}

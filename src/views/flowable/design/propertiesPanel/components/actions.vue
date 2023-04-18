@@ -1,7 +1,11 @@
 <template>
   <v-expansion-panel
-    title="Actions"
   >
+    <v-expansion-panel-title>
+      <span>Actions</span>
+      <v-spacer/>
+      <span v-show="tip" class="panel-title-tip mr-1"></span>
+    </v-expansion-panel-title>
     <v-expansion-panel-text>
       <v-select variant="outlined" label="Action" density="comfortable" hide-details
                 multiple
@@ -16,6 +20,7 @@
 import {ref} from 'vue'
 import {useModelStore} from '@/store'
 import {getBusinessObject} from "bpmn-js/lib/util/ModelUtil";
+import {usePropertyTip} from "@/hooks/flow/propertyTip";
 
 const actionOption = ref(['approve', 'disapprove'])
 const actions = ref<Array<String>>([])
@@ -25,6 +30,7 @@ const businessObject = getBusinessObject(element);
 
 const camundaPropertyName = "camunda:userActions"
 
+const tip = usePropertyTip(actions)
 const getActions: () => Array<String> = () => {
   return businessObject.get(camundaPropertyName);
 };

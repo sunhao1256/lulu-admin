@@ -2,7 +2,7 @@ type ServiceEnvType = 'dev' | 'test' | 'prod';
 
 interface ServiceEnvConfig {
   url: string;
-  urlPattern: '/url-pattern';
+  urlPattern: string;
   secondUrl: string;
   secondUrlPattern: '/second-url-pattern';
 }

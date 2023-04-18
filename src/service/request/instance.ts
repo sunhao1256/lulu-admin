@@ -1,6 +1,6 @@
 import axios from 'axios';
-import type { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
-import { REFRESH_TOKEN_CODE } from '@/configs/service';
+import type {AxiosError, AxiosInstance, AxiosRequestConfig} from 'axios';
+import {REFRESH_TOKEN_CODE} from '@/configs/service';
 import {
   localStg,
   handleAxiosError,
@@ -9,7 +9,7 @@ import {
   handleServiceResult,
   transformRequestData
 } from '@/utils';
-import { handleRefreshToken } from './helpers';
+import {handleRefreshToken} from './helpers';
 
 export default class CustomAxiosInstance {
   instance: AxiosInstance;
@@ -33,11 +33,11 @@ export default class CustomAxiosInstance {
   setInterceptor() {
     this.instance.interceptors.request.use(
       async config => {
-        const handleConfig = { ...config };
+        const handleConfig = {...config};
         if (handleConfig.headers) {
           const contentType = handleConfig.headers['Content-Type'] as string;
           handleConfig.data = await transformRequestData(handleConfig.data, contentType);
-          handleConfig.headers.Authorization = localStg.get('token') || '';
+          handleConfig.headers.Authorization = 'Bearer ' + localStg.get('token') || '';
         }
         return handleConfig;
       },
@@ -48,10 +48,10 @@ export default class CustomAxiosInstance {
     );
     this.instance.interceptors.response.use(
       async response => {
-        const { status } = response;
+        const {status} = response;
         if (status === 200 || status < 300 || status === 304) {
           const backend = response.data;
-          const { codeKey, dataKey, successCode } = this.backendConfig;
+          const {codeKey, dataKey, successCode} = this.backendConfig;
           if (backend[codeKey] === successCode) {
             return handleServiceResult(null, backend[dataKey]);
           }

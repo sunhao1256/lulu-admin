@@ -1,7 +1,11 @@
 <template>
   <v-expansion-panel
-    title="Condition"
   >
+    <v-expansion-panel-title>
+      <span>Condition</span>
+      <v-spacer/>
+      <span v-show="tip" class="panel-title-tip mr-1"></span>
+    </v-expansion-panel-title>
     <v-expansion-panel-text>
       <v-select variant="outlined" label="opinion" density="comfortable" hide-details
                 color="primary"
@@ -19,6 +23,7 @@
 import {ref} from 'vue'
 import {useModelStore} from '@/store'
 import {getBusinessObject} from "bpmn-js/lib/util/ModelUtil";
+import {usePropertyTip} from "@/hooks/flow/propertyTip";
 
 const opinionOption = ref(['approve', 'disapprove'])
 const opinionRef = ref<Array<String>>([])
@@ -26,6 +31,7 @@ const modelStore = useModelStore()
 const element = modelStore.getActive
 const businessObject = getBusinessObject(element);
 
+const tip = usePropertyTip(opinionRef)
 const getFormRef: () => Array<String> = () => {
   return businessObject.get('camunda:opinionRef');
 };

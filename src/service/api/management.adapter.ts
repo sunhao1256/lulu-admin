@@ -49,3 +49,9 @@ export function deriveFetchListAdapter<T, Y extends T>(transfer: (t: T) => Y) {
     }
   }
 }
+
+export function transfer<X, Y>(transfer: (t: X) => Y) {
+  return (data: X): Y => {
+    return transfer(data)
+  }
+}

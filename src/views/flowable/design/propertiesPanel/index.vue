@@ -111,6 +111,13 @@ initialize()
 .properties-panel {
   overflow-y: scroll;
 
+  &:deep(.panel-title-tip) {
+    height: 9px;
+    width: 9px;
+    border-radius: 50%;
+    background-color: rgb(var(--v-theme-primary));
+  }
+
   .v-expansion-panel {
     border-radius: 0;
   }

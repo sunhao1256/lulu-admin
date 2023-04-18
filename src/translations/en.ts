@@ -197,6 +197,7 @@ export default {
     pricingPage: 'Pricing Page',
     'flowable': 'Flowable',
     'flowable-design': 'Flowable Design',
+    'flowable-list': 'ProcessDefinition List',
     'form-list': 'Forms',
     'form-design': 'Form Design'
   },

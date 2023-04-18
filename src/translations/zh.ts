@@ -197,6 +197,7 @@ export default {
     'pricingPage': '定价页面',
     'flowable': '流程管理',
     'flowable-design': '流程设计',
+    'flowable-list': '流程列表',
     'form-list':'表单',
     'form-design':'表单设计'
   },

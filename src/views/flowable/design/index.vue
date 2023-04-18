@@ -31,7 +31,8 @@
         class="ml-1"
         variant="outlined"
         color="success"
-        @click="testCamundaProperties"
+        :loading="deployLoading"
+        @click="deploy"
       >
         Deploy
       </v-btn>
@@ -127,6 +128,9 @@ import PropertiesPanel from "@/views/flowable/design/propertiesPanel/index.vue";
 import {Codemirror} from 'vue-codemirror'
 import Designer from "@/views/flowable/design/design";
 import {useModelStore} from '@/store'
+import {getNameValue} from "@/views/flowable/bo-utils/nameUtil";
+import {deploymentCreate} from "@/service/api/flow";
+import {useLoading} from "@/hooks";
 
 const properties = ref<InstanceType<typeof PropertiesPanel> | null>()
 const modelStore = useModelStore()
@@ -136,6 +140,7 @@ const changed = ref(false)
 const xmlDialog = ref(false)
 const xmlContent = ref("")
 const demoXML = ref<string>(demo)
+const {loading: deployLoading} = useLoading()
 
 const setEncoded = (link: HTMLElement | undefined, name: string, data: any) => {
   var encodedData = encodeURIComponent(data);
@@ -170,6 +175,32 @@ const exportArtifacts = debounce(async () => {
   }
 }, 500)
 
+
+const deploy = async () => {
+
+  const request: ApiFlowManagement.deployCreate = {
+    name: getNameValue(modelStore.getActive) || 'tmp',
+    source: 'lulu-oa',
+    "deployment-file": undefined
+  }
+
+  try {
+    const {xml} = await modelStore.getModeler.saveXML({format: true});
+    const blob = new Blob([xml], {type: 'application/bpmn20-xml;charset=UTF-8'});
+    request["deployment-file"] = new File([blob], request.name + '.xml', {type: "application/bpmn20-xml;charset=UTF-8"})
+    deployLoading.value = true
+    const r = await deploymentCreate(request)
+    deployLoading.value = false
+    if (r.data) {
+      window.$snackBar?.success(`deploy flow ${request.name} success`)
+    }
+
+  } catch (err) {
+
+    console.error('Error happened saving XML: ', err);
+    window.$snackBar?.error('Error happened saving XML: ' + err)
+  }
+}
 
 const testCamundaProperties = () => {
   canvasFitViewport()

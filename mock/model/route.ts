@@ -222,7 +222,14 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
           component: 'self',
           meta: {
             title: 'menu.flowable-design',
-            icon: "mdi-pencil"
+          }
+        },
+        {
+          name: 'flowable_list',
+          path: '/flowable/list',
+          component: 'self',
+          meta: {
+            title: 'menu.flowable-list',
           }
         },
 
