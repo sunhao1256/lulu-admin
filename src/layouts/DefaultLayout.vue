@@ -1,7 +1,7 @@
 <template>
   <!-- Navigation -->
   <v-navigation-drawer
-    v-model="drawer"
+    v-model="theme.draw"
     floating
     name="app-navigation"
     :theme="theme.menuTheme"
@@ -47,7 +47,7 @@
             :flat="!theme.isToolbarDetached"
     >
       <div class="d-flex flex-grow-1 align-center">
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click.stop="theme.draw= !theme.draw"></v-app-bar-nav-icon>
         <v-spacer class="d-none d-lg-block"/>
         <v-autocomplete
           :placeholder="$t('menu.search')"
@@ -103,7 +103,6 @@ import {computed} from 'vue'
 import {useAppInfo, useRouterPush} from "@/composables";
 
 const theme = useThemeStore()
-const drawer = ref()
 const routeStore = useRouteStore();
 const menus = computed(() => routeStore.menus as App.GlobalMenuOption[]);
 const {name, version} = useAppInfo();

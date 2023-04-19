@@ -51,7 +51,10 @@ export default defineComponent({
         key: createId(),
         content,
         options: {
-          timeout: 2000,
+          timeout: 3000,
+          location:"right bottom",
+          transition:'scroll-x-reverse-transition',
+          offset:100,
           ...options,
         },
         modelValue: true,

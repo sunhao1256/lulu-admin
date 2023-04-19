@@ -24,8 +24,7 @@ const Designer = defineComponent({
         const editorSettings = {
           container: designer.value,
           bpmnRenderer: {
-            defaultFillColor: current.value.colors.primary,
-            defaultLabelColor: current.value.colors.surface
+            defaultLabelColor: current.value.colors.primary,
           },
           keyboard: {
             bindTo: document,

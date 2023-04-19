@@ -111,7 +111,7 @@ export function transformAuthRouteToVueRoute(item: AuthRoute.Route) {
   if (hasChildren(item)) {
     const children = (item.children as AuthRoute.Route[]).map(child => transformAuthRouteToVueRoute(child)).flat();
 
-    const redirectPath = (children.find(v => !v.meta?.multi)?.path || '/') as AuthRoute.RoutePath;
+    const redirectPath = item.redirect || (children.find(v => !v.meta?.multi)?.path || '/') as AuthRoute.RoutePath;
 
     if (redirectPath === '/') {
       window.console.error('could not found effective child in multiple router ', item);
@@ -119,6 +119,9 @@ export function transformAuthRouteToVueRoute(item: AuthRoute.Route) {
 
     itemRoute.children = children;
     itemRoute.redirect = redirectPath;
+
+    console.log(itemRoute)
+    console.log(redirectPath)
   }
 
   resultRoute.push(itemRoute);

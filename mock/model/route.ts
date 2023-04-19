@@ -215,6 +215,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
       name: "flowable",
       path: "/flowable",
       component: 'basic',
+      redirect: '/flowable/processes/list',
       children: [
         {
           name: 'flowable_design',
@@ -233,15 +234,36 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
           meta: {
             dynamicPath: '/flowable/process-definition/:id?',
             title: 'menu.flowable-process-definition',
+            hide: true,
           }
         },
         {
-          name: 'flowable_list',
-          path: '/flowable/list',
+          name: 'flowable_processes',
+          path: '/flowable/processes',
           component: 'self',
           meta: {
             title: 'menu.flowable-list',
-          }
+          },
+          children: [
+            {
+              name: 'flowable_processes_list',
+              path: '/flowable/processes/list',
+              component: 'self',
+              meta: {
+                title: 'menu.flowable-processes-list',
+                hide: true
+              }
+            },
+            {
+              name: 'flowable_processes_preview',
+              path: '/flowable/processes/preview',
+              component: 'self',
+              meta: {
+                title: 'menu.flowable-processes-preview',
+                hide: true
+              }
+            }
+          ]
         },
 
         {

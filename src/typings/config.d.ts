@@ -24,6 +24,8 @@ declare namespace CurrencyConfig {
 declare namespace ThemeConfig {
   interface Config {
 
+    draw: boolean,
+
     //primary color
     primary: string,
 

@@ -5,7 +5,7 @@ import currency from './currencies'
 const config: Config = {
   theme,
   locales,
-  currency
+  currency,
 }
 
 export default config
