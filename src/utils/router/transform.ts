@@ -120,8 +120,6 @@ export function transformAuthRouteToVueRoute(item: AuthRoute.Route) {
     itemRoute.children = children;
     itemRoute.redirect = redirectPath;
 
-    console.log(itemRoute)
-    console.log(redirectPath)
   }
 
   resultRoute.push(itemRoute);

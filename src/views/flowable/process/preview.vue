@@ -28,7 +28,7 @@ init()
   }
 
   .viewer {
-    height: 300px;
+    min-height: 200px;
   }
 
 }

@@ -198,6 +198,9 @@ export default {
     'flowable': '流程管理',
     'flowable-design': '流程设计',
     'flowable-process-definition': '流程定义',
+    'flowable-processes': '流程',
+    'flowable-processes-list': '流程列表',
+    'flowable-processes-preview': '流程预览',
     'flowable-list': '流程列表',
     'form-list': '表单',
     'form-design': '表单设计'

@@ -1,7 +1,7 @@
 import {defineComponent, PropType, ref} from "vue";
 
 import Viewer from "bpmn-js/lib/NavigatedViewer";
-import {VCard, VCardTitle, VCardText, VHover} from 'vuetify/components'
+import {VCard, VAlert, VAlertTitle, VChip, VSpacer, VCardText, VHover} from 'vuetify/components'
 import {useLoading} from "@/hooks";
 import {processDefinitionXml} from "@/service";
 import {useThemeStore} from "@/store";
@@ -78,32 +78,40 @@ export default defineComponent({
     const {push} = useRouter()
 
     const toDetail = async () => {
-      await push(`/flowable/process-definition/${processResult.latestId}`)
+      await push({path: `/flowable/process-definition/${processResult.latestId}`})
     }
 
     return () =>
       <div class={'d-flex'}>
         <VHover>
-          {({isHovering, props}) =>
-            <VCard class={'mb-2'} {...props} elevation={!!isHovering ? 24 : 2}
-                   {...{
-                     'onClick': async () => {
-                       await toDetail()
-                     }
-                   }}
-            >
-              {!loading.value && (
-                <>
-                  <VCardTitle>
-                    {processResult.name}
-                  </VCardTitle>
-                  <VCardText class={'preview-item h-100'}>
-                    <div class={'h-100 w-100'} ref={viewerRef}></div>
-                  </VCardText>
-                </>
-              )}
-            </VCard>
-          }
+          {({isHovering, props}) => (
+            <div class={'d-flex flex-column'}>
+              <VAlert text={processResult.name}></VAlert>
+              <VCard {...props} elevation={!!isHovering ? 24 : 2}
+                     {...{
+                       'onClick': async () => {
+                         await toDetail()
+                       }
+                     }}
+              >
+                {!loading.value && (
+                  <>
+
+                    <VCardText class={'preview-item h-100'}>
+                      <div class={'h-100 w-100'} ref={viewerRef}></div>
+                    </VCardText>
+                  </>
+                )}
+              </VCard>
+              <VAlert density={'comfortable'}>
+                <VAlertTitle class={'text-caption'}>
+                  {processResult.runningInstances + ' running Instances'}
+                  <VSpacer/>
+                  <VChip size={'small'} color={'green'} class={'front-weight-bold'} label>{'active'}</VChip>
+                </VAlertTitle>
+              </VAlert>
+            </div>
+          )}
         </VHover>
       </div>
   }
