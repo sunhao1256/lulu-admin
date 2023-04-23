@@ -6,7 +6,7 @@
         <breadcrumb/>
       </div>
       <v-spacer></v-spacer>
-      <v-btn class="text-capitalize" color="primary">
+      <v-btn class="text-capitalize" color="primary" to="/form/design">
         Create Form
       </v-btn>
     </div>
@@ -91,7 +91,7 @@
 
         <template v-slot:item.action="{item:{raw} }">
           <div class="actions">
-            <v-btn flat icon :to="`/apps/manager-user/edit/${raw.id}`">
+            <v-btn flat icon :to="`/form/design/${raw.id}`">
               <v-icon>mdi-open-in-new</v-icon>
             </v-btn>
           </div>

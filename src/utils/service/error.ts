@@ -1,4 +1,4 @@
-import type { AxiosError, AxiosResponse } from 'axios';
+import type {AxiosError, AxiosResponse} from 'axios';
 import {
   DEFAULT_REQUEST_ERROR_CODE,
   DEFAULT_REQUEST_ERROR_MSG,
@@ -8,8 +8,9 @@ import {
   REQUEST_TIMEOUT_CODE,
   REQUEST_TIMEOUT_MSG
 } from '@/configs/service';
-import { exeStrategyActions } from '../common';
-import { showErrorMsg } from './msg';
+import {exeStrategyActions} from '../common';
+import {showErrorMsg} from './msg';
+import {useAuthStore} from '@/store'
 
 type ErrorStatus = keyof typeof ERROR_STATUS;
 
@@ -29,14 +30,14 @@ export function handleAxiosError(axiosError: AxiosError) {
       // 网路错误
       !window.navigator.onLine || axiosError.message === 'Network Error',
       () => {
-        Object.assign(error, { code: NETWORK_ERROR_CODE, msg: NETWORK_ERROR_MSG });
+        Object.assign(error, {code: NETWORK_ERROR_CODE, msg: NETWORK_ERROR_MSG});
       }
     ],
     [
       // 超时错误
       axiosError.code === REQUEST_TIMEOUT_CODE && axiosError.message.includes('timeout'),
       () => {
-        Object.assign(error, { code: REQUEST_TIMEOUT_CODE, msg: REQUEST_TIMEOUT_MSG });
+        Object.assign(error, {code: REQUEST_TIMEOUT_CODE, msg: REQUEST_TIMEOUT_MSG});
       }
     ],
     [
@@ -45,9 +46,13 @@ export function handleAxiosError(axiosError: AxiosError) {
       () => {
         const errorCode: ErrorStatus = (axiosError.response?.status as ErrorStatus) || 'DEFAULT';
         const msg = ERROR_STATUS[errorCode];
-        Object.assign(error, { code: errorCode, msg });
+        Object.assign(error, {code: errorCode, msg});
+        if (errorCode == 401) {
+          const auth = useAuthStore()
+          auth.resetAuthStore()
+        }
       }
-    ]
+    ],
   ];
 
   exeStrategyActions(actions);
@@ -70,13 +75,14 @@ export function handleResponseError(response: AxiosResponse) {
 
   if (!window.navigator.onLine) {
     // 网路错误
-    Object.assign(error, { code: NETWORK_ERROR_CODE, msg: NETWORK_ERROR_MSG });
+    Object.assign(error, {code: NETWORK_ERROR_CODE, msg: NETWORK_ERROR_MSG});
   } else {
     // 请求成功的状态码非200的错误
     const errorCode: ErrorStatus = response.status as ErrorStatus;
     const msg = ERROR_STATUS[errorCode] || DEFAULT_REQUEST_ERROR_MSG;
-    Object.assign(error, { type: 'http', code: errorCode, msg });
+    Object.assign(error, {type: 'http', code: errorCode, msg});
   }
+
 
   showErrorMsg(error);
 
@@ -88,7 +94,7 @@ export function handleResponseError(response: AxiosResponse) {
  * @param backendResult - 后端接口的响应数据
  */
 export function handleBackendError(backendResult: Record<string, any>, config: Service.BackendResultConfig) {
-  const { codeKey, msgKey } = config;
+  const {codeKey, msgKey} = config;
   const error: Service.RequestError = {
     type: 'backend',
     code: backendResult[codeKey],

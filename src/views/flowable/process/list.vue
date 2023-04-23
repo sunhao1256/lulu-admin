@@ -58,6 +58,7 @@
       :items="items"
       :search="searchQuery"
       :loading="loading"
+      no-data-text="no more process"
       class="flex-grow-1"
     >
       <template #bottom>

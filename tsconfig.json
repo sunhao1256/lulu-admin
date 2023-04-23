@@ -5,6 +5,7 @@
     "target": "ESNext",
     "lib": ["DOM", "ESNext"],
     "strict": true,
+    "noImplicitAny": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "preserve",

@@ -6,11 +6,18 @@ VERSION=$(shell git rev-parse --short HEAD)
 
 all: compile docker-build docker-push
 
+notypecheck: compile-notypecheck docker-build docker-push
+
 compile:
 	yarn build
+
+compile-notypecheck:
+	yarn build-no-typecheck
 
 docker-build:
 	docker build --platform=$(Platform) --build-arg version=$(VERSION) -t ${ImageName} -f docker/Dockerfile .
 
 docker-push:
 	docker push ${ImageName}
+
+

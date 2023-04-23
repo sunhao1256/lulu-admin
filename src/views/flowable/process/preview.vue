@@ -10,7 +10,7 @@
 import {loadListProcessResultStatistics} from "@/views/flowable/process/helper";
 import Viewer from "@/views/flowable/components/viewer";
 
-const {loading, loadData, items} = loadListProcessResultStatistics()
+const {loadData, items} = loadListProcessResultStatistics()
 
 async function init() {
   await loadData()

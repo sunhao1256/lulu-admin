@@ -6,7 +6,7 @@
         <breadcrumb/>
       </div>
       <v-spacer></v-spacer>
-      <v-btn class="text-capitalize" color="primary">
+      <v-btn class="text-capitalize" color="primary" to="/flowable/design">
         Create Flow
       </v-btn>
     </div>

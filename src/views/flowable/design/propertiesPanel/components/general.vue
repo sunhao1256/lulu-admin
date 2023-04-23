@@ -11,6 +11,7 @@
       <v-text-field variant="outlined" label="name" density="comfortable" hide-details
                     v-model="elementName" @change="updateElementName"></v-text-field>
       <v-text-field variant="outlined" label="id" density="comfortable" hide-details
+                    readonly
                     :model-value="elementId" @change="updateElementId"></v-text-field>
       <template v-if="isProcess">
         <v-text-field variant="outlined" label="versionTag" density="comfortable" hide-details

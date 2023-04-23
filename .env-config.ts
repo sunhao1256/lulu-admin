@@ -16,8 +16,8 @@ const serviceEnv: ServiceEnv = {
     secondUrlPattern: '/second-url-pattern'
   },
   prod: {
-    url: 'http://localhost:8080',
-    urlPattern: '/url-pattern',
+    url: '',
+    urlPattern: '/api',
     secondUrl: 'http://localhost:8081',
     secondUrlPattern: '/second-url-pattern'
   }

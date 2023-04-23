@@ -2,11 +2,37 @@
   <div class="flex-grow-1 h-100 d-flex flex-column">
     <v-toolbar rounded flat elevation="1" color="surface" class="mb-2">
       <v-toolbar-title class="text-primary font-weight-bold">Flow Design</v-toolbar-title>
+
       <v-spacer/>
+      <input
+        type="file"
+        ref="importRef"
+        style="display: none"
+        accept=".xml,.bpmn"
+        @change="changeImportFile"
+      >
       <v-btn
         variant="outlined"
         size="small"
         color="primary"
+        @click="openImport"
+      >
+        Import
+      </v-btn>
+      <v-btn
+        variant="outlined"
+        size="small"
+        class="ml-1"
+        color="error"
+        @click="erase"
+      >
+        Erase
+      </v-btn>
+      <v-btn
+        variant="outlined"
+        size="small"
+        color="primary"
+        class="ml-1"
         :disabled="!changed"
         prepend-icon="mdi-download"
         @click="downloadSvg?.click()"
@@ -39,7 +65,7 @@
     </v-toolbar>
     <div class="content flex-grow-1 elevation-2 d-flex justify-space-between">
       <div class="position-relative">
-        <designer :xml="demoXML" v-if="!!demoXML" @commandStackChanged="exportArtifacts">
+        <designer :xml="demoXML" @commandStackChanged="exportArtifacts">
           <template #right>
         <span class="canvas-help d-flex flex-column">
           <v-btn
@@ -122,7 +148,7 @@ import 'bpmn-js/dist/assets/bpmn-js.css'
 import 'bpmn-js/dist/assets/diagram-js.css'
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'
 import 'bpmn-js-properties-panel/dist/assets/properties-panel.css'
-import demo from './demo3.bpmn?raw'
+import {createNewDiagram} from './util'
 import {ref} from 'vue'
 import PropertiesPanel from "@/views/flowable/design/propertiesPanel/index.vue";
 import {Codemirror} from 'vue-codemirror'
@@ -220,14 +246,45 @@ const showXml = async () => {
   xmlContent.value = xml
 }
 
+const erase = () => {
+  const command = modelStore.getCommandStack
+  command && command.clear()
+  createNewDiagram()
+}
+
+const importRef = ref<HTMLInputElement | null>(null)
+
+const openImport = () => {
+  importRef.value && importRef.value.click()
+}
+
+const changeImportFile = () => {
+  if (importRef.value && importRef.value.files) {
+    const file = importRef.value.files[0]
+    const reader = new FileReader()
+    reader.readAsText(file)
+    reader.onload = async function () {
+      const xmlStr = this.result
+      await modelStore.getModeler!.importXML(xmlStr as string)
+      canvasFitViewport()
+    }
+    importRef.value.value = ''
+    importRef.value.files = null
+  }
+}
+
 const {currentRoute} = useRouter()
 const processDefinitionId = currentRoute.value.params['id'] as string
 
 const init = async () => {
+  if (!processDefinitionId || processDefinitionId.length == 0)
+    return
+
   const resp = await processDefinitionXml(processDefinitionId)
   if (resp.data) {
     demoXML.value = resp.data.bpmn20Xml
-    console.log(resp.data)
+    await modelStore.getModeler!.importXML(demoXML.value)
+    canvasFitViewport()
   }
 }
 

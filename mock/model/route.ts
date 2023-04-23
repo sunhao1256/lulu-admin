@@ -129,6 +129,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
               meta: {
                 title: 'menu.chat-channel',
                 dynamicPath: '/apps/chat-channel/:id?',
+                requiresAuth: true,
                 hide: true
               }
             }
@@ -136,6 +137,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
           meta: {
             title: "menu.chat",
             order: 1,
+            requiresAuth: true,
             icon: "mdi-forum-outline"
           }
         }
@@ -150,6 +152,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
       path: '/other',
       component: 'basic',
       meta: {
+        requiresAuth: true,
         title: 'menu.others'
       },
       children: [
@@ -158,6 +161,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
           path: '/blank-page',
           component: 'blank',
           meta: {
+            requiresAuth: true,
             title: 'menu.blank',
             icon: 'mdi-file-outline',
           }
@@ -167,6 +171,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
           component: 'blank',
           path: '/other/menu-levels',
           meta: {
+            requiresAuth: true,
             title: 'menu.levels'
           },
           children: [
@@ -175,6 +180,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
               path: '/other/menu-levels-2-1',
               component: 'self',
               meta: {
+                requiresAuth: true,
                 title: 'menu.levels2-1'
               }
             },
@@ -183,6 +189,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
               path: '/other/menu-levels-2-2',
               component: 'blank',
               meta: {
+                requiresAuth: true,
                 title: 'menu.levels2-2',
               },
               children: [
@@ -191,6 +198,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
                   path: '/other/menu-levels-3-1',
                   component: 'self',
                   meta: {
+                    requiresAuth: true,
                     title: 'menu.levels3-1'
                   }
                 },
@@ -199,6 +207,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
                   path: '/other/menu-levels-3-2',
                   component: 'self',
                   meta: {
+                    requiresAuth: true,
                     title: 'menu.levels3-2'
                   }
                 }
@@ -222,6 +231,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
           path: '/flowable/design',
           component: 'self',
           meta: {
+            requiresAuth: true,
             dynamicPath: '/flowable/design/:id?',
             hide: true,
             title: 'menu.flowable-design',
@@ -232,6 +242,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
           path: '/flowable/process-definition',
           component: 'self',
           meta: {
+            requiresAuth: true,
             dynamicPath: '/flowable/process-definition/:id?',
             title: 'menu.flowable-process-definition',
             hide: true,
@@ -242,6 +253,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
           path: '/flowable/processes',
           component: 'self',
           meta: {
+            requiresAuth: true,
             title: 'menu.flowable-list',
           },
           children: [
@@ -250,6 +262,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
               path: '/flowable/processes/list',
               component: 'self',
               meta: {
+                requiresAuth: true,
                 title: 'menu.flowable-processes-list',
                 hide: true
               }
@@ -259,6 +272,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
               path: '/flowable/processes/preview',
               component: 'self',
               meta: {
+                requiresAuth: true,
                 title: 'menu.flowable-processes-preview',
                 hide: true
               }
@@ -271,6 +285,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
           path: '/form/list',
           component: 'self',
           meta: {
+            requiresAuth: true,
             title: 'menu.form-list',
           }
         },
@@ -279,12 +294,15 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
           path: '/form/design',
           component: 'self',
           meta: {
+            requiresAuth: true,
             title: 'menu.form-design',
+            dynamicPath: '/form/design/:id?'
           }
         },
       ],
       meta: {
         title: "menu.flowable",
+        requiresAuth: true,
         icon: "mdi-waves-arrow-right"
       }
     },
