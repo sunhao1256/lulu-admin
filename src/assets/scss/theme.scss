@@ -20,3 +20,39 @@
 .top-z-index {
   z-index: 1006 !important;
 }
+
+
+.highlight .djs-outline {
+  stroke-width: 2px !important;
+  stroke: rgba(var(--v-theme-primary)) !important;
+}
+
+.highlight .djs-visual > :nth-child(1) {
+  fill: rgba(var(--v-theme-primary)) !important;
+}
+
+
+.activity-bottom-left-position {
+  position: absolute;
+  left: -0.7em;
+  bottom: -0.25em;
+}
+
+.badge {
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px 7px;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  background-color: rgba(var(--v-theme-primary));
+  border-radius: 10px;
+}
+
+.bjs-powered-by {
+  display: none;
+}

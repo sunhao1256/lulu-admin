@@ -25,6 +25,8 @@ export const views: Record<PageRoute.LastDegreeRouteKey,
   "flowable_processes_list": () => import('./flowable/process/list.vue'),
   "flowable_processes_preview": () => import('./flowable/process/preview.vue'),
   "flowable_process-definition": () => import('./flowable/process/definition.vue'),
+  "flowable_process-definition_process-instance": () => import('./flowable/process/route/ProcessInstance.vue'),
+  "flowable_process-definition_incident": () => import('./flowable/process/route/Incident.vue'),
   "form_list": () => import('./form/list.vue'),
   "form_design": () => import('./form/design/index.vue'),
 };

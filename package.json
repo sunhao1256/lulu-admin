@@ -25,6 +25,7 @@
     "codemirror": "^6.0.1",
     "crypto-js": "^4.1.1",
     "flag-icons": "^6.6.6",
+    "jquery": "^3.6.4",
     "lodash-es": "^4.17.21",
     "moment": "^2.29.4",
     "pinia": "^2.0.28",
@@ -43,6 +44,7 @@
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
+    "@types/jquery": "^3.5.16",
     "@types/lodash-es": "^4.17.6",
     "@types/node": "^18.11.9",
     "@types/qs": "^6.9.7",

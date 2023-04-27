@@ -1,5 +1,6 @@
 import {defineStore} from 'pinia';
-import {ROOT_ROUTE, constantRoutes, router, routes as staticRoutes} from '@/router';
+import {ROOT_ROUTE, constantRoutes, routes as staticRoutes} from '@/router';
+import {router as globalRouter} from '@/router'
 import {fetchUserRoutes} from '@/service';
 import {
   localStg,
@@ -64,7 +65,7 @@ export const useRouteStore = defineStore('route-store', {
       const vueRoutes = transformAuthRouteToVueRoutes(routes);
 
       vueRoutes.forEach(route => {
-        router.addRoute(route);
+        globalRouter.addRoute(route);
       });
 
       this.cacheRoutes = getCacheRoutes(vueRoutes);
@@ -75,9 +76,9 @@ export const useRouteStore = defineStore('route-store', {
       }
       const rootRoute: AuthRoute.Route = {...ROOT_ROUTE, redirect: transformRouteNameToRoutePath(routeKey)};
       const rootRouteName: AuthRoute.AllRouteKey = 'root';
-      router.removeRoute(rootRouteName);
+      globalRouter.removeRoute(rootRouteName);
       const rootVueRoute = transformAuthRouteToVueRoute(rootRoute)[0];
-      router.addRoute(rootVueRoute);
+      globalRouter.addRoute(rootVueRoute);
     },
     async initDynamicRoute() {
       const {userId} = localStg.get('userInfo') || {};

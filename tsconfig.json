@@ -21,7 +21,7 @@
       "~/*": ["./*"],
       "@/*": ["./src/*"]
     },
-    "types": ["vite/client", "node", "unplugin-icons/types/vue" ,"vuetify","lodash"]
+    "types": ["vite/client", "node", "unplugin-icons/types/vue" ,"vuetify","lodash","jquery"]
   },
   "exclude": ["node_modules", "dist"]
 }

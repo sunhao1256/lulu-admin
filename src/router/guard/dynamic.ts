@@ -1,6 +1,6 @@
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 import { routeName } from '@/router';
-import { useRouteStore } from '@/store';
+import { useRouteStore } from '@/store/route';
 import { localStg } from '@/utils';
 
 export async function createDynamicRouteGuard(

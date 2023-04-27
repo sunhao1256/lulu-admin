@@ -10,7 +10,6 @@ import {
 } from '@/configs/service';
 import {exeStrategyActions} from '../common';
 import {showErrorMsg} from './msg';
-import {useAuthStore} from '@/store'
 
 type ErrorStatus = keyof typeof ERROR_STATUS;
 
@@ -47,10 +46,6 @@ export function handleAxiosError(axiosError: AxiosError) {
         const errorCode: ErrorStatus = (axiosError.response?.status as ErrorStatus) || 'DEFAULT';
         const msg = ERROR_STATUS[errorCode];
         Object.assign(error, {code: errorCode, msg});
-        if (errorCode == 401) {
-          const auth = useAuthStore()
-          auth.resetAuthStore()
-        }
       }
     ],
   ];

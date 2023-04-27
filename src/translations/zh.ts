@@ -201,6 +201,8 @@ export default {
     'flowable-processes': '流程',
     'flowable-processes-list': '流程列表',
     'flowable-processes-preview': '流程预览',
+    'flowable-process-definition-process-instance':'流程实例',
+    'flowable-process-definition-incident':'流程事件',
     'flowable-list': '流程列表',
     'form-list': '表单',
     'form-design': '表单设计'

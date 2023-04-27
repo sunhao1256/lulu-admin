@@ -48,6 +48,8 @@ declare namespace PageRoute {
     | 'flowable'
     | 'flowable_design'
     | 'flowable_process-definition'
+    | 'flowable_process-definition_process-instance'
+    | 'flowable_process-definition_incident'
     | 'flowable_processes'
     | 'flowable_processes_list'
     | 'flowable_processes_preview'
@@ -83,7 +85,9 @@ declare namespace PageRoute {
     | 'flowable_processes_list'
     | 'flowable_processes_preview'
     | 'flowable_process-definition'
+    | 'flowable_process-definition_process-instance'
+    | 'flowable_process-definition_incident'
     | 'form_list'
     | 'form_design'
-    >;
+  >;
 }

@@ -10,6 +10,7 @@ import {
   transformRequestData
 } from '@/utils';
 import {handleRefreshToken} from './helpers';
+import {useAuthStore} from "@/store";
 
 export default class CustomAxiosInstance {
   instance: AxiosInstance;
@@ -70,6 +71,15 @@ export default class CustomAxiosInstance {
         return handleServiceResult(error, null);
       },
       (axiosError: AxiosError) => {
+        const {response} = axiosError;
+        if (response) {
+          const {status} = response;
+          const auth = useAuthStore()
+          if (status == 401) {
+            auth.resetAuthStore()
+          }
+        }
+
         const error = handleAxiosError(axiosError);
         return handleServiceResult(error, null);
       }

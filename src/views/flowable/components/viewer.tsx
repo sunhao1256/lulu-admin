@@ -78,7 +78,7 @@ export default defineComponent({
     const {push} = useRouter()
 
     const toDetail = async () => {
-      await push({path: `/flowable/process-definition/${processResult.latestId}`})
+      await push({path: `/flowable/process-definition/${processResult.latestId}/process-instance`})
     }
 
     return () =>

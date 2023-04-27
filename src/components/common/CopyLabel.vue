@@ -1,5 +1,6 @@
 <template>
-  <div ref="copyLabel" class="copylabel animate__faster" @click.stop.prevent="copy">{{ text }}
+  <div ref="copyLabel" :class="{'copylabel':!hideDashedLine}" class="animate__faster"
+       @click.stop.prevent="copy">{{ text }}
     <v-tooltip location="bottom" activator="parent">
       <span>{{ tooltip }}</span>
     </v-tooltip>
@@ -8,9 +9,15 @@
 
 <script lang="ts" setup>
 const props = defineProps({
+  // hide bottom dashed line
+  hideDashedLine: {
+    type: Boolean,
+    default: false,
+    required: false
+  },
   // Text to copy to clipboard.ts
   text: {
-    type: String,
+    type: [String, Number],
     default: ''
   },
   // Text to show on toast

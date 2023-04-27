@@ -201,6 +201,8 @@ export default {
     'flowable-processes': 'Processes',
     'flowable-processes-list': 'Processes List',
     'flowable-processes-preview': 'Processes Preview',
+    'flowable-process-definition-process-instance': 'Process Instance',
+    'flowable-process-definition-incident': 'Incident',
     'form-list': 'Forms',
     'form-design': 'Form Design'
   },

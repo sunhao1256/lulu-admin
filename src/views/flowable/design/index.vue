@@ -67,48 +67,7 @@
       <div class="position-relative">
         <designer :xml="demoXML" @commandStackChanged="exportArtifacts">
           <template #right>
-        <span class="canvas-help d-flex flex-column">
-          <v-btn
-            size="small"
-            class="top-z-index"
-            icon
-            color="primary"
-            variant="plain"
-            @click="scrollZoom(1)"
-          >
-            <v-icon icon="mdi-plus"></v-icon>
-          </v-btn>
-          <v-btn
-            size="small"
-            class="top-z-index"
-            icon
-            color="primary"
-            variant="plain"
-            @click="scrollZoom(-1)"
-          >
-            <v-icon icon="mdi-minus"></v-icon>
-          </v-btn>
-          <v-btn
-            size="small"
-            icon
-            class="top-z-index"
-            color="primary"
-            variant="plain"
-            @click="canvasFitViewport"
-          >
-            <v-icon icon="mdi-arrow-u-right-top"></v-icon>
-          </v-btn>
-          <v-btn
-            size="small"
-            icon
-            class="top-z-index"
-            color="primary"
-            @click="showXml"
-            variant="plain"
-          >
-            <v-icon icon="mdi-xml"></v-icon>
-          </v-btn>
-        </span>
+            <navigate :viewer="viewer" v-if="!!viewer" :show-xml-btn="true" @show-xml="showXml"></navigate>
           </template>
         </designer>
       </div>
@@ -159,6 +118,8 @@ import {deploymentCreate} from "@/service/api/flow";
 import {useLoading} from "@/hooks";
 import {useRouter} from "vue-router";
 import {processDefinitionXml} from '@/service'
+import Navigate from "@/views/flowable/components/navigate.vue";
+import {canvasFitViewport} from "@/views/flowable/utils/BpmnCanvasUtil";
 
 const properties = ref<InstanceType<typeof PropertiesPanel> | null>()
 const modelStore = useModelStore()
@@ -169,6 +130,10 @@ const xmlDialog = ref(false)
 const xmlContent = ref("")
 const demoXML = ref<string>()
 const {loading: deployLoading} = useLoading()
+
+const viewer = computed(() => {
+  return modelStore.getModeler
+})
 
 const setEncoded = (link: HTMLElement | undefined, name: string, data: any) => {
   var encodedData = encodeURIComponent(data);
@@ -230,16 +195,6 @@ const deploy = async () => {
     window.$snackBar?.error('Error happened saving XML: ' + err)
   }
 }
-
-const canvasFitViewport = () => {
-  modelStore.getModeler.get('canvas').zoom('fit-viewport', 'auto');
-}
-
-const scrollZoom = (s: number) => {
-  modelStore.getModeler.get('zoomScroll').stepZoom(s);
-}
-
-
 const showXml = async () => {
   xmlDialog.value = true
   const {xml} = await modelStore.getModeler.saveXML({format: true});
@@ -266,7 +221,7 @@ const changeImportFile = () => {
     reader.onload = async function () {
       const xmlStr = this.result
       await modelStore.getModeler!.importXML(xmlStr as string)
-      canvasFitViewport()
+      canvasFitViewport(modelStore.getModeler)
     }
     importRef.value.value = ''
     importRef.value.files = null
@@ -284,7 +239,7 @@ const init = async () => {
   if (resp.data) {
     demoXML.value = resp.data.bpmn20Xml
     await modelStore.getModeler!.importXML(demoXML.value)
-    canvasFitViewport()
+    canvasFitViewport(modelStore.getModeler)
   }
 }
 
@@ -297,10 +252,6 @@ init()
 
 .content {
 
-  .canvas-help {
-    position: absolute;
-    right: 10px;
-  }
 
   .canvas {
     background-color: rgb(var(--v-theme-surface));
@@ -311,9 +262,6 @@ init()
     width: 100%;
     height: 100%;
 
-    :deep(.bjs-powered-by) {
-      display: none;
-    }
 
   }
 }

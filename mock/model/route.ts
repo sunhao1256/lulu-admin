@@ -243,10 +243,31 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
           component: 'self',
           meta: {
             requiresAuth: true,
-            dynamicPath: '/flowable/process-definition/:id?',
             title: 'menu.flowable-process-definition',
             hide: true,
-          }
+          },
+          children: [
+            {
+              name: 'flowable_process-definition_process-instance',
+              path: '/flowable/process-definition/process-instance',
+              component: 'self',
+              meta: {
+                requiresAuth: true,
+                dynamicPath: '/flowable/process-definition/:id/process-instance',
+                title: 'menu.flowable-process-definition-process-instance',
+              }
+            },
+            {
+              name: 'flowable_process-definition_incident',
+              path: '/flowable/process-definition/incident',
+              component: 'self',
+              meta: {
+                requiresAuth: true,
+                dynamicPath: '/flowable/process-definition/:id/incident',
+                title: 'menu.flowable-process-definition-incident',
+              }
+            }
+          ]
         },
         {
           name: 'flowable_processes',

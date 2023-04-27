@@ -15,7 +15,7 @@ declare namespace AuthRoute {
 
   type RoutePath<K extends AllRouteKey = AllRouteKey> = AuthRouteUtils.GetRoutePath<K>;
 
-  type RouteComponentType = 'basic' | 'blank' | 'self' | 'auth' | 'error' | 'todo' | 'chat';
+  type RouteComponentType = 'basic' | 'multi' | 'blank' | 'self' | 'auth' | 'error' | 'todo' | 'chat';
 
   interface RouteMeta<K extends AuthRoute.RoutePath> {
     title: string;
@@ -104,5 +104,7 @@ declare namespace AuthRouteUtils {
   type GetDynamicPath<P extends AuthRoute.RoutePath> =
     | `${P}/:${string}`
     | `${P}/:${string}(${string})`
-    | `${P}/:${string}(${string})?`;
+    | `${P}/:${string}(${string})?`
+    | string // `string` emphasise hypothetical path /P/:id?/Q
+    ;
 }

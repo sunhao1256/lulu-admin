@@ -71,7 +71,7 @@
       </template>
 
       <template v-slot:item.status="{item:{raw}}">
-        {{ formStatusLabels [(raw as FormManagement.Form ).status] }}
+        {{ formStatusLabels [(raw as FormManagement.Form).status] }}
       </template>
 
       <template v-slot:item.created="{ item  : {raw} }">
@@ -91,8 +91,9 @@
 
 <script lang="ts" setup>
 
-import {Ref} from "vue";
+import {Ref, ref} from "vue";
 import {loadListProcessResultStatistics} from "@/views/flowable/process/helper";
+import {formStatusLabels} from "@/constants";
 
 const {loading, loadData, items} = loadListProcessResultStatistics()
 const searchQuery = ref('')

@@ -43,7 +43,17 @@ export function transformAuthRouteToVueRoute(item: AuthRoute.Route) {
       },
       self() {
         itemRoute.component = getViewComponent(item.name as AuthRoute.LastDegreeRouteKey);
-      }
+      },
+
+      multi() {
+        // 多级路由一定有子路由
+        if (hasChildren(item)) {
+          Object.assign(itemRoute, {meta: {...itemRoute.meta, multi: true}});
+          delete itemRoute.component;
+        } else {
+          window.console.error('多级路由缺少子路由: ', item);
+        }
+      },
     };
     try {
       if (item.component) {
@@ -117,9 +127,14 @@ export function transformAuthRouteToVueRoute(item: AuthRoute.Route) {
       window.console.error('could not found effective child in multiple router ', item);
     }
 
-    itemRoute.children = children;
+    if (item.component === 'multi') {
+      // 多级路由，将子路由提取出来变成同级
+      resultRoute.push(...children);
+      delete itemRoute.children;
+    } else {
+      itemRoute.children = children;
+    }
     itemRoute.redirect = redirectPath;
-
   }
 
   resultRoute.push(itemRoute);

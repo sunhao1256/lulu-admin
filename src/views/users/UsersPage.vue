@@ -102,7 +102,7 @@
         </template>
 
         <template v-slot:item.userStatus="{item:{raw}}">
-          {{ userStatusLabels [(raw as UserManagement.User).userStatus] }}
+          {{ userStatusLabels [raw.userStatus] }}
         </template>
 
         <template v-slot:item.role="{ item  : {raw} }">

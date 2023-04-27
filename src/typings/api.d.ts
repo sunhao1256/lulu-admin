@@ -123,17 +123,52 @@ declare namespace ApiFlowManagement {
     startableInTasklist: boolean
   }
 
-  interface ProcessStatisticsResult {
+  interface ProcessStatisticsResult extends StatisticsResult {
+    definition: ProcessDefinition
+  }
+
+  interface StatisticsResult {
     id: string
     instances: number
     failedJobs: number
     incidents: any[]
-    definition: ProcessDefinition
   }
 
   interface ProcessDefinitionXmlResult {
     id: string,
     bpmn20Xml: string
+  }
+
+  interface ProcessDefinitionQueryCount {
+    key: string,
+    sortBy: string,
+    sortOrder: string,
+    withoutTenantId: boolean,
+  }
+
+  interface StatisticQuery {
+    failedJobs: boolean,
+    incidents: boolean,
+    incidentsForType: string
+  }
+
+  interface QueryParam {
+    firstResult: number,
+    maxResults: number,
+  }
+
+  interface CockpitProcessInstanceQuery {
+    sortBy: string,
+    sortOrder: string,
+    processDefinitionId: string
+  }
+
+  interface CockpitProcessInstance {
+    id: string,
+    businessKey: string,
+    startTime: string,
+    incidents: [],
+    suspended: boolean,
   }
 
 }
