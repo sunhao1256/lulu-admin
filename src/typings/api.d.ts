@@ -100,10 +100,37 @@ declare namespace ApiChatManagement {
 
 
 declare namespace ApiFlowManagement {
-  interface deployCreate {
-    source: string,
-    name: string,
-    'deployment-file': File | undefined
+
+  type deployCreate = {
+    'deployment-name': string,
+    'enable-duplicate-filtering': boolean,
+    'deployment-source': string,
+  } & Record<string, any>
+
+  type deployList = Partial<{
+    'source': string,
+    nameLike: string,
+  }> & Partial<QueryParam> & Partial<Sorting>
+
+
+  interface deployDeleteQuery {
+    cascade: boolean,
+    skipCustomListeners: boolean,
+    skipIoMappings: boolean,
+  }
+
+  interface resource {
+    id: string
+    name: string
+    deploymentId: string
+  }
+
+  interface deployment {
+    id: string
+    name?: string
+    source: string
+    deploymentTime: string
+    tenantId: any
   }
 
   interface ProcessDefinition {
@@ -146,6 +173,25 @@ declare namespace ApiFlowManagement {
     withoutTenantId: boolean,
   }
 
+  type ProcessDefinitionsQuery = {
+    key: string,
+    sortBy: string,
+    sortOrder: string,
+    withoutTenantId: boolean,
+    latest: boolean,
+    active: boolean,
+    nameLike: string,
+    startableInTasklist: boolean,
+    startablePermissionCheck: true,
+  } & QueryParam
+
+
+  interface ProcessDefinitionSuspendedParam {
+    executionDate: string,
+    includeProcessInstances: boolean,
+    suspended: boolean
+  }
+
   interface StatisticQuery {
     failedJobs: boolean,
     incidents: boolean,
@@ -155,12 +201,14 @@ declare namespace ApiFlowManagement {
   interface QueryParam {
     firstResult: number,
     maxResults: number,
+    deserializeValues: boolean,
   }
 
   interface CockpitProcessInstanceQuery {
     sortBy: string,
     sortOrder: string,
-    processDefinitionId: string
+    processDefinitionId: string,
+    activityIdIn: string[]
   }
 
   interface CockpitProcessInstance {
@@ -169,6 +217,87 @@ declare namespace ApiFlowManagement {
     startTime: string,
     incidents: [],
     suspended: boolean,
+  }
+
+  interface ProcessInstanceCountQuery {
+    processDefinitionKey: string
+    processDefinitionId: string
+    processDefinitionWithoutTenantId: boolean
+  }
+
+  interface ActivityInstance {
+    id: string
+    parentActivityInstanceId: any
+    activityId: string
+    activityType: string
+    processInstanceId: string
+    processDefinitionId: string
+    childActivityInstances: ActivityInstance[]
+    childTransitionInstances: any[]
+    executionIds: string[]
+    activityName: string
+    incidentIds: any[]
+    incidents: any[]
+    name: string
+  }
+
+  interface ProcessInstance {
+    links: any[]
+    id: string
+    definitionId: string
+    businessKey: any
+    caseInstanceId: any
+    ended: boolean
+    suspended: boolean
+    tenantId: any
+  }
+
+  interface VariableInstance {
+    type: VariableType
+    value: any
+    valueInfo: Record<any, any>
+    id: string
+    name: string
+    processDefinitionId: string
+    processInstanceId: string
+    executionId: string
+    caseInstanceId: any
+    caseExecutionId: any
+    taskId: any
+    batchId: any
+    activityInstanceId: string
+    errorMessage: any
+    tenantId: any
+  }
+
+  type VariableType = 'Object' | 'File' | 'Double' | 'String'
+
+  interface VariableInstanceQuery {
+    processInstanceIdIn: string[]
+    sorting: Sorting[]
+  }
+
+  interface Sorting {
+    sortBy: string
+    sortOrder: sortOrder
+  }
+
+  type sortOrder = 'asc' | 'desc'
+
+
+  interface FlowForm {
+    key: string,
+    contextPath: string,
+    camundaFormRef: {
+      key: string,
+      binding: string,
+      version: string,
+    }
+  }
+
+  interface deployedForm {
+    id: string,
+    components: formComponent[]
   }
 
 }

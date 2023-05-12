@@ -56,3 +56,15 @@
 .bjs-powered-by {
   display: none;
 }
+
+
+.inherit-height {
+  height: inherit;
+}
+
+
+.flex-raw {
+  & .v-col:not(:last-child) {
+    margin-right: 10px;
+  }
+}

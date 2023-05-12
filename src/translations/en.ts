@@ -203,8 +203,13 @@ export default {
     'flowable-processes-preview': 'Processes Preview',
     'flowable-process-definition-process-instance': 'Process Instance',
     'flowable-process-definition-incident': 'Incident',
+    'flowable-process-instance-detail': 'Process Instance Detail',
     'form-list': 'Forms',
-    'form-design': 'Form Design'
+    'form-design': 'Form Design',
+    'my-process': 'My Process',
+    'my-process-start-process': 'Start Process',
+    'my-process-start-process-start': 'Start',
+    'my-process-list': 'Process List'
   },
   // Vuetify components translations
   $vuetify: {

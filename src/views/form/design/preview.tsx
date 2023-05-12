@@ -1,19 +1,13 @@
-import {defineComponent, computed, ref, PropType} from 'vue'
+import {defineComponent, PropType} from 'vue'
 import {
-  VDialog, VCard, VCardText, VCardTitle, VCardActions,
-  VBtn
+  VCard, VCardText, VCardTitle
 } from "vuetify/components";
 import Formitem from "@/views/form/design/components/formitem";
-import {VSpacer} from "vuetify/components/VGrid";
+import {Validation} from "@vuelidate/core";
 
 export default defineComponent({
+  name: 'formPreview',
   props: {
-    'modelValue': {
-      required: true,
-      type: Boolean,
-      default: () => {
-      }
-    },
     form: {
       required: true,
       type: Object as PropType<form>,
@@ -21,35 +15,30 @@ export default defineComponent({
     components: {
       required: true,
       type: Array as PropType<formComponent[]>
-    }
+    },
+    v$: {
+      type: Object as PropType<Validation>,
+      required: false
+    },
   },
-  setup(props, {emit}) {
-    const m = ref<Boolean>(false)
-    const model = computed({
-      set(v: Boolean) {
-        m.value = v
-        emit('update:modelValue', v)
-      },
-      get() {
-        return props.modelValue
-      }
-    })
-
-    return () => <VDialog maxWidth={'600px'} v-model={model.value}>
-      <VCard>
-        <VCardTitle>{props.form.name || props.form.id}</VCardTitle>
-        <VCardText>
-          {props.components.map(c => {
+  setup(props, {slots, emit}) {
+    return () => <VCard>
+      <VCardTitle>{props.form.name || props.form.id}
+        {slots.title?.()}
+      </VCardTitle>
+      <VCardText>
+        <form>
+          {props.components.map((c, index) => {
             return <Formitem
               preview={true}
+              v-model={c.modelValue}
+              index={index}
+              v$={props.v$}
               item={c}></Formitem>
           })}
-        </VCardText>
-        <VCardActions>
-          <VSpacer></VSpacer>
-          <VBtn {...{onClick: () => model.value = false}} variant={'tonal'} color={'error'}>cancel</VBtn>
-        </VCardActions>
-      </VCard>
-    </VDialog>
+          {slots.actions?.()}
+        </form>
+      </VCardText>
+    </VCard>
   }
 })

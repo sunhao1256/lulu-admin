@@ -2,7 +2,7 @@ import {defineComponent, ref, toRefs, nextTick} from 'vue'
 import type {PropType} from 'vue'
 import customTranslate from "./customTranslate";
 import initModeler from './initModeler'
-import camundaModdleDescriptors from 'camunda-bpmn-moddle/resources/camunda';
+import {default as camundaModdleDescriptor} from 'camunda-bpmn-moddle/resources/camunda.json';
 import {createNewDiagram} from './util'
 
 const Designer = defineComponent({
@@ -35,7 +35,7 @@ const Designer = defineComponent({
             },
           ],
           moddleExtensions: {
-            camunda: camundaModdleDescriptors
+            camunda: camundaModdleDescriptor
           }
         }
         initModeler(editorSettings, emit)

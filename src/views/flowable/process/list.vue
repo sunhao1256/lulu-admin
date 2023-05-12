@@ -61,9 +61,6 @@
       no-data-text="no more process"
       class="flex-grow-1"
     >
-      <template #bottom>
-
-      </template>
       <template v-slot:item.id="{ item  : {raw} }">
         <div class="font-weight-bold">#
           <copy-label :text="raw.id + ''"/>
@@ -81,6 +78,9 @@
       <template v-slot:item.action="{item:{raw} }">
         <div class="actions">
           <v-btn flat icon :to="`/flowable/design/${raw.processDefinitions[0].id}`">
+            <v-icon>mdi-file-edit-outline</v-icon>
+          </v-btn>
+          <v-btn flat icon :to="`/flowable/process-definition/${raw.processDefinitions[0].id}/process-instance`">
             <v-icon>mdi-open-in-new</v-icon>
           </v-btn>
         </div>

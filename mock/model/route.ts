@@ -238,6 +238,17 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
           }
         },
         {
+          name: 'flowable_process-definition_process-instance-detail',
+          path: '/flowable/process-definition/process-instance-detail',
+          component: 'self',
+          meta: {
+            requiresAuth: true,
+            dynamicPath: '/flowable/process-definition/:id/process-instance-detail/:insId',
+            title: 'menu.flowable-process-instance-detail',
+            hide: true,
+          }
+        },
+        {
           name: 'flowable_process-definition',
           path: '/flowable/process-definition',
           component: 'self',
@@ -317,6 +328,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
           meta: {
             requiresAuth: true,
             title: 'menu.form-design',
+            hide: true,
             dynamicPath: '/form/design/:id?'
           }
         },
@@ -327,6 +339,46 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
         icon: "mdi-waves-arrow-right"
       }
     },
+    {
+      name: "my-process",
+      component: "basic",
+      path: "/my-process",
+      meta: {
+        title: "menu.my-process",
+        requiresAuth: true,
+      },
+      children: [
+        {
+          name: "my-process_start-process",
+          component: "self",
+          path: "/my-process/start-process",
+          meta: {
+            title: "menu.my-process-start-process",
+            requiresAuth: true
+          },
+        },
+        {
+          name: 'my-process_start-process_start',
+          path: '/my-process/start-process/start',
+          component: 'self',
+          meta: {
+            title: "menu.my-process-start-process-start",
+            requiresAuth: true,
+            hide: true,
+            dynamicPath: "/my-process/start-process/:pdId/start"
+          }
+        },
+        {
+          name: "my-process_list",
+          component: "self",
+          path: "/my-process/list",
+          meta: {
+            title: "menu.my-process-list",
+            requiresAuth: true
+          }
+        }
+      ]
+    }
 
   ],
   user: [

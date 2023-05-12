@@ -38,8 +38,3 @@ declare namespace FormManagement {
 
   type FormStatusKey = NonNullable<Form['status']>;
 }
-declare namespace FlowManagement {
-  interface Flow extends ApiFlow.Flow {
-
-  }
-}

@@ -75,7 +75,7 @@ export default defineComponent({
           this._modelValue = false
           setTimeout(() => {
             this._onClose(this.key)
-          }, 1200)
+          }, 500)
         }
       })
       dialogListRef.value.push(dialogReactive)

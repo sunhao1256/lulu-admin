@@ -1,9 +1,12 @@
 <template>
   <div class="flex-grow-1 h-100 d-flex flex-column">
-    <v-toolbar rounded flat elevation="1" color="surface" class="mb-2">
-      <v-toolbar-title class="text-primary font-weight-bold">Flow Design</v-toolbar-title>
 
-      <v-spacer/>
+    <div class="d-flex align-center">
+      <div>
+        <div class="text-h4">Flow Design</div>
+        <breadcrumb/>
+      </div>
+      <v-spacer></v-spacer>
       <input
         type="file"
         ref="importRef"
@@ -62,7 +65,7 @@
       >
         Deploy
       </v-btn>
-    </v-toolbar>
+    </div>
     <div class="content flex-grow-1 elevation-2 d-flex justify-space-between">
       <div class="position-relative">
         <designer :xml="demoXML" @commandStackChanged="exportArtifacts">
@@ -120,6 +123,7 @@ import {useRouter} from "vue-router";
 import {processDefinitionXml} from '@/service'
 import Navigate from "@/views/flowable/components/navigate.vue";
 import {canvasFitViewport} from "@/views/flowable/utils/BpmnCanvasUtil";
+import {CamundaResource} from "@/enum";
 
 const properties = ref<InstanceType<typeof PropertiesPanel> | null>()
 const modelStore = useModelStore()
@@ -170,23 +174,29 @@ const exportArtifacts = debounce(async () => {
 
 
 const deploy = async () => {
-
-  const request: ApiFlowManagement.deployCreate = {
-    name: getNameValue(modelStore.getActive) || 'tmp',
-    source: 'lulu-oa',
-    "deployment-file": undefined
+  console.log()
+  if (!modelStore.getCanvas) {
+    window.$snackBar?.error('Model Canvas Mandatory')
+    return
+  }
+  const root = modelStore.getCanvas.getRootElement()
+  const request: Partial<ApiFlowManagement.deployCreate> = {
+    "deployment-name": getNameValue(root),
+    "enable-duplicate-filtering": true,
+    "deployment-source": CamundaResource.process
   }
 
   try {
     const {xml} = await modelStore.getModeler.saveXML({format: true});
     const blob = new Blob([xml]);
-    request["deployment-file"] = new File([blob], request.name + '.bpmn')
+    const file = new File([blob], request["deployment-name"] + '.bpmn')
+    request[file.name] = file
     console.log(request)
     deployLoading.value = true
     const r = await deploymentCreate(request)
     deployLoading.value = false
     if (r.data) {
-      window.$snackBar?.success(`deploy flow ${request.name} success`)
+      window.$snackBar?.success(`deploy flow ${request["deployment-name"]} success`)
     }
 
   } catch (err) {

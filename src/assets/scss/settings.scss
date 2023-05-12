@@ -52,7 +52,15 @@ $typography: (
 
 ),
 $list-item-title-font-weight: 600,
-$field-font-size: 14px
+$field-font-size: 14px,
+
+$size-scales: (
+  'x-small': -2,
+  'small': -0.5,
+  'default': 0,
+  'large': 1,
+  'x-large': 2
+)
 
 )
 ;

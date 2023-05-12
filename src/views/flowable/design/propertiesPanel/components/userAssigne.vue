@@ -31,18 +31,9 @@
           label="DueDate"
           density="comfortable"
           hide-details
-          class="ma-0"
           variant="outlined"
           @change="updateElementDueDateTime"
-          type="date"
-        ></v-text-field>
-        <v-text-field
-          v-model="dueTime"
-          density="comfortable"
-          hide-details
-          variant="outlined"
-          @change="updateElementDueDateTime"
-          type="time"
+          type="datetime-local"
         ></v-text-field>
       </div>
     </v-expansion-panel-text>
@@ -60,7 +51,6 @@ const camundaDueDate = "camunda:dueDate"
 const typeOption = ['user', 'role']
 const type = ref("")
 const dueDate = ref<String>("")
-const dueTime = ref<String>("")
 const userIds = ref<Array<String>>([])
 const roleIds = ref<Array<String>>([])
 
@@ -80,16 +70,14 @@ if (getUserIdsValue()) {
   type.value = typeOption[0]
 }
 
-const getDueDate: () => Array<String> = () => {
-  return businessObject.get(camundaDueDate)?.split(' ');
+const getDueDate: () => String = () => {
+  return businessObject.get(camundaDueDate);
 };
 
 if (getDueDate()) {
   const arr = getDueDate()
   if (arr.length > 0)
     dueDate.value = arr[0]
-  if (arr.length > 1)
-    dueTime.value = arr[1]
 }
 
 const updateElementUser = (value: Array<String>) => {
@@ -109,7 +97,7 @@ const updateElementDueDateTime = (value: any) => {
     element,
     moddleElement: getBusinessObject(element),
     properties: {
-      'camunda:dueDate': dueDate.value + " " + dueTime.value
+      'camunda:dueDate': dueDate.value
     }
   });
 }

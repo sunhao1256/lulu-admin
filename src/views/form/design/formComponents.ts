@@ -2,27 +2,26 @@ const formComponents: (primary: string) => formComponentGroup[] = (primary: stri
   {
     name: 'Base',
     children: [
-      {
-        name: 'textField',
-        value: 'textField',
-        type: 'textField',
-        config:
-          {
-            variant: 'outlined',
-          }
-      },
-      {
-        name: 'button',
-        value: 'button',
-        type: 'button',
-        config: {
-          color: primary,
-        }
-      },
+      // {
+      //   name: 'button',
+      //   value: 'button',
+      //   type: 'button',
+      //   config: {
+      //     color: primary,
+      //   }
+      // },
       {
         name: 'date',
         value: 'date',
         type: 'date',
+        config: {
+          variant: 'outlined',
+        }
+      },
+      {
+        name: 'datetime',
+        value: 'datetime',
+        type: 'datetime',
         config: {
           variant: 'outlined',
         }
@@ -36,25 +35,17 @@ const formComponents: (primary: string) => formComponentGroup[] = (primary: stri
         }
       },
       {
-        name: 'number',
-        value: 'number',
-        type: 'number',
-        config: {
-          variant: 'outlined',
-        }
-      },
-      {
-        name: 'textarea',
-        value: 'textarea',
-        type: 'textArea',
-        config: {
-          variant: 'outlined',
-        }
-      },
-      {
         name: 'upload',
         value: 'upload',
         type: 'upload',
+        config: {
+          variant: 'outlined',
+        }
+      },
+      {
+        name: 'switch',
+        value: 'switch',
+        type: 'switch',
         config: {
           variant: 'outlined',
         }
@@ -75,6 +66,31 @@ const formComponents: (primary: string) => formComponentGroup[] = (primary: stri
               value: 'option2'
             }
           ]
+        }
+      },
+      {
+        name: 'number',
+        value: 'number',
+        type: 'number',
+        config: {
+          variant: 'outlined',
+        }
+      },
+      {
+        name: 'textField',
+        value: 'textField',
+        type: 'textField',
+        config:
+          {
+            variant: 'outlined',
+          }
+      },
+      {
+        name: 'textarea',
+        value: 'textarea',
+        type: 'textArea',
+        config: {
+          variant: 'outlined',
         }
       },
       {

@@ -23,6 +23,25 @@ export default defineComponent({
   emits: ['update:modelValue'],
   setup(props, {emit}) {
 
+    const general = (item: formComponent) => {
+      return <div class={['d-flex', 'flex-column']}>
+        {[required(item), readonly(item)]}
+      </div>
+    }
+    const required = (item: formComponent) => {
+      return <VSwitch color={"primary"} label={"required"} hideDetails
+                      v-model={props.modelValue.config.required}></VSwitch>
+    }
+    const readonly = (item: formComponent) => {
+      return <VSwitch color={"primary"} label={"readonly"} v-model={props.modelValue.config.readonly}></VSwitch>
+    }
+    const defaultValue = (item: formComponent) => {
+      return <VTextField color={"primary"} label={"defaultValue"}
+                         variant={'outlined'}
+                         density={'comfortable'}
+                         v-model={props.modelValue.config.defaultValue}></VTextField>
+    }
+
     const optionsRender = (item: formComponent) => {
       return <div class={['d-flex flex-column']}>
         {item.config.options.map((o: formOption, index: number) => {
@@ -69,27 +88,32 @@ export default defineComponent({
         case "button":
           return <VColorPicker v-model={item.config.color} mode={"hexa"}></VColorPicker>
         case "checkbox":
-          return optionsRender(item)
+          return [optionsRender(item)]
         case "radio":
-          return optionsRender(item)
+          return [optionsRender(item), general(item)]
         case "switch":
-          return <VTextField label={item.name} hideDetails={true} variant={item.config.variant}></VTextField>
+          return [general(item)]
         case "textField":
-          return [variantSelectRender(item)]
+          return [variantSelectRender(item), general(item), defaultValue(item)]
         case "textArea":
-          return undefined
+          return [general(item)]
         case "date":
-          return undefined
+          return [general(item)]
         case "time":
-          return undefined
+          return [general(item)]
+        case "datetime":
+          return [general(item)]
         case "number":
-          return undefined
+          return [general(item)]
+        case "user":
+          return [general(item)]
+        case "role":
+          return [general(item)]
         case "select":
-          return optionsRender(item)
+          return [optionsRender(item), general(item)]
         case "upload":
-          return <VTextField type={'number'} variant={'outlined'} density={'comfortable'}
-                             label={'MaxSize/MB'}></VTextField>
-
+          return [<VTextField type={'number'} variant={'outlined'} density={'comfortable'}
+                              label={'MaxSize/MB'}></VTextField>, general(item)]
         default:
           return undefined
       }
@@ -106,7 +130,6 @@ export default defineComponent({
         {densitySelectRender(props.modelValue)}
         <VSlider thumbLabel={'always'} v-model={props.modelValue.config.cols} max={12} min={0} step={1}
                  color={'primary'}></VSlider>
-        <VSwitch color={"primary"} label={"required"}></VSwitch>
         {switchRender(props.modelValue)}
       </div>
 

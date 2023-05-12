@@ -45,7 +45,7 @@ export function createRequest(axiosConfig: AxiosRequestConfig, backendConfig?: S
     return asyncRequest<T>({url, method: 'put', data, axiosConfig: config});
   }
 
-  function handleDelete<T>(url: string, config: AxiosRequestConfig) {
+  function handleDelete<T>(url: string, config?: AxiosRequestConfig) {
     return asyncRequest<T>({url, method: 'delete', axiosConfig: config});
   }
 

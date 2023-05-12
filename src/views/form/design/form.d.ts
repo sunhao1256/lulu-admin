@@ -9,7 +9,8 @@ interface formComponent {
   id?: string,
   name: string,
   value: string,
-  type: 'textField' | 'number' | 'switch' | 'button' | 'textArea' | 'select' | 'date' | 'time' | 'checkbox' | 'upload' | 'user' | 'role' | 'flexRow' | 'radio'
+  modelValue?: any,
+  type: 'textField' | 'number' | 'switch' | 'button' | 'textArea' | 'select' | 'datetime' | 'date' | 'time' | 'checkbox' | 'upload' | 'user' | 'role' | 'flexRow' | 'radio'
   config: formComponentConfig
 }
 
@@ -27,6 +28,10 @@ type formComponentConfig =
     options: formOption[],
     formChildren: formComponent[]
   }
+    & {
+    required: boolean
+    defaultValue: string
+  }
     )
 
 
@@ -40,5 +45,5 @@ type formComponentType = NonNullable<formComponent['type']>
 
 interface form {
   id: string,
-  name: string,
+  name?: string,
 }

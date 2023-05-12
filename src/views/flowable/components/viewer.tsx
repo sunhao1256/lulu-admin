@@ -1,28 +1,27 @@
-import {defineComponent, PropType, ref} from "vue";
+import {defineComponent, ref} from "vue";
 
 import Viewer from "bpmn-js/lib/NavigatedViewer";
-import {VCard, VAlert, VAlertTitle, VChip, VSpacer, VCardText, VHover} from 'vuetify/components'
+import {VCardText} from 'vuetify/components'
 import {useLoading} from "@/hooks";
 import {processDefinitionXml} from "@/service";
 import {useThemeStore} from "@/store";
 import {debounce} from "lodash-es";
-import {useRouter} from "vue-router";
-
 
 export default defineComponent({
+  name: 'viewer',
   props: {
-    processResult: {
-      type: Object as PropType<ProcessResult>,
+    processDefinitionId: {
+      type: String,
       required: true,
     },
   },
 
   setup(props) {
-    const {processResult} = props
+    const {processDefinitionId} = props
     const viewerRef = ref<HTMLDivElement | null>(null)
     const {loading, startLoading, endLoading} = useLoading(true)
     const theme = useThemeStore()
-    const xml = ref<String>()
+    const xml = ref<string>()
 
     let viewer: any = null
     const centerElement = debounce(() => {
@@ -33,7 +32,7 @@ export default defineComponent({
     })
     const init = async () => {
       startLoading()
-      const resp = await processDefinitionXml(processResult.latestId)
+      const resp = await processDefinitionXml(processDefinitionId)
       endLoading()
       if (resp.data) {
         xml.value = resp.data.bpmn20Xml
@@ -75,44 +74,18 @@ export default defineComponent({
       window.removeEventListener("resize", centerElement);
     })
 
-    const {push} = useRouter()
-
-    const toDetail = async () => {
-      await push({path: `/flowable/process-definition/${processResult.latestId}/process-instance`})
-    }
 
     return () =>
-      <div class={'d-flex'}>
-        <VHover>
-          {({isHovering, props}) => (
-            <div class={'d-flex flex-column'}>
-              <VAlert text={processResult.name}></VAlert>
-              <VCard {...props} elevation={!!isHovering ? 24 : 2}
-                     {...{
-                       'onClick': async () => {
-                         await toDetail()
-                       }
-                     }}
-              >
-                {!loading.value && (
-                  <>
-
-                    <VCardText class={'preview-item h-100'}>
-                      <div class={'h-100 w-100'} ref={viewerRef}></div>
-                    </VCardText>
-                  </>
-                )}
-              </VCard>
-              <VAlert density={'comfortable'}>
-                <VAlertTitle class={'text-caption'}>
-                  {processResult.runningInstances + ' running Instances'}
-                  <VSpacer/>
-                  <VChip size={'small'} color={'green'} class={'front-weight-bold'} label>{'active'}</VChip>
-                </VAlertTitle>
-              </VAlert>
-            </div>
-          )}
-        </VHover>
-      </div>
+      <>
+        {
+          !loading.value && (
+            <>
+              <VCardText class={'preview-item h-100'}>
+                <div class={'h-100 w-100'} ref={viewerRef}></div>
+              </VCardText>
+            </>
+          )
+        }
+      </>
   }
 })

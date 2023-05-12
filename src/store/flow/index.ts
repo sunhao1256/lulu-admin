@@ -1,6 +1,5 @@
 import {defineStore} from 'pinia'
 import {Base} from 'diagram-js/lib/model'
-import Canvas from 'diagram-js/lib/core/Canvas'
 import ElementRegistry from 'diagram-js/lib/core/ElementRegistry'
 
 type ModelerStore = {
@@ -10,7 +9,7 @@ type ModelerStore = {
   moddle: any
   modeling: any
   commandStack: any,
-  canvas: Canvas | null
+  canvas: any,
   elementRegistry: ElementRegistry | null
 }
 

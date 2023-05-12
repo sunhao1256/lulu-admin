@@ -12,7 +12,7 @@
     ></v-text-field>
     <v-divider></v-divider>
 
-    <div v-if="tasks.length === 0">
+    <div v-if="tasks?.length === 0">
       <div class="px-1 py-6 text-center">All done! No more tasks!</div>
     </div>
 
@@ -27,6 +27,7 @@
         <v-checkbox-btn
           :input-value="task.completed"
           hide-details
+          inline
           false-icon="mdi-checkbox-blank-circle-outline"
           true-icon="mdi-checkbox-marked-circle"
         >

@@ -10,3 +10,9 @@ export enum EnumLoginModule {
   'verify-email' = 'verifyEmail',
   'forgot' = 'forgotPass',
 }
+
+
+export enum CamundaResource {
+  'process' = 'lulu-oa-process',
+  'form' = 'lulu-oa-form'
+}

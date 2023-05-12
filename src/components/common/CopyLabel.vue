@@ -40,7 +40,7 @@ const copy = () => {
   if (copyLabel.value) {
     animate(copyLabel.value, props.animation)
   }
-  clipboard(props.text, props.toastText)
+  clipboard(props.text + '', props.toastText)
   tooltip.value = 'Copied!'
   timeout = setTimeout(() => {
     tooltip.value = 'Copy'

@@ -11,17 +11,17 @@
           </v-list-item-title>
           <v-list-item-action>
             <div v-if="component.children" class="component-list d-flex flex-row w-100  flex-wrap ">
-              <vue-draggable :list="component.children" item-key="name"
-                             :clone="cloneComponent"
-                             @end="endComponent"
-                             :sort="false"
-                             :group="{ name: 'formComponentGroups', pull: 'clone', put: false }">
+              <draggable :list="component.children" item-key="name"
+                         :clone="cloneComponent"
+                         @end="endComponent"
+                         :sort="false"
+                         :group="{ name: 'formComponentGroups', pull: 'clone', put: false }">
                 <template #item="{ element }">
                   <v-chip label color="primary" class="component-list-item cursor-move" @click="addComponent(element)">
                     {{ element.name }}
                   </v-chip>
                 </template>
-              </vue-draggable>
+              </draggable>
             </div>
           </v-list-item-action>
         </v-list-item>
@@ -52,6 +52,10 @@
           <v-btn variant="tonal" color="primary" @click="showPreview()"
                  :disabled="selectedFormComponents.length===0">Preview
           </v-btn>
+          <v-btn variant="tonal" color="success" class="ml-1" @click="deploy()"
+                 :loading="deployLoading"
+                 :disabled="selectedFormComponents.length===0">Deploy
+          </v-btn>
           <v-btn variant="tonal" color="error" class="ml-1" :disabled="selectedFormComponents.length===0"
                  @click="selectedFormComponents=[]">ClearAll
           </v-btn>
@@ -62,7 +66,7 @@
               drag component from left panel
               to here !
             </div>
-            <vue-draggable
+            <draggable
               :list="selectedFormComponents"
               class="draggable-area"
               :animation="340"
@@ -70,49 +74,96 @@
               ghost-class="ghost"
               item-key="id"
             >
-              <template #item="{ element }">
+              <template #item="{ element,index }">
                 <formitem :item="element"
                           :active="activeComponent"
                           :list="selectedFormComponents"
                           :id-prefix="form.id"
+                          v-model="element.modelValue"
+                          :index="index"
                           @delete="deleteComponent"
                           @duplicate="duplicateComponent"
-                          @selected="selectComponent"
-                >
-                </formitem>
+                          @selected="selectComponent"/>
               </template>
-            </vue-draggable>
-
+            </draggable>
           </v-form>
         </v-card-text>
       </v-card>
     </v-main>
-    <preview v-model="previewDialog" :components="selectedFormComponents" :form="form"></preview>
+    <v-dialog max-width="600" v-model="previewDialog">
+      <form-preview :components="selectedFormComponents" :form="form">
+        <template #title>
+          <v-spacer/>
+          <v-btn icon variant="flat">
+            <v-icon @click="previewDialog=false">mdi-close</v-icon>
+          </v-btn>
+        </template>
+        <template #actions>
+          <v-spacer/>
+          <v-btn color="primary" @click="previewSubmit">submit</v-btn>
+        </template>
+      </form-preview>
+    </v-dialog>
   </v-layout>
 </template>
 
 <script setup lang="ts">
-import VueDraggable from 'vuedraggable'
 import {ref, reactive} from 'vue'
 import Formitem from "@/views/form/design/components/formitem";
-import {cloneDeep, uniqueId} from 'lodash-es'
+import {cloneDeep} from 'lodash-es'
 import formComponentsGetter from "./formComponents";
 import FormitemEdit from "@/views/form/design/components/formitemEdit";
-import Preview from "@/views/form/design/preview";
-import FromDemo from './demofom.json'
+import {deploymentCreate, deploymentResourceData, deploymentResources} from "@/service";
+import {useLoading} from "@/hooks";
+import {CamundaResource} from "@/enum";
+import {useRouter} from "vue-router";
+import FormPreview from "@/views/form/design/preview";
+import {uniqueId} from "@/utils";
+import useVuelidate from "@vuelidate/core";
+
+const {currentRoute} = useRouter()
+const v$ = useVuelidate()
+const deploymentId = ref(currentRoute.value.params['id'] as string)
+const resource = ref<Partial<ApiFlowManagement.resource>>({})
+
+
+const loadResource = async () => {
+  if (deploymentId.value && deploymentId.value.length > 0) {
+    window.$loadingOverly?.show()
+    const {data} = await deploymentResources(deploymentId.value)
+    if (data && data.length > 0) {
+      // form deployment only contains single attachment
+      resource.value = data[0]
+    }
+    if (resource.value.id) {
+      const {data} = await deploymentResourceData(deploymentId.value, resource.value.id)
+      if (data) {
+        selectedFormComponents.value = data.components
+        form.id = data.id
+        form.name = data.id
+        if (selectedFormComponents.value.length > 0) {
+          selectComponent(selectedFormComponents.value[0])
+        }
+      }
+    }
+    window.$loadingOverly?.hide()
+
+  }
+}
+
+loadResource()
 
 const form = reactive<form>({
-  id: 'Form' + (+new Date).toString(36).slice(-10),
-  name: 'Make Car Use Request'
+  id: 'Form' + uniqueId(),
 })
-const activeComponent = ref<formComponent>()
 
+form.name = form.id
+const activeComponent = ref<formComponent>()
 const previewDialog = ref<boolean>(false)
 const theme = useTheme();
 const formComponents = formComponentsGetter(theme.current.value.colors.primary)
 const cloningComponent = ref<formComponent>()
-const demo = FromDemo as formComponent[]
-const selectedFormComponents = ref<Array<formComponent>>(demo)
+const selectedFormComponents = ref<Array<formComponent>>([])
 const selectComponent = (c: formComponent) => {
   activeComponent.value = c
 }
@@ -147,6 +198,46 @@ const showPreview = () => {
   console.log(JSON.stringify(selectedFormComponents.value))
 }
 
+const {loading: deployLoading} = useLoading()
+const deploy = async () => {
+
+  const request: Partial<ApiFlowManagement.deployCreate> = {
+    "deployment-name": form.name,
+    "enable-duplicate-filtering": true,
+    "deployment-source": CamundaResource.form
+  }
+  // remove modelValue
+  selectedFormComponents.value.forEach(c => c.modelValue = undefined)
+  const fileContent = {
+    id: form.name,
+    components: selectedFormComponents.value
+  }
+
+  try {
+    const formComponents = JSON.stringify(fileContent)
+    const blob = new Blob([formComponents]);
+    const file = new File([blob], request["deployment-name"] + '.form')
+    request[file.name] = file
+    deployLoading.value = true
+    const r = await deploymentCreate(request)
+    deployLoading.value = false
+    if (r.data) {
+      window.$snackBar?.success(`deploy form ${request["deployment-name"]} success`)
+    }
+  } catch (err) {
+    console.error('Error happened saving form: ', err);
+    window.$snackBar?.error('Error happened saving form: ' + err)
+  }
+}
+
+
+const previewSubmit = () => {
+  v$.value.$validate().then(valid => {
+    if (valid) {
+      window?.$snackBar?.success("preview form submitted !")
+    }
+  })
+}
 </script>
 
 <style scoped lang="scss">

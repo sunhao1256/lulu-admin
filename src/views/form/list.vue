@@ -48,7 +48,7 @@
             density="comfortable"
             hide-details
             clearable
-            placeholder="e.g. filter for id, email, name, etc"
+            placeholder="e.g. filter for name etc"
           ></v-text-field>
           <v-btn
             :loading="loading"
@@ -72,6 +72,9 @@
         :loading="loading"
         :items-length="total"
         :items-per-page="pageSize"
+        v-model:page="page"
+        v-model:items-per-page="pageSize"
+        v-model:sort-by="sortBy"
         @update:options="options = $event"
         class="flex-grow-1"
       >
@@ -82,7 +85,7 @@
         </template>
 
         <template v-slot:item.status="{item:{raw}}">
-          {{ formStatusLabels [(raw as FormManagement.Form ).status] }}
+          {{ formStatusLabels [(raw as FormManagement.Form).status] }}
         </template>
 
         <template v-slot:item.created="{ item  : {raw} }">
@@ -93,6 +96,9 @@
           <div class="actions">
             <v-btn flat icon :to="`/form/design/${raw.id}`">
               <v-icon>mdi-open-in-new</v-icon>
+            </v-btn>
+            <v-btn flat icon @click="deleteForm(raw)">
+              <v-icon>mdi-trash-can-outline</v-icon>
             </v-btn>
           </div>
         </template>
@@ -105,34 +111,57 @@
 
 import {Ref, ref} from "vue";
 import {useLoading} from '@/hooks';
-import {fetchFormList} from "@/service";
+import {deploymentCount, deploymentDelete, deploymentList} from "@/service";
 import {formStatusLabels} from '@/constants'
+import {CamundaResource} from "@/enum";
+import {debounce} from 'lodash-es'
 
 const {loading, startLoading, endLoading} = useLoading(true);
 
 const options = ref()
 const total = ref(0)
+const page = ref(1)
 const pageSize = ref(10)
-const items = ref<Array<FormManagement.Form>>([])
-const searchQuery = ref('')
-const selected = ref<Array<FormManagement.Form>>([])
+const items = ref<Array<ApiFlowManagement.deployment>>([])
+const searchQuery = ref<string>('')
+const sortBy = ref<Array<{ key: string, order: 'desc' | 'asc' }>>([{
+  key: 'deploymentTime',
+  order: 'desc'
+}])
+const selected = ref<Array<ApiFlowManagement.deployment>>([])
 const headers: Ref<DataTableHeader> = ref<DataTableHeader>([
-  {title: 'Id', align: 'start', key: 'id'},
-  {title: 'Name', key: 'name'},
-  {title: 'Status', key: 'status'},
-  {title: 'Created', align: 'start', key: 'created'},
+  {title: 'Id', align: 'start', key: 'id', sortable: false},
+  {title: 'Name', key: 'name', sortable: false},
+  {title: 'DeploymentTime', align: 'start', key: 'deploymentTime'},
   {title: '', sortable: false, align: 'end', key: 'action'}
 ])
 
-async function getTableData() {
+const getTableData = debounce(async () => {
+
+  const req: ApiFlowManagement.deployList = {
+    firstResult: (page.value - 1) * pageSize.value,
+    maxResults: pageSize.value,
+    source: CamundaResource.form
+  }
+  if (searchQuery.value && searchQuery.value.length > 0) {
+    req.nameLike = searchQuery.value + '%'
+  }
+  if (sortBy.value.length > 0) {
+    req.sortBy = sortBy.value[0].key
+    req.sortOrder = sortBy.value[0].order
+  }
   startLoading();
-  const {data} = await fetchFormList();
+  deploymentCount(req).then(resp => {
+    if (resp.data) {
+      total.value = resp.data.count
+    }
+  })
+  const {data} = await deploymentList(req);
   endLoading();
   if (data) {
-    total.value = data.total
-    items.value = data.list
+    items.value = data
   }
-}
+}, 200)
 
 async function init() {
   await getTableData()
@@ -142,6 +171,26 @@ async function init() {
 }
 
 init()
+
+
+const deleteForm = async (d: ApiFlowManagement.deployment) => {
+  const dialog = window.$dialog?.show({
+    main: `Are you sure delete Form ${d.name} ?`,
+    confirm: async () => {
+      dialog?.confirmLoading(true)
+      await deploymentDelete(d.id, {
+        //form deployment no related resources or instances
+        cascade: true,
+        skipCustomListeners: true,
+        skipIoMappings: true
+      })
+      await getTableData()
+      dialog?.confirmLoading(false)
+      dialog?.close()
+    }
+  })
+
+}
 
 </script>
 

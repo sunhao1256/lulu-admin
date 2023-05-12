@@ -48,6 +48,7 @@
     >
       <div class="d-flex flex-grow-1 align-center">
         <v-app-bar-nav-icon @click.stop="theme.draw= !theme.draw"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon icon="mdi-chevron-left" @click.stop="router.go(-1)"></v-app-bar-nav-icon>
         <v-spacer class="d-none d-lg-block"/>
         <v-autocomplete
           :placeholder="$t('menu.search')"
@@ -101,9 +102,11 @@
 import LoadingProgressProvider from "@/components/provider/LoadingProgressLine";
 import {computed} from 'vue'
 import {useAppInfo, useRouterPush} from "@/composables";
+import {useRouter} from "vue-router";
 
 const theme = useThemeStore()
 const routeStore = useRouteStore();
+const router = useRouter()
 const menus = computed(() => routeStore.menus as App.GlobalMenuOption[]);
 const {name, version} = useAppInfo();
 const push = useRouterPush()

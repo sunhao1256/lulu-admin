@@ -53,8 +53,12 @@ export default class CustomAxiosInstance {
         if (status === 200 || status < 300 || status === 304) {
           const backend = response.data;
           const {codeKey, dataKey, successCode} = this.backendConfig;
-          if (backend[codeKey] === successCode) {
-            return handleServiceResult(null, backend[dataKey]);
+          if (backend[codeKey]) {
+            if (backend[codeKey] === successCode) {
+              return handleServiceResult(null, backend[dataKey]);
+            }
+          } else {
+            return handleServiceResult(null, backend);
           }
 
           if (REFRESH_TOKEN_CODE.includes(backend[codeKey])) {

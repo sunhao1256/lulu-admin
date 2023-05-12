@@ -49,6 +49,7 @@ declare namespace PageRoute {
     | 'flowable_design'
     | 'flowable_process-definition'
     | 'flowable_process-definition_process-instance'
+    | 'flowable_process-definition_process-instance-detail'
     | 'flowable_process-definition_incident'
     | 'flowable_processes'
     | 'flowable_processes_list'
@@ -56,6 +57,10 @@ declare namespace PageRoute {
     | 'form'
     | 'form_list'
     | 'form_design'
+    | 'my-process'
+    | 'my-process_start-process'
+    | 'my-process_start-process_start'
+    | 'my-process_list'
     ;
   /**
    * last degree route key, which has the page file
@@ -86,8 +91,12 @@ declare namespace PageRoute {
     | 'flowable_processes_preview'
     | 'flowable_process-definition'
     | 'flowable_process-definition_process-instance'
+    | 'flowable_process-definition_process-instance-detail'
     | 'flowable_process-definition_incident'
     | 'form_list'
     | 'form_design'
+    | 'my-process_start-process'
+    | 'my-process_start-process_start'
+    | 'my-process_list'
   >;
 }

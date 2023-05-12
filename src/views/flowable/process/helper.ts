@@ -107,11 +107,15 @@ function htmlString2dom(html: string): HTMLHtmlElement {
 export const setupEventListener = (viewer, statisticResults: ApiFlowManagement.StatisticsResult[] | undefined,
                                    selection: string[],
                                    click: (id: string | null) => void) => {
+
   InstanceCount(viewer, statisticResults, click)
   const activeElement = Object.keys(groupBy(statisticResults, (s: ApiFlowManagement.StatisticsResult) => s.id))
   const eventBus = viewer.get('eventBus');
   const elementRegistry = viewer.get('elementRegistry');
-
+  //initiation
+  selection.splice(0, selection.length)
+  otherOut({id: '-1'})
+  eventBus.off('element.click')
   eventBus.on('element.click', (e) => {
     const isRoot = !e.element.parent;
     const element = e.element.businessObject
@@ -126,13 +130,14 @@ export const setupEventListener = (viewer, statisticResults: ApiFlowManagement.S
       selection.splice(0, selection.length)
       click(null)
     }
-
     otherOut(element)
   });
+  eventBus.off('element.hover')
   eventBus.on('element.hover', (e) => {
     const element = e.element.businessObject
     onHover(element)
   });
+  eventBus.off('element.out')
   eventBus.on('element.out', (e) => {
     const element = e.element.businessObject
     onOut(element)

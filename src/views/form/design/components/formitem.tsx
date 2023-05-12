@@ -8,11 +8,14 @@ import {
 } from 'vuetify/components'
 
 import {PropType} from "vue";
-import VueDraggable from 'vuedraggable'
 import Formitem from "@/views/form/design/components/formitem";
 import {VForm} from "vuetify/components/VForm";
-import {cloneDeep, uniqueId} from "lodash-es";
+import {cloneDeep} from "lodash-es";
 import {VRow} from "vuetify/components/VGrid";
+import {uniqueId} from "@/utils";
+import {Validation} from "@vuelidate/core";
+import {ValidateEach as EachValidate} from '@vuelidate/components'
+import {helpers} from "@vuelidate/validators";
 
 export default defineComponent({
   props: {
@@ -47,7 +50,16 @@ export default defineComponent({
       required: false,
       type: Boolean,
       default: false,
-    }
+    },
+    modelValue: null,
+    v$: {
+      type: Object as PropType<Validation>,
+      required: false
+    },
+    index: {
+      type: Number,
+      required: true
+    },
   },
   emits: {
     'delete': (e: formComponent) => {
@@ -59,10 +71,19 @@ export default defineComponent({
     'duplicate': (e: formComponent) => {
       return e
     },
+    'update:modelValue': (e) => e
   },
   setup(props, {emit}) {
     const {active, item} = toRefs(props)
     const zIndexStyle = 'z-index: ' + props.layers * 10
+    const modelValue = computed({
+      get() {
+        return props.modelValue
+      },
+      set(val) {
+        emit('update:modelValue', val)
+      }
+    })
 
     const cloneComponent = (c: formComponent) => {
       const clone = cloneDeep(c)
@@ -113,37 +134,42 @@ export default defineComponent({
       // @ts-ignore
 
       if (props.preview) {
-        return <div class={['d-flex', 'flex-row', 'align-center']}>
-          {item.config.formChildren.map((c: formComponent) => {
+        return <div class={['d-flex', 'flex-row', 'align-center', 'flex-raw']}>
+          {item.config.formChildren.map((c: formComponent, index) => {
             return <Formitem
               preview={true}
+              index={index}
               item={c}></Formitem>
           })}
         </div>
       }
 
       return <VForm style={zIndexStyle}>
-
-        <VueDraggable itemKey={'id'}
-                      animation={340}
-                      group={"formComponentGroups"}
-                      ghostClass={"ghost"}
-                      class={["d-flex", 'flex-row', 'align-center']}
-                      style={'min-height:60px'}
-                      list={item.config.formChildren}>
+        <draggable itemKey={'id'}
+                   animation={340}
+                   group={"formComponentGroups"}
+                   ghostClass={"ghost"}
+                   class={["d-flex", 'flex-row', 'align-center']}
+                   style={'min-height:60px'}
+                   list={item.config.formChildren}>
           {{
             default: () => <VRow></VRow>,
-            item: ({element}: { element: formComponent }) =>
+            item: ({element, index}: { element: formComponent, index }) =>
               <Formitem active={props.active}
                         list={item.config.formChildren}
                         onDelete={(e: formComponent) => emitDelete(e)}
                         onDuplicate={(e: formComponent) => emitDuplicate(e)}
+                        v-model={element.modelValue}
                         onSelected={(e: formComponent) => emitSelected(e)}
+                        preview={props.preview}
+                        idPrefix={props.idPrefix}
+                        index={index}
                         layers={props.layers + 1}
+                        v$={props.v$}
                         item={element}></Formitem>
 
           }}
-        </VueDraggable>
+        </draggable>
       </VForm>
     }
 
@@ -153,52 +179,63 @@ export default defineComponent({
           return <VBtn color={item.config.color} density={item.config.density} class={'text-white'}>{item.name}</VBtn>
         case "checkbox":
           return <>{item.config.options.map((o: formOption) => {
-            return <VCheckbox label={o.label} density={item.config.density} hideDetails={true}
+            return <VCheckbox label={o.label} density={item.config.density}
+                              hideDetails={!props.preview}
                               class={['d-inline-block']}></VCheckbox>
           })}</>
         case "switch":
-          return <VSwitch label={item.name} density={item.config.density}></VSwitch>
+          return <VSwitch hideDetails={!props.preview}
+                          label={item.name} density={item.config.density}></VSwitch>
         case "textField":
-          return <VTextField label={item.name} hideDetails={true} density={item.config.density}
+          return <VTextField label={item.name} density={item.config.density} hideDetails={!props.preview}
                              variant={item.config.variant}></VTextField>
         case "textArea":
-          return <VTextarea label={item.name} hideDetails={true} density={item.config.density}
+          return <VTextarea label={item.name} density={item.config.density} hideDetails={!props.preview}
                             variant={item.config.variant}></VTextarea>
         case "date":
-          return <VTextField label={item.name} hideDetails={true} density={item.config.density} type={'date'}
+          return <VTextField label={item.name} density={item.config.density} type={'date'} hideDetails={!props.preview}
+                             variant={item.config.variant}></VTextField>
+        case "datetime":
+          return <VTextField label={item.name} density={item.config.density} type={'datetime-local'}
+                             hideDetails={!props.preview}
                              variant={item.config.variant}></VTextField>
         case "time":
-          return <VTextField label={item.name} hideDetails={true} density={item.config.density} type={'time'}
+          return <VTextField label={item.name} density={item.config.density} type={'time'} hideDetails={!props.preview}
                              variant={item.config.variant}></VTextField>
         case "number":
-          return <VTextField label={item.name} hideDetails={true} density={item.config.density} type={'number'}
+          return <VTextField label={item.name} density={item.config.density} type={'number'}
+                             hideDetails={!props.preview}
                              variant={item.config.variant}></VTextField>
         case "select":
-          return <VSelect label={item.name} hideDetails={true} items={item.config.options}
+          return <VSelect label={item.name} items={item.config.options}
                           itemTitle={'label'}
+                          v-model={modelValue.value}
+                          hideDetails={!props.preview}
                           itemValue={'value'} density={item.config.density}
                           variant={item.config.variant}></VSelect>
         case "user":
-          return <VSelect label={item.name} hideDetails={true} items={['Lulu', 'frank', 'jack', 'joma', 'wang']}
+          return <VSelect label={item.name} items={['Lulu', 'frank', 'jack', 'joma', 'wang']}
                           itemTitle={'label'}
+                          hideDetails={!props.preview}
                           itemValue={'value'} density={item.config.density}
                           variant={item.config.variant}></VSelect>
         case "role":
-          return <VSelect label={item.name} hideDetails={true}
+          return <VSelect label={item.name}
                           items={['admin', 'tester', 'developer', 'frontend', 'backend']}
                           itemTitle={'label'}
+                          hideDetails={!props.preview}
                           itemValue={'value'} density={item.config.density}
                           variant={item.config.variant}></VSelect>
         case "upload":
-          return <VFileInput label={item.name} hideDetails={true} prependIcon={''} prependInnerIcon={'mdi-paperclip'}
+          return <VFileInput label={item.name} prependIcon={''} prependInnerIcon={'mdi-paperclip'}
                              variant={item.config.variant}
                              chips
+                             hideDetails={!props.preview}
                              density={item.config.density}
                              multiple={true}></VFileInput>
         case "radio":
-
-          return <VRadioGroup label={item.name} density={item.config.density}
-                              hideDetails={true}>{item.config.options.map((o: formOption) => {
+          return <VRadioGroup label={item.name} density={item.config.density} hideDetails={!props.preview}
+          >{item.config.options.map((o: formOption) => {
             return <VRadio label={o.label} value={o.value}></VRadio>
           })}</VRadioGroup>
 
@@ -209,12 +246,51 @@ export default defineComponent({
       }
     }
 
+    const configRender = (item: formComponent, v) => {
+      const element: JSX.Element = switchRender(item)
+      if (props.preview && element.props) {
+        element.props['errorMessages'] = v.modelValue.$errors.map(e => e.$message)
+        if (item.config.defaultValue)
+          element.props['modelValue'] = item.config.defaultValue
+        element.props['readonly'] = item.config.readonly
+        element.props['onUpdate:modelValue'] = (e) => {
+          item.modelValue = e
+        }
+        element.props['onInput'] = (e) => {
+          v.modelValue.$touch()
+        }
+        element.props['onBlur'] = (e) => {
+          v.modelValue.$touch()
+        }
+      }
+      return element
+    }
+
+    const modelRequired = (value, siblings: formComponent) => {
+      if (siblings.config.required) {
+        return helpers.req(value)
+      }
+      return true
+    }
+    const rules = {
+      modelValue: {
+        modelRequired: helpers.withMessage(
+          (e) => {
+            return 'value is required'
+          },
+          {
+            $validator: modelRequired,
+          },
+        )
+      }
+    }
+
     return () =>
       <VCol class={'pa-0 d-flex flex-row align-center h-100'} cols={item.value.config.cols}>
         <div
-          class={['py-1 form-item rounded flex-grow-1',
+          class={['form-item rounded flex-grow-1',
             active.value?.id === item.value.id && 'form-item-active',
-            !props.preview && 'cursor-move px-1'
+            !props.preview && 'cursor-move px-1 py-1'
           ]}
           onClick={(event: any) => {
             event.stopPropagation()
@@ -229,7 +305,9 @@ export default defineComponent({
           {item.value.type === 'flexRow' && !props.preview &&
             <span class={'form-item-active-flex'}>FlexRow</span>
           }
-          {switchRender(item.value)}
+          <EachValidate rules={rules} state={item}>
+            {({v}) => configRender(item.value, v)}
+          </EachValidate>
         </div>
       </VCol>
   }

@@ -1,5 +1,5 @@
 <template>
-  <div>hello incident</div>
+  <div>my process list</div>
 </template>
 
 <script lang="ts" setup>

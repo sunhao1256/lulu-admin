@@ -31,7 +31,7 @@
             </v-btn>
           </div>
         </v-card>
-        <vue-draggable
+        <draggable
           itemKey="name"
           :list="column.cards"
           v-bind="dragOptions"
@@ -48,7 +48,7 @@
               @edit="showEdit(card)"
             />
           </template>
-        </vue-draggable>
+        </draggable>
       </div>
 
       <!-- edit card dialog -->
