@@ -1,6 +1,6 @@
 import {processDefinitionStatistics} from "@/service";
 import {useLoading} from "@/hooks";
-import {groupBy} from "lodash-es";
+import {groupBy, sortBy} from "lodash-es";
 import {ref} from 'vue'
 import $ from "jquery";
 
@@ -24,7 +24,7 @@ export const loadListProcessResultStatistics = () => {
 }
 const uniqueByDefinitionKey = (list: ApiFlowManagement.ProcessStatisticsResult[]): ProcessResult[] => {
   const groups = groupBy(list, (i: ApiFlowManagement.ProcessStatisticsResult) => i.definition.key)
-  return Object.keys(groups)
+  const arr = Object.keys(groups)
     .map(key => {
       const list = groups[key]
       const incidents = list.reduce((accumulate: number, current: ApiFlowManagement.ProcessStatisticsResult) => {
@@ -43,6 +43,7 @@ const uniqueByDefinitionKey = (list: ApiFlowManagement.ProcessStatisticsResult[]
         processDefinitions,
       }
     })
+  return sortBy(arr, [i => i.name], ['desc'])
 }
 
 export const fitAuto = (viewer) => {

@@ -30,7 +30,7 @@
 
       <div class="pa-2">
         <div class="font-weight-bold my-1">Follow Os Theme</div>
-        <v-switch v-model="themeConfig.followOs" color="primary"></v-switch>
+        <v-switch v-model="themeConfig.followOs" color="primary" hide-details></v-switch>
         <div class="font-weight-bold my-1">Global Theme</div>
         <v-btn-toggle v-model="themeConfig.globalTheme" color="primary" mandatory variant="outlined" class="mb-2">
           <v-btn value="light">Light</v-btn>

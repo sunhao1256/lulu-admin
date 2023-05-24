@@ -174,7 +174,17 @@ const exportArtifacts = debounce(async () => {
 
 
 const deploy = async () => {
-  console.log()
+  const dialog = window.$dialog?.show({
+    main: 'Confirm Deploy Process ?',
+    confirm: async () => {
+      dialog?.confirmLoading(true)
+      await doDeploy()
+      dialog?.close()
+    }
+  })
+}
+
+const doDeploy = async () => {
   if (!modelStore.getCanvas) {
     window.$snackBar?.error('Model Canvas Mandatory')
     return

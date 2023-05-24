@@ -32,16 +32,16 @@ export default defineComponent({
 
     const api: SnackBarApiInjection = {
       info(content: ContentType, options?: Snackbar): SnackBarReactive {
-        return create(content, {...options, color: "info", timeout: 1000})
+        return create(content, {...options, color: "info", timeout: 2000})
       },
       success(content: ContentType, options?: Snackbar): SnackBarReactive {
-        return create(content, {...options, color: "success", timeout: 1000})
+        return create(content, {...options, color: "success", timeout: 2000})
       },
       error(content: ContentType, options?: Snackbar): SnackBarReactive {
-        return create(content, {...options, color: "error", timeout: 2000})
+        return create(content, {...options, color: "error", timeout: 3000})
       },
       warning(content: ContentType, options?: Snackbar): SnackBarReactive {
-        return create(content, {...options, color: "warning", timeout: 1000})
+        return create(content, {...options, color: "warning", timeout: 2000})
       },
     }
     provide(SnackBarInjectKey, api)
@@ -52,7 +52,7 @@ export default defineComponent({
         content,
         options: {
           timeout: 3000,
-          location:"right bottom",
+          location:"right top",
           transition:'scroll-x-reverse-transition',
           offset:100,
           ...options,

@@ -71,12 +71,14 @@ const {t} = useI18n()
 
 const processDefinitionList = ref<ApiFlowManagement.ProcessDefinition[]>([])
 
-const total = ref()
 const {show, hide} = useLoadingProgressLine()
+
+const total = ref()
 const pageLength = ref()
 const pageSize = 12
 const page = ref(1)
 const search = ref('')
+
 const reviewModel = ref(false)
 const reviewPd = ref<Partial<ApiFlowManagement.ProcessDefinition>>({})
 const getPd = async () => {

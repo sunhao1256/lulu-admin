@@ -1,5 +1,5 @@
 import {request} from '../request';
-import {cockpitPrefix, enginePrefix} from "@/service";
+import {cockpitPrefix, enginePrefix, HalJsonHeader} from "@/service";
 
 
 export function deploymentCreate(d: Partial<ApiFlowManagement.deployCreate>) {
@@ -35,7 +35,7 @@ export function deploymentResourceData(d: string, r: string) {
 }
 
 export function processDefinitionStatistics() {
-  return request.get<ApiFlowManagement.ProcessStatisticsResult[]>(`${enginePrefix}/process-definition/statistics`)
+  return request.get<ApiFlowManagement.ProcessStatisticsResult[]>(`${enginePrefix}/process-definition/statistics?incidents=true`)
 }
 
 export function processDefinitionXml(processDefinitionId: string) {
@@ -104,5 +104,74 @@ export function processDefinitionDeployedStartForm(id: string) {
 }
 
 export function processDefinitionSubmitForm(id: string, variables: Record<string, any>) {
-  return request.get<ApiFlowManagement.ProcessInstance>(`${enginePrefix}/process-definition/${id}/submit-form`)
+  return request.post<ApiFlowManagement.ProcessInstance>(`${enginePrefix}/process-definition/${id}/submit-form`, {variables})
+}
+
+export function formDefinitions(param?: Partial<ApiFlowManagement.FormDefinitionQuery>) {
+  const query = obj2query(param);
+  return request.get<ApiFlowManagement.FormDefinition[]>(`/form-definition?${query}`)
+}
+
+export function tasks(param?: Partial<ApiFlowManagement.TaskQuery>) {
+  const query = obj2query(param);
+  return request.get<ApiFlowManagement.HalTaskList>(`${enginePrefix}/task?${query}`, {headers: HalJsonHeader})
+}
+
+export function task(id: string) {
+  return request.get<ApiFlowManagement.HalTask>(`${enginePrefix}/task/${id}`, {headers: HalJsonHeader})
+}
+
+export function historicTask(param) {
+  const query = obj2query(param);
+  return request.get<ApiFlowManagement.HalTask>(`${enginePrefix}/history/task?${query}`)
+}
+
+export function historicTaskForm(id: string) {
+  return request.get<ApiFlowManagement.FlowForm>(`/history/task/${id}/form-data`)
+}
+
+export function historicTaskDeployedForm(id: string) {
+  return request.get<ApiFlowManagement.deployedForm>(`/history/task/${id}/deployed-form`)
+}
+
+export function taskClaim(id: string, userId: string) {
+  const body = {userId}
+  return request.post<ApiFlowManagement.Task[]>(`${enginePrefix}/task/${id}/claim`, body)
+}
+
+export function taskForm(id: string) {
+  return request.get<ApiFlowManagement.FlowForm>(`${enginePrefix}/task/${id}/form`)
+}
+
+export function taskDeployedForm(id: string) {
+  return request.get<ApiFlowManagement.deployedForm>(`${enginePrefix}/task/${id}/deployed-form`)
+}
+
+export function taskUnClaim(id: string) {
+  return request.post(`${enginePrefix}/task/${id}/unclaim`)
+}
+
+export function taskSubmitForm(id: string, variables: Record<string, any>) {
+  return request.post(`${enginePrefix}/task/${id}/submit-form`, {variables})
+}
+
+export function taskCreateComment(id: string, data: { userId: string, message: string }) {
+  return request.post(`${enginePrefix}/task/${id}/comment/create`, data)
+}
+
+export function taskComments(id: string) {
+  return request.get<ApiFlowManagement.Comment[]>(`${enginePrefix}/task/${id}/comment`)
+}
+
+export function taskIdentityLinkDelete(id: string, body: ApiFlowManagement.IdentityLink) {
+  return request.post(`${enginePrefix}/task/${id}/identity-links/delete`, body)
+}
+
+export function taskIdentityLink(id: string, body: ApiFlowManagement.IdentityLink) {
+  return request.post(`${enginePrefix}/task/${id}/identity-links`, body)
+}
+
+export function historicActIns(param: Partial<ApiFlowManagement.HistoricActInsQuery>) {
+  const query = obj2query(param);
+  return request.get<ApiFlowManagement.HistoricActivityInstance[]>(`${enginePrefix}/history/activity-instance?${query}`)
 }

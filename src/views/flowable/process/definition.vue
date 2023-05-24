@@ -105,7 +105,7 @@ import {fitAuto, setupEventListener} from './helper'
 import Navigate from "@/views/flowable/components/navigate.vue";
 
 const {currentRoute} = useRouter()
-const processDefinitionId = ref(currentRoute.value.params['id'] as string)
+const processDefinitionId = ref(currentRoute.value.params['pId'] as string)
 const pd = ref<Partial<ApiFlowManagement.ProcessDefinition>>({})
 const vCount = ref()
 const viewerRef = ref<HTMLDivElement | null>(null)
@@ -116,6 +116,8 @@ const selection = ref<string[]>([])
 const allVersionRunningInstance = ref<number>(0)
 const currentVersionRunningInstance = ref<number>(0)
 const watchToggle = async () => {
+  if (!processDefinitionId.value)
+    return
   const xmlResp = await processDefinitionXml(processDefinitionId.value)
   if (!xmlResp.data) {
     return
@@ -183,7 +185,7 @@ const init = async () => {
   allVersionRunningInstance.value = picResp.data.count
 }
 const route = useRoute()
-const useParams = computed(() => route.params['id'])
+const useParams = computed(() => route.params['pId'])
 watch(useParams, (r, o) => {
   if (!r)
     return

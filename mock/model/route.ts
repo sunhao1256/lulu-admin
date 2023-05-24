@@ -264,7 +264,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
               component: 'self',
               meta: {
                 requiresAuth: true,
-                dynamicPath: '/flowable/process-definition/:id/process-instance',
+                dynamicPath: '/flowable/process-definition/:pId/process-instance',
                 title: 'menu.flowable-process-definition-process-instance',
               }
             },
@@ -274,7 +274,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
               component: 'self',
               meta: {
                 requiresAuth: true,
-                dynamicPath: '/flowable/process-definition/:id/incident',
+                dynamicPath: '/flowable/process-definition/:pId/incident',
                 title: 'menu.flowable-process-definition-incident',
               }
             }
@@ -332,6 +332,17 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
             dynamicPath: '/form/design/:id?'
           }
         },
+        {
+          name: 'form_definition',
+          path: '/form/definition',
+          component: 'self',
+          meta: {
+            requiresAuth: true,
+            title: 'menu.form-definition',
+            hide: true,
+            dynamicPath: '/form/definition/:id'
+          }
+        },
       ],
       meta: {
         title: "menu.flowable",
@@ -375,7 +386,55 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
           meta: {
             title: "menu.my-process-list",
             requiresAuth: true
-          }
+          },
+          children: []
+        },
+        {
+          name: 'my-process_task',
+          component: 'self',
+          path: '/my-process/task',
+          meta: {
+            title: "menu.my-process-task",
+            requiresAuth: true,
+            hide: true,
+            dynamicPath: "/my-process/task/:id"
+          },
+          children: [
+            {
+              name: "my-process_task_form",
+              path: '/my-process/task/form',
+              component: 'self',
+              meta: {
+                title: "menu.my-process-task-form",
+                requiresAuth: true,
+                hide: true,
+                dynamicPath: "/my-process/task/:id/form"
+              }
+            },
+
+            {
+              name: "my-process_task_process",
+              path: '/my-process/task/process',
+              component: 'self',
+              meta: {
+                title: "menu.my-process-task-process",
+                requiresAuth: true,
+                hide: true,
+                dynamicPath: "/my-process/task/:id/process"
+              }
+            },
+            {
+              name: "my-process_task_processhistory",
+              path: '/my-process/task/processhistory',
+              component: 'self',
+              meta: {
+                title: "menu.my-process-task-processhistory",
+                requiresAuth: true,
+                hide: true,
+                dynamicPath: "/my-process/task/:id/processhistory"
+              }
+            },
+          ]
         }
       ]
     }

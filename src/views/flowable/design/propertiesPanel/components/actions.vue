@@ -40,7 +40,9 @@ const tip = usePropertyTip(actions)
 const getActions: () => Array<String> = () => {
   const extensions = getExtensionProperties(modelStore.getActive)
   const actions = extensions.find(e => e.name === propertyName)
-  return actions.value?.split(',') || []
+  if (actions)
+    return actions.value?.split(',') || []
+  else return []
 };
 
 if (getActions()) {

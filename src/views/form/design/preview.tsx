@@ -20,9 +20,18 @@ export default defineComponent({
       type: Object as PropType<Validation>,
       required: false
     },
+    readOnly: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    elevation: {
+      type: [Number, String] as PropType<string | number>,
+      required: false
+    }
   },
   setup(props, {slots, emit}) {
-    return () => <VCard>
+    return () => <VCard elevation={props.elevation}>
       <VCardTitle>{props.form.name || props.form.id}
         {slots.title?.()}
       </VCardTitle>
@@ -34,6 +43,7 @@ export default defineComponent({
               v-model={c.modelValue}
               index={index}
               v$={props.v$}
+              readOnly={props.readOnly}
               item={c}></Formitem>
           })}
           {slots.actions?.()}

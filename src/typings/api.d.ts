@@ -225,22 +225,6 @@ declare namespace ApiFlowManagement {
     processDefinitionWithoutTenantId: boolean
   }
 
-  interface ActivityInstance {
-    id: string
-    parentActivityInstanceId: any
-    activityId: string
-    activityType: string
-    processInstanceId: string
-    processDefinitionId: string
-    childActivityInstances: ActivityInstance[]
-    childTransitionInstances: any[]
-    executionIds: string[]
-    activityName: string
-    incidentIds: any[]
-    incidents: any[]
-    name: string
-  }
-
   interface ProcessInstance {
     links: any[]
     id: string
@@ -284,15 +268,16 @@ declare namespace ApiFlowManagement {
 
   type sortOrder = 'asc' | 'desc'
 
+  type CamundaFormRef = {
+    key: string,
+    binding: string,
+    version: string,
+  }
 
   interface FlowForm {
     key: string,
     contextPath: string,
-    camundaFormRef: {
-      key: string,
-      binding: string,
-      version: string,
-    }
+    camundaFormRef: CamundaFormRef
   }
 
   interface deployedForm {
@@ -300,4 +285,108 @@ declare namespace ApiFlowManagement {
     components: formComponent[]
   }
 
+  type FormDefinitionQuery = Pick<FormDefinition, "id" | "key"> & Sorting
+
+  interface FormDefinition {
+    id: string
+    revision: number
+    key: string
+    version: number
+    deploymentId: string
+    resourceName: string
+    tenantId: string
+  }
+
+  interface HalTaskList {
+    count: number,
+    _embedded: {
+      processDefinition: ProcessDefinition[]
+      task: Task[]
+    }
+  }
+
+  type HalTask = {
+    _embedded: {
+      identityLink: IdentityLink[]
+      processDefinition: ProcessDefinition[]
+    }
+  } & Task
+
+  interface Task {
+    id: string
+    name: string
+    assignee?: string
+    created: string
+    due?: string
+    followUp: any
+    lastUpdated: any
+    delegationState: any
+    description?: string
+    executionId: string
+    owner: any
+    parentTaskId: any
+    priority: number
+    processDefinitionId: string
+    processInstanceId: string
+    taskDefinitionKey: string
+    caseExecutionId: any
+    caseInstanceId: any
+    caseDefinitionId: any
+    suspended: boolean
+    formKey?: string
+    camundaFormRef?: CamundaFormRef
+    tenantId: any
+  }
+
+  type TaskQuery = {
+    nameLike: string
+    active: boolean
+  } & Sorting & QueryParam
+
+  type IdentityLink = {
+    groupId: string,
+    type: string,
+    userId: string
+  }
+
+  type HistoricActInsQuery = {
+    processInstanceId: string,
+    finished: boolean
+  } & Sorting
+
+  interface HistoricActivityInstance {
+    id: string
+    parentActivityInstanceId: string
+    activityId: string
+    activityName: string
+    activityType: string
+    processDefinitionKey: string
+    processDefinitionId: string
+    processInstanceId: string
+    executionId: string
+    taskId: string
+    calledProcessInstanceId: any
+    calledCaseInstanceId: any
+    assignee: any
+    startTime: string
+    endTime: any
+    durationInMillis: any
+    canceled: boolean
+    completeScope: boolean
+    tenantId: any
+    removalTime: any
+    rootProcessInstanceId: string
+  }
+
+  interface Comment {
+    links: any[]
+    id: string
+    userId: string
+    time: string
+    taskId: string
+    message: string
+    removalTime: any
+    rootProcessInstanceId: string
+    processInstanceId: any
+  }
 }

@@ -206,10 +206,15 @@ export default {
     'flowable-process-instance-detail': 'Process Instance Detail',
     'form-list': 'Forms',
     'form-design': 'Form Design',
+    'form-definition': 'Form Definition',
     'my-process': 'My Process',
     'my-process-start-process': 'Start Process',
     'my-process-start-process-start': 'Start',
-    'my-process-list': 'Process List'
+    'my-process-list': 'Process List',
+    'my-process-task': 'Task',
+    'my-process-task-form': 'Form',
+    'my-process-task-process': 'Process',
+    'my-process-task-processhistory': 'Process Procedure'
   },
   // Vuetify components translations
   $vuetify: {

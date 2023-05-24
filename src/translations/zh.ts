@@ -204,13 +204,18 @@ export default {
     'flowable-process-definition-process-instance': '流程实例',
     'flowable-process-definition-incident': '流程事件',
     'flowable-process-instance-detail': '流程实例详情',
-    'flowable-list': '流程列表',
+    'flowable-list': '流程',
     'form-list': '表单',
     'form-design': '表单设计',
+    'form-definition': '表单定义',
     'my-process': '我的流程',
     'my-process-start-process': '发起流程',
     'my-process-start-process-start': '开始',
-    'my-process-list': '流程列表'
+    'my-process-list': '流程列表',
+    'my-process-task': '任务',
+    'my-process-task-form': '表单',
+    'my-process-task-process': '流程',
+    'my-process-task-processhistory': '流转记录'
   },
   '$vuetify': {
     'badge': '徽章',

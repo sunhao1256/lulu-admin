@@ -50,7 +50,6 @@
         </v-btn>
       </v-col>
     </v-row>
-
     <v-data-table
       v-model="selected"
       show-select

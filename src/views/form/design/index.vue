@@ -39,22 +39,27 @@
     </v-navigation-drawer>
     <v-main class="form-design">
       <v-card elevation="0" class="h-100">
-        <v-card-title class="d-flex align-center">
-          <v-text-field density="comfortable" hide-details
-                        variant="filled"
+        <v-card-title class="d-flex pb-0">
+          <v-text-field density="comfortable"
+                        variant="outlined"
+                        label="Form Name"
                         placeholder="formName"
                         v-model="form.name"
-                        class="v-text-field-rounded pl-0 "
+                        :error-messages="formv$.name.$errors.map(e => e.$message) as string|string[]"
+                        clearable
+                        @input="formv$.name.$touch"
+                        @blur="formv$.name.$touch"
+                        style="max-width: 200px"
+                        class="pl-0"
           ></v-text-field>
 
           <v-spacer/>
-          <span class="text-caption">{{ form.id }}</span>
-          <v-btn variant="tonal" color="primary" @click="showPreview()"
-                 :disabled="selectedFormComponents.length===0">Preview
-          </v-btn>
-          <v-btn variant="tonal" color="success" class="ml-1" @click="deploy()"
+          <v-btn variant="tonal" color="success" @click="deploy()"
                  :loading="deployLoading"
                  :disabled="selectedFormComponents.length===0">Deploy
+          </v-btn>
+          <v-btn variant="tonal" color="primary" class="ml-1" @click="showPreview()"
+                 :disabled="selectedFormComponents.length===0">Preview
           </v-btn>
           <v-btn variant="tonal" color="error" class="ml-1" :disabled="selectedFormComponents.length===0"
                  @click="selectedFormComponents=[]">ClearAll
@@ -120,6 +125,7 @@ import {useRouter} from "vue-router";
 import FormPreview from "@/views/form/design/preview";
 import {uniqueId} from "@/utils";
 import useVuelidate from "@vuelidate/core";
+import {required} from "@vuelidate/validators";
 
 const {currentRoute} = useRouter()
 const v$ = useVuelidate()
@@ -141,7 +147,7 @@ const loadResource = async () => {
         selectedFormComponents.value = data.components
         form.id = data.id
         form.name = data.id
-        if (selectedFormComponents.value.length > 0) {
+        if (selectedFormComponents.value && selectedFormComponents.value.length > 0) {
           selectComponent(selectedFormComponents.value[0])
         }
       }
@@ -153,8 +159,10 @@ const loadResource = async () => {
 
 loadResource()
 
+const generateId = 'Form' + uniqueId();
 const form = reactive<form>({
-  id: 'Form' + uniqueId(),
+  id: generateId,
+  name: generateId
 })
 
 form.name = form.id
@@ -198,8 +206,26 @@ const showPreview = () => {
   console.log(JSON.stringify(selectedFormComponents.value))
 }
 
+const formRule = {
+  name: {required}
+}
+const formv$ = useVuelidate(formRule, form, {$scope: false})
 const {loading: deployLoading} = useLoading()
 const deploy = async () => {
+  formv$.value.$validate().then(valid => {
+    if (valid) {
+      const dialog = window.$dialog?.show({
+        main: `Confirm Deploy Form ${form.name} ?`,
+        confirm: async () => {
+          dialog?.confirmLoading(true)
+          await doDeploy()
+          dialog?.close()
+        }
+      })
+    }
+  })
+}
+const doDeploy = async () => {
 
   const request: Partial<ApiFlowManagement.deployCreate> = {
     "deployment-name": form.name,

@@ -52,7 +52,7 @@
           ></v-text-field>
           <v-btn
             :loading="loading"
-            @click="getTableData()"
+            @click="loadData()"
             icon
             flat
             small
@@ -63,19 +63,13 @@
         </v-col>
       </v-row>
 
-      <v-data-table-server
+      <v-data-table
         v-model="selected"
         show-select
         :headers="headers"
         :items="items"
         :search="searchQuery"
         :loading="loading"
-        :items-length="total"
-        :items-per-page="pageSize"
-        v-model:page="page"
-        v-model:items-per-page="pageSize"
-        v-model:sort-by="sortBy"
-        @update:options="options = $event"
         class="flex-grow-1"
       >
         <template v-slot:item.id="{ item  : {raw} }">
@@ -94,7 +88,10 @@
 
         <template v-slot:item.action="{item:{raw} }">
           <div class="actions">
-            <v-btn flat icon :to="`/form/design/${raw.id}`">
+            <v-btn flat icon :to="`/form/design/${raw.deploymentId}`">
+              <v-icon>mdi-file-edit-outline</v-icon>
+            </v-btn>
+            <v-btn flat icon :to="`/form/definition/${raw.id}`">
               <v-icon>mdi-open-in-new</v-icon>
             </v-btn>
             <v-btn flat icon @click="deleteForm(raw)">
@@ -102,7 +99,7 @@
             </v-btn>
           </div>
         </template>
-      </v-data-table-server>
+      </v-data-table>
     </v-card>
   </div>
 </template>
@@ -110,82 +107,31 @@
 <script setup lang="ts">
 
 import {Ref, ref} from "vue";
-import {useLoading} from '@/hooks';
-import {deploymentCount, deploymentDelete, deploymentList} from "@/service";
 import {formStatusLabels} from '@/constants'
-import {CamundaResource} from "@/enum";
-import {debounce} from 'lodash-es'
+import {loadFormListGroupKey} from "@/views/form/helper";
 
-const {loading, startLoading, endLoading} = useLoading(true);
-
+const {loading, loadData, items} =loadFormListGroupKey();
 const options = ref()
-const total = ref(0)
-const page = ref(1)
-const pageSize = ref(10)
-const items = ref<Array<ApiFlowManagement.deployment>>([])
 const searchQuery = ref<string>('')
-const sortBy = ref<Array<{ key: string, order: 'desc' | 'asc' }>>([{
-  key: 'deploymentTime',
-  order: 'desc'
-}])
-const selected = ref<Array<ApiFlowManagement.deployment>>([])
+const selected = ref<Array<ApiFlowManagement.FormDefinition>>([])
 const headers: Ref<DataTableHeader> = ref<DataTableHeader>([
   {title: 'Id', align: 'start', key: 'id', sortable: false},
-  {title: 'Name', key: 'name', sortable: false},
-  {title: 'DeploymentTime', align: 'start', key: 'deploymentTime'},
+  {title: 'Name', key: 'key', sortable: false},
   {title: '', sortable: false, align: 'end', key: 'action'}
 ])
 
-const getTableData = debounce(async () => {
-
-  const req: ApiFlowManagement.deployList = {
-    firstResult: (page.value - 1) * pageSize.value,
-    maxResults: pageSize.value,
-    source: CamundaResource.form
-  }
-  if (searchQuery.value && searchQuery.value.length > 0) {
-    req.nameLike = searchQuery.value + '%'
-  }
-  if (sortBy.value.length > 0) {
-    req.sortBy = sortBy.value[0].key
-    req.sortOrder = sortBy.value[0].order
-  }
-  startLoading();
-  deploymentCount(req).then(resp => {
-    if (resp.data) {
-      total.value = resp.data.count
-    }
-  })
-  const {data} = await deploymentList(req);
-  endLoading();
-  if (data) {
-    items.value = data
-  }
-}, 200)
-
 async function init() {
-  await getTableData()
-  watch(options, (n, o) => {
-    getTableData()
-  }, {deep: true})
+  await loadData()
 }
 
 init()
 
-
-const deleteForm = async (d: ApiFlowManagement.deployment) => {
+const deleteForm = async (d: ApiFlowManagement.FormDefinition) => {
   const dialog = window.$dialog?.show({
-    main: `Are you sure delete Form ${d.name} ?`,
+    main: `Are you sure delete Form ${d.key} ?`,
     confirm: async () => {
       dialog?.confirmLoading(true)
-      await deploymentDelete(d.id, {
-        //form deployment no related resources or instances
-        cascade: true,
-        skipCustomListeners: true,
-        skipIoMappings: true
-      })
-      await getTableData()
-      dialog?.confirmLoading(false)
+      window.$snackBar?.warning("not support delete form yet")
       dialog?.close()
     }
   })

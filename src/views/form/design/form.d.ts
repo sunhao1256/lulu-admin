@@ -30,7 +30,10 @@ type formComponentConfig =
   }
     & {
     required: boolean
-    defaultValue: string
+    defaultValue: {
+      value: string,
+      expression: boolean,
+    }
   }
     )
 

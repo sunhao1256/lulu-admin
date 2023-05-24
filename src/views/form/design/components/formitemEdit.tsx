@@ -30,16 +30,23 @@ export default defineComponent({
     }
     const required = (item: formComponent) => {
       return <VSwitch color={"primary"} label={"required"} hideDetails
-                      v-model={props.modelValue.config.required}></VSwitch>
+                      v-model={item.config.required}></VSwitch>
     }
     const readonly = (item: formComponent) => {
-      return <VSwitch color={"primary"} label={"readonly"} v-model={props.modelValue.config.readonly}></VSwitch>
+      return <VSwitch color={"primary"} label={"readonly"} v-model={item.config.readonly}
+                      hideDetails
+      ></VSwitch>
     }
     const defaultValue = (item: formComponent) => {
-      return <VTextField color={"primary"} label={"defaultValue"}
-                         variant={'outlined'}
-                         density={'comfortable'}
-                         v-model={props.modelValue.config.defaultValue}></VTextField>
+      return [
+        <VSwitch color={"primary"} label={"Expression"}
+                 hideDetails
+                 v-model={item.config.defaultValue.expression}></VSwitch>,
+        <VTextField color={"primary"} label={"defaultValue"}
+                    variant={'outlined'}
+                    hideDetails
+                    density={'comfortable'}
+                    v-model={item.config.defaultValue.value}></VTextField>]
     }
 
     const optionsRender = (item: formComponent) => {

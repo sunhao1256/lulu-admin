@@ -83,6 +83,9 @@ const formComponents: (primary: string) => formComponentGroup[] = (primary: stri
         config:
           {
             variant: 'outlined',
+            defaultValue: {
+              expression: false,
+            }
           }
       },
       {

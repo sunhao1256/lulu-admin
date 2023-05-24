@@ -73,6 +73,8 @@ export default defineComponent({
         },
         close() {
           this._modelValue = false
+          //close loading
+          this._confirmLoading = false
           setTimeout(() => {
             this._onClose(this.key)
           }, 500)

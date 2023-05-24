@@ -60,6 +60,11 @@ export default defineComponent({
       type: Number,
       required: true
     },
+    readOnly: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
   },
   emits: {
     'delete': (e: formComponent) => {
@@ -71,7 +76,7 @@ export default defineComponent({
     'duplicate': (e: formComponent) => {
       return e
     },
-    'update:modelValue': (e) => e
+    'update:modelValue': null
   },
   setup(props, {emit}) {
     const {active, item} = toRefs(props)
@@ -84,6 +89,9 @@ export default defineComponent({
         emit('update:modelValue', val)
       }
     })
+    if (item.value.config.defaultValue && item.value.config.defaultValue.value) {
+      modelValue.value = item.value.config.defaultValue.value
+    }
 
     const cloneComponent = (c: formComponent) => {
       const clone = cloneDeep(c)
@@ -139,6 +147,8 @@ export default defineComponent({
             return <Formitem
               preview={true}
               index={index}
+              readOnly={props.readOnly}
+              v-model={c.modelValue}
               item={c}></Formitem>
           })}
         </div>
@@ -162,6 +172,7 @@ export default defineComponent({
                         v-model={element.modelValue}
                         onSelected={(e: formComponent) => emitSelected(e)}
                         preview={props.preview}
+                        readOnly={props.readOnly}
                         idPrefix={props.idPrefix}
                         index={index}
                         layers={props.layers + 1}
@@ -180,7 +191,9 @@ export default defineComponent({
         case "checkbox":
           return <>{item.config.options.map((o: formOption) => {
             return <VCheckbox label={o.label} density={item.config.density}
+                              v-model={item.modelValue}
                               hideDetails={!props.preview}
+                              disabled={props.readOnly}
                               class={['d-inline-block']}></VCheckbox>
           })}</>
         case "switch":
@@ -209,7 +222,6 @@ export default defineComponent({
         case "select":
           return <VSelect label={item.name} items={item.config.options}
                           itemTitle={'label'}
-                          v-model={modelValue.value}
                           hideDetails={!props.preview}
                           itemValue={'value'} density={item.config.density}
                           variant={item.config.variant}></VSelect>
@@ -250,11 +262,10 @@ export default defineComponent({
       const element: JSX.Element = switchRender(item)
       if (props.preview && element.props) {
         element.props['errorMessages'] = v.modelValue.$errors.map(e => e.$message)
-        if (item.config.defaultValue)
-          element.props['modelValue'] = item.config.defaultValue
         element.props['readonly'] = item.config.readonly
+        element.props['modelValue'] = modelValue.value
         element.props['onUpdate:modelValue'] = (e) => {
-          item.modelValue = e
+          modelValue.value = e
         }
         element.props['onInput'] = (e) => {
           v.modelValue.$touch()
@@ -262,6 +273,9 @@ export default defineComponent({
         element.props['onBlur'] = (e) => {
           v.modelValue.$touch()
         }
+      }
+      if (props.readOnly && element.props) {
+        element.props['readonly'] = true
       }
       return element
     }
@@ -288,7 +302,7 @@ export default defineComponent({
     return () =>
       <VCol class={'pa-0 d-flex flex-row align-center h-100'} cols={item.value.config.cols}>
         <div
-          class={['form-item rounded flex-grow-1',
+          class={['form-item rounded flex-grow-1 pb-1',
             active.value?.id === item.value.id && 'form-item-active',
             !props.preview && 'cursor-move px-1 py-1'
           ]}
