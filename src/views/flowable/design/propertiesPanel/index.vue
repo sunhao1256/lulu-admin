@@ -29,10 +29,11 @@ import UserService from "./components/userAssigne.vue";
 import Form from "./components/form.vue";
 import Opinion from "./components/actions.vue";
 import Condition from "./components/condition.vue";
+import Group from "./components/group.vue";
 import {debounce} from 'lodash-es'
 import EventEmitter from "@/utils/flow/EventEmitter";
 import {useModelStore} from '@/store'
-import {isUserService, isStartEvent} from "@/views/flowable/bo-utils/userTaskUtil";
+import {isUserService, isStartEvent, isProcess} from "@/views/flowable/bo-utils/userTaskUtil";
 import {isNotConditional} from "@/views/flowable/bo-utils/conditionalUtil";
 
 const modelStore = useModelStore()
@@ -44,13 +45,17 @@ const setCurrentComponents = (activatedElement: any) => {
     renderComponents.value.push(markRaw(General))
     renderComponents.value.push(markRaw(Documentation))
 
+    isProcess(activatedElement) &&
+    renderComponents.value.push(markRaw(Group)) &&
+    renderComponents.value.push(markRaw(Form))
+
     isUserService(activatedElement) &&
     renderComponents.value.push(markRaw(UserService)) &&
     renderComponents.value.push(markRaw(Form)) &&
     renderComponents.value.push(markRaw(Opinion))
 
-    isStartEvent(activatedElement) &&
-    renderComponents.value.push(markRaw(Form))
+    // isStartEvent(activatedElement) &&
+    // renderComponents.value.push(markRaw(Form))
 
 
     !isNotConditional(activatedElement) &&
@@ -131,6 +136,7 @@ initialize()
   }
 
   &:deep(.v-expansion-panel-title) {
+    padding: 10px 16px;
     min-height: 24px !important;
   }
 }

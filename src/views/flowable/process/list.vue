@@ -76,10 +76,10 @@
 
       <template v-slot:item.action="{item:{raw} }">
         <div class="actions">
-          <v-btn flat icon :to="`/flowable/design/${raw.processDefinitions[0].id}`">
+          <v-btn flat icon :to="`/flowable/design/${raw.processDefinitionId}`">
             <v-icon>mdi-file-edit-outline</v-icon>
           </v-btn>
-          <v-btn flat icon :to="`/flowable/process-definition/${raw.processDefinitions[0].id}/process-instance`">
+          <v-btn flat icon :to="`/flowable/process-definition/${raw.processDefinitionId}/process-instance`">
             <v-icon>mdi-open-in-new</v-icon>
           </v-btn>
         </div>
@@ -91,21 +91,26 @@
 <script lang="ts" setup>
 
 import {Ref, ref} from "vue";
-import {loadListProcessResultStatistics} from "@/views/flowable/process/helper";
+import {loadGroupProcessDefinitionList, loadListProcessResultStatistics} from "@/views/flowable/process/helper";
 import {formStatusLabels} from "@/constants";
+import {useRouter} from "vue-router";
 
-const {loading, loadData, items} = loadListProcessResultStatistics()
+const {currentRoute} = useRouter()
+const groupId = ref(currentRoute.value.params['gId'] as string)
+const {loading, loadData, items} = loadGroupProcessDefinitionList(groupId.value)
 const searchQuery = ref('')
 const selected = ref<ProcessResult[]>([])
 const headers: Ref<DataTableHeader> = ref<DataTableHeader>([
-  {title: 'Name', key: 'name'},
-  {title: 'Incidents', align: 'start', key: 'incidents'},
-  {title: 'RunningInstances', align: 'start', key: 'runningInstances'},
+  {title: 'Id', key: 'processDefinitionId'},
+  {title: 'Key', key: 'processDefinitionKey'},
+  {title: 'Name', key: 'processDefinitionName'},
+  {title: 'Creator', key: 'createBy'},
+  {title: 'DeployedTime', align: 'start', key: 'deployedTime'},
   {title: '', sortable: false, align: 'end', key: 'action'}
 ])
 
-
 async function init() {
+  console.log('xx')
   await loadData()
 }
 

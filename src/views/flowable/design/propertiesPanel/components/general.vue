@@ -8,16 +8,16 @@
       <span v-show="tip" class="panel-title-tip mr-1"></span>
     </v-expansion-panel-title>
     <v-expansion-panel-text>
-      <v-text-field variant="outlined" label="name" density="comfortable" hide-details
+      <v-text-field variant="outlined" label="name" density="comfortable" hide-details clearable
                     v-model="elementName" @change="updateElementName"></v-text-field>
-      <v-text-field variant="outlined" label="id" density="comfortable" hide-details
+      <v-text-field variant="outlined" label="id" density="comfortable" hide-details clearable
                     readonly
                     :model-value="elementId" @change="updateElementId"></v-text-field>
       <template v-if="isProcess">
-        <v-text-field variant="outlined" label="versionTag" density="comfortable" hide-details
+        <v-text-field variant="outlined" label="versionTag" density="comfortable" hide-details clearable
                       v-model="elementVersion" @change="updateElementVersion"></v-text-field>
-        <v-checkbox label="executable" hide-details density="comfortable"
-                    v-model="elementExecutable" @change="setProcessExecutable"></v-checkbox>
+        <!--        <v-checkbox label="executable" hide-details density="comfortable"-->
+        <!--                    v-model="elementExecutable" @change="setProcessExecutable"></v-checkbox>-->
       </template>
     </v-expansion-panel-text>
   </v-expansion-panel>
@@ -49,10 +49,10 @@ const reloadGenerationData = () => {
   isProcess.value = !!modelStore.getActive && modelStore.getActive.type === 'bpmn:Process'
   elementId.value = modelStore.getActiveId as string
   elementName.value = getNameValue(modelStore.getActive) || ''
-  if (isProcess.value) {
-    elementExecutable.value = getProcessExecutable()
-    elementVersion.value = getProcessVersionTag(modelStore.getActive) || ''
-  }
+  // if (isProcess.value) {
+  //   elementExecutable.value = getProcessExecutable()
+  //   elementVersion.value = getProcessVersionTag(modelStore.getActive) || ''
+  // }
 }
 
 const updateElementName = (value: any) => {
@@ -76,20 +76,20 @@ onMounted(() => {
 })
 
 
-const element = modelStore.getActive
-const businessObject = getBusinessObject(element);
-const getProcessExecutable = () => {
-  return businessObject.isExecutable;
-}
+// const element = modelStore.getActive
+// const businessObject = getBusinessObject(element);
+// const getProcessExecutable = () => {
+//   return businessObject.isExecutable;
+// }
 
-const setProcessExecutable = () => {
-  const store = useModelStore()
-  const modeling = store.getModeling
-
-  modeling.updateProperties(element, {
-    isExecutable: elementExecutable.value
-  })
-}
+// const setProcessExecutable = () => {
+//   const store = useModelStore()
+//   const modeling = store.getModeling
+//
+//   modeling.updateProperties(element, {
+//     isExecutable: elementExecutable.value
+//   })
+// }
 
 
 </script>

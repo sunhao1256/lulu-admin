@@ -191,22 +191,21 @@ const doDeploy = async () => {
   }
   const root = modelStore.getCanvas.getRootElement()
   const request: Partial<ApiFlowManagement.deployCreate> = {
-    "deployment-name": getNameValue(root),
-    "enable-duplicate-filtering": true,
-    "deployment-source": CamundaResource.process
+    "name": getNameValue(root),
+    "enableDuplicateFilter": true,
+    "source": CamundaResource.process
   }
 
   try {
     const {xml} = await modelStore.getModeler.saveXML({format: true});
     const blob = new Blob([xml]);
-    const file = new File([blob], request["deployment-name"] + '.bpmn')
-    request[file.name] = file
+    request['deploymentFile'] = new File([blob], request["name"] + '.bpmn')
     console.log(request)
     deployLoading.value = true
     const r = await deploymentCreate(request)
     deployLoading.value = false
     if (r.data) {
-      window.$snackBar?.success(`deploy flow ${request["deployment-name"]} success`)
+      window.$snackBar?.success(`deploy flow ${request["name"]} success`)
     }
 
   } catch (err) {

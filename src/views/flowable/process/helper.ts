@@ -1,9 +1,30 @@
-import {processDefinitionStatistics} from "@/service";
+import {
+  processDefinitionGroupProcessDefinitionList,
+  processDefinitionStatistics
+} from "@/service";
 import {useLoading} from "@/hooks";
 import {groupBy, sortBy} from "lodash-es";
 import {ref} from 'vue'
 import $ from "jquery";
 
+export const loadGroupProcessDefinitionList = (gId: string) => {
+
+  const items = ref<ApiFlowManagement.ProcessDefinitionGroup.ProcessDefinition[]>([])
+  const {loading, startLoading, endLoading} = useLoading(true);
+  const loadData = async () => {
+    startLoading();
+    const {data} = await processDefinitionGroupProcessDefinitionList(gId);
+    if (data) {
+      items.value = data
+    }
+    endLoading();
+  }
+  return {
+    loading,
+    items,
+    loadData
+  }
+}
 export const loadListProcessResultStatistics = () => {
 
   const items = ref<ProcessResult[]>([])

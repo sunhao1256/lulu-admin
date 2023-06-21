@@ -1,9 +1,20 @@
 import {request} from '../request';
 import {cockpitPrefix, enginePrefix, HalJsonHeader} from "@/service";
 
+export function processDefinitionGroupProcessDefinitionList(id: string) {
+  return request.get<ApiFlowManagement.ProcessDefinitionGroup.ProcessDefinition[]>(`/process-definition/group/${id ? id : ''}/process-definition`);
+}
+
+export function processDefinitionGroupList() {
+  return request.get<ApiFlowManagement.ProcessDefinitionGroup[]>(`/process-definition/group`);
+}
+
+export function processDefinitionGroupAdd(body: Partial<ApiFlowManagement.ProcessDefinitionGroup>) {
+  return request.post<ApiFlowManagement.ProcessDefinitionGroup[]>(`/process-definition/group`, body);
+}
 
 export function deploymentCreate(d: Partial<ApiFlowManagement.deployCreate>) {
-  return request.post(`${enginePrefix}/deployment/create`, {...d}, {
+  return request.post(`/deployment/create`, {...d}, {
     headers: {"Content-Type": "multipart/form-data"},
   });
 }

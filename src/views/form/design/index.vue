@@ -228,9 +228,9 @@ const deploy = async () => {
 const doDeploy = async () => {
 
   const request: Partial<ApiFlowManagement.deployCreate> = {
-    "deployment-name": form.name,
-    "enable-duplicate-filtering": true,
-    "deployment-source": CamundaResource.form
+    "name": form.name,
+    "enableDuplicateFilter": true,
+    "source": CamundaResource.form
   }
   // remove modelValue
   selectedFormComponents.value.forEach(c => c.modelValue = undefined)
@@ -242,13 +242,13 @@ const doDeploy = async () => {
   try {
     const formComponents = JSON.stringify(fileContent)
     const blob = new Blob([formComponents]);
-    const file = new File([blob], request["deployment-name"] + '.form')
-    request[file.name] = file
+    const file = new File([blob], request["name"] + '.form')
+    request['deploymentFile'] = file
     deployLoading.value = true
     const r = await deploymentCreate(request)
     deployLoading.value = false
     if (r.data) {
-      window.$snackBar?.success(`deploy form ${request["deployment-name"]} success`)
+      window.$snackBar?.success(`deploy form ${request["name"]} success`)
     }
   } catch (err) {
     console.error('Error happened saving form: ', err);

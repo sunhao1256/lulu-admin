@@ -134,7 +134,8 @@ export function transformAuthRouteToVueRoute(item: AuthRoute.Route) {
     } else {
       itemRoute.children = children;
     }
-    itemRoute.redirect = redirectPath;
+    if (!item.preventRedirect)
+      itemRoute.redirect = redirectPath;
   }
 
   resultRoute.push(itemRoute);

@@ -44,7 +44,8 @@ export function handleAxiosError(axiosError: AxiosError) {
       Boolean(axiosError.response),
       () => {
         const errorCode: ErrorStatus = (axiosError.response?.status as ErrorStatus) || 'DEFAULT';
-        const msg = ERROR_STATUS[errorCode];
+        console.log(axiosError.response?.data)
+        const msg = ERROR_STATUS[errorCode] + (axiosError.response?.data as Record<string, any>)['message'] as string;
         Object.assign(error, {code: errorCode, msg});
       }
     ],

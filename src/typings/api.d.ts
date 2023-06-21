@@ -102,9 +102,9 @@ declare namespace ApiChatManagement {
 declare namespace ApiFlowManagement {
 
   type deployCreate = {
-    'deployment-name': string,
-    'enable-duplicate-filtering': boolean,
-    'deployment-source': string,
+    'name': string,
+    'enableDuplicateFilter': boolean,
+    'source': string,
   } & Record<string, any>
 
   type deployList = Partial<{
@@ -131,6 +131,27 @@ declare namespace ApiFlowManagement {
     source: string
     deploymentTime: string
     tenantId: any
+  }
+
+  namespace ProcessDefinitionGroup {
+    interface ProcessDefinition {
+      id: string
+      createBy: string
+      modifyBy: string
+      createTime: string
+      modifyTime: string
+      groupId: string
+      processDefinitionId: string
+      processDefinitionKey: string
+      processDefinitionName: string
+      deployedTime: string
+      deploymentId: string
+    }
+  }
+
+  interface ProcessDefinitionGroup {
+    id: string,
+    name: string
   }
 
   interface ProcessDefinition {

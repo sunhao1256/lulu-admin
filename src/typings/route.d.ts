@@ -39,6 +39,7 @@ declare namespace AuthRoute {
     name: K;
     path: AuthRouteUtils.GetRoutePath<K>;
     redirect?: AuthRouteUtils.GetRoutePath;
+    preventRedirect?: boolean,
     /**
      * 路由组件
      * - basic: 基础布局，具有公共部分的布局

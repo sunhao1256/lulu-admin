@@ -284,6 +284,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
           name: 'flowable_processes',
           path: '/flowable/processes',
           component: 'self',
+          preventRedirect: true,
           meta: {
             requiresAuth: true,
             title: 'menu.flowable-list',
@@ -296,7 +297,8 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
               meta: {
                 requiresAuth: true,
                 title: 'menu.flowable-processes-list',
-                hide: true
+                hide: true,
+                dynamicPath: '/flowable/processes/:gId?/list'
               }
             },
             {
@@ -306,6 +308,7 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
               meta: {
                 requiresAuth: true,
                 title: 'menu.flowable-processes-preview',
+                dynamicPath: '/flowable/processes/:gId?/preview',
                 hide: true
               }
             }

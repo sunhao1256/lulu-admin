@@ -7,3 +7,7 @@ export function isUserService(element: any): boolean {
 export function isStartEvent(element: any): boolean {
   return is(element, 'bpmn:StartEvent')
 }
+
+export function isProcess(element: any): boolean {
+  return is(element, 'bpmn:Process')
+}
