@@ -1,6 +1,3 @@
-### Base无锡，苏州，求一份工作，经验Java，Golang，云原生，全栈. contact:sunhao1256@gmail.com
-
-----------------------------------------------------------------
 # Lulu Admin
 
 elegant admin template, based on Vue3 , TypeScript, Vuetify3, Axios
