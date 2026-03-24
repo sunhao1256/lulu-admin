@@ -8,10 +8,6 @@ form-generator , bpmn-js-camunda
 Lulu is my arrogant cat
 <img src="https://i.imgur.com/3e63lxL.jpg" style="zoom:8%;" />
 
-## Preview
-
-https://luluhome.site
-
 ## Feature
 
 - bpmn-js-camunda
